@@ -1,0 +1,33 @@
+{
+    "legacy_addon_id": "",
+    "title": "DragonByte User Upgrade Coupons",
+    "description": "Provides the ability to create powerful coupons for use in User Upgrades.",
+    "version_id": 1020070,
+    "version_string": "1.2.0",
+    "dev": "DragonByte Technologies, Ltd.",
+    "dev_url": "https://www.dragonbyte-tech.com",
+    "faq_url": "",
+    "support_url": "https://www.dragonbyte-tech.com/support/create-ticket",
+    "extra_urls": {
+        "Product Information": "https://www.dragonbyte-tech.com/store/dragonbyte-user-upgrade-coupons.401/",
+        "Twitter": "https://twitter.com/DragonByteTech"
+    },
+    "require": {
+        "XF": [
+            2020031,
+            "XenForo 2.2.0+"
+        ],
+        "php": [
+            "7.2.0",
+            "PHP 7.2.0+"
+        ]
+    },
+    "icon": "icon.png",
+    "require-soft": {
+        "php": [
+            "7.4.0",
+            "PHP 7.4.0+",
+            false
+        ]
+    }
+}

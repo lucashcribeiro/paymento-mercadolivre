@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template_modifications>
+  <modification type="public" template="PAGE_CONTAINER" modification_key="xfa_nit_PAGE_CONTAINER" description="Handle icon when in header" execution_order="10" enabled="1" action="preg_replace">
+    <find><![CDATA[/(<span class="node-icon(.*)?<\/span>)/siU]]></find>
+    <replace><![CDATA[<xf:include template="xfa_nit_th_header" />]]></replace>
+  </modification>
+  <modification type="admin" template="category_edit" modification_key="xfa_nit_category_edit" description="Add node icon edit in category" execution_order="10" enabled="1" action="preg_replace">
+    <find><![CDATA[#<xf:macro template="node_edit_macros" name="navigation".*\/>#sU]]></find>
+    <replace><![CDATA[$0
+			<xf:macro template="xfa_nit_node_edit_macros" name="xfa_nit" arg-node="{$node}" arg-serverIconsData="{$serverIconsData}" arg-showSecondIcon="{$showSecondIcon}" />]]></replace>
+  </modification>
+  <modification type="admin" template="forum_edit" modification_key="xfa_nit_forum_edit" description="Add node icon edit in forum" execution_order="10" enabled="1" action="preg_replace">
+    <find><![CDATA[#<xf:macro template="node_edit_macros" name="navigation".*\/>#sU]]></find>
+    <replace><![CDATA[$0
+			<xf:macro template="xfa_nit_node_edit_macros" name="xfa_nit" arg-node="{$node}" arg-serverIconsData="{$serverIconsData}" arg-showSecondIcon="{$showSecondIcon}" />]]></replace>
+  </modification>
+  <modification type="admin" template="link_forum_edit" modification_key="xfa_nit_link_forum_edit" description="Add node icon edit in link forum" execution_order="10" enabled="1" action="preg_replace">
+    <find><![CDATA[#<xf:macro template="node_edit_macros" name="position".*\/>#sU]]></find>
+    <replace><![CDATA[$0
+			<xf:macro template="xfa_nit_node_edit_macros" name="xfa_nit" arg-node="{$node}" arg-serverIconsData="{$serverIconsData}" arg-showSecondIcon="{$showSecondIcon}" />]]></replace>
+  </modification>
+  <modification type="admin" template="node_list" modification_key="xfa_nit_node_list" description="Add icon in admincp" execution_order="10" enabled="1" action="preg_replace">
+    <find><![CDATA[#<xf:cell class="dataList-cell--min"><i class="nodeIcon nodeIcon--.*</xf:cell>#sU]]></find>
+    <replace><![CDATA[<xf:if is="{$xf.options.xfa_nit_showIconsInACP} && {$node.xfa_nit_type} != 0">
+							<xf:cell class="dataList-cell--icon"><xf:include template="xfa_nit_node_list" /></xf:cell>
+							<xf:else />
+							$0
+							</xf:if>]]></replace>
+  </modification>
+  <modification type="public" template="node_list_category" modification_key="xfa_nit_node_list_category" description="Handle node icon for category" execution_order="15" enabled="1" action="preg_replace">
+    <find><![CDATA[/(<span class="node-icon(.*)?<\/span>)/siU]]></find>
+    <replace><![CDATA[<xf:include template="xfa_nit_node_list" />]]></replace>
+  </modification>
+  <modification type="public" template="node_list_category" modification_key="xfa_nit_node_list_category_2" description="Handle node icon for first level categories" execution_order="5" enabled="1" action="preg_replace">
+    <find><![CDATA[#(<h2 class="block-header.*">)#sU]]></find>
+    <replace><![CDATA[$1<xf:include template="xfa_nit_node_list" />]]></replace>
+  </modification>
+  <modification type="public" template="node_list_category" modification_key="xfa_nit_node_list_category_3" description="Add node--id* class to subnode" execution_order="5" enabled="1" action="str_replace">
+    <find><![CDATA[subNodeLink--category]]></find>
+    <replace><![CDATA[$0 node--id{$node.node_id}]]></replace>
+  </modification>
+  <modification type="public" template="node_list_category" modification_key="xfa_nit_node_list_category_4" description="Handle icons for category small" execution_order="10" enabled="1" action="preg_replace">
+    <find><![CDATA[#(subNodeLink.*>)(.*<\/a>)#]]></find>
+    <replace><![CDATA[$1<xf:include template="xfa_nit_node_list_small" />$2]]></replace>
+  </modification>
+  <modification type="public" template="node_list_forum" modification_key="xfa_nit_node_list_forum" description="Handle node icon for forum" execution_order="15" enabled="1" action="preg_replace">
+    <find><![CDATA[/(<span class="node-icon(.*)?<\/span>)/siU]]></find>
+    <replace><![CDATA[<xf:include template="xfa_nit_node_list" />]]></replace>
+  </modification>
+  <modification type="public" template="node_list_forum" modification_key="xfa_nit_node_list_forum_2" description="Add node--id* class to subnode" execution_order="5" enabled="1" action="str_replace">
+    <find><![CDATA[subNodeLink--forum]]></find>
+    <replace><![CDATA[$0 node--id{$node.node_id}]]></replace>
+  </modification>
+  <modification type="public" template="node_list_forum" modification_key="xfa_nit_node_list_forum_3" description="Handle icons for forum small" execution_order="5" enabled="1" action="str_replace">
+    <find><![CDATA[<xf:fa icon="{{ $node.Data.TypeHandler.getTypeIconClass() ?: 'fa-comments' }}" class="subNodeLink-icon" />]]></find>
+    <replace><![CDATA[<xf:include template="xfa_nit_node_list_small" />]]></replace>
+  </modification>
+  <modification type="public" template="node_list_link_forum" modification_key="xfa_nit_node_list_link_forum" description="Handle node icon for link forum" execution_order="15" enabled="1" action="preg_replace">
+    <find><![CDATA[/(<span class="node-icon(.*)?<\/span>)/siU]]></find>
+    <replace><![CDATA[<xf:include template="xfa_nit_node_list" />]]></replace>
+  </modification>
+  <modification type="public" template="node_list_link_forum" modification_key="xfa_nit_node_list_link_forum_2" description="Add node--id* class to subnode" execution_order="5" enabled="1" action="str_replace">
+    <find><![CDATA[subNodeLink--link]]></find>
+    <replace><![CDATA[$0 node--id{$node.node_id}]]></replace>
+  </modification>
+  <modification type="public" template="node_list_link_forum" modification_key="xfa_nit_node_list_link_forum_3" description="Handle icons for link forum small" execution_order="5" enabled="1" action="preg_replace">
+    <find><![CDATA[#(subNodeLink.*>)(.*<\/a>)#]]></find>
+    <replace><![CDATA[$1<xf:include template="xfa_nit_node_list_small" />$2]]></replace>
+  </modification>
+  <modification type="public" template="node_list_page" modification_key="xfa_nit_node_list_page" description="Handle node icon for page" execution_order="15" enabled="1" action="preg_replace">
+    <find><![CDATA[/(<span class="node-icon(.*)?<\/span>)/siU]]></find>
+    <replace><![CDATA[<xf:include template="xfa_nit_node_list" />]]></replace>
+  </modification>
+  <modification type="public" template="node_list_page" modification_key="xfa_nit_node_list_page_2" description="Add node--id* class to subnode" execution_order="5" enabled="1" action="str_replace">
+    <find><![CDATA[subNodeLink--page]]></find>
+    <replace><![CDATA[$0 node--id{$node.node_id}]]></replace>
+  </modification>
+  <modification type="public" template="node_list_page" modification_key="xfa_nit_node_list_page_3" description="Handle icons for page small" execution_order="5" enabled="1" action="preg_replace">
+    <find><![CDATA[#(subNodeLink.*>)(.*<\/a>)#]]></find>
+    <replace><![CDATA[$1<xf:include template="xfa_nit_node_list_small" />$2]]></replace>
+  </modification>
+  <modification type="admin" template="page_edit" modification_key="xfa_nit_page_edit" description="Add node icon edit in page" execution_order="10" enabled="1" action="preg_replace">
+    <find><![CDATA[#<xf:macro template="node_edit_macros" name="navigation".*\/>#sU]]></find>
+    <replace><![CDATA[$0
+			<xf:macro template="xfa_nit_node_edit_macros" name="xfa_nit" arg-node="{$node}" arg-serverIconsData="{$serverIconsData}" arg-showSecondIcon="{$showSecondIcon}" />]]></replace>
+  </modification>
+</template_modifications>

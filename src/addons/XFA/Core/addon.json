@@ -1,0 +1,19 @@
+{
+    "legacy_addon_id": "",
+    "title": "[XFA] Core",
+    "description": "Core functions for Xen-Factory team add-ons.",
+    "version_id": 901140100,
+    "version_string": "1.14.1",
+    "dev": "XFA",
+    "dev_url": "http://www.xen-factory.com",
+    "faq_url": "https://www.xen-factory.com/index.php?forums/manuals.127/",
+    "support_url": "https://www.xen-factory.com/index.php#xf2-support",
+    "extra_urls": [],
+    "require": {
+        "XF": [
+            2020270,
+            "XenForo 2.2.2+"
+        ]
+    },
+    "icon": "icon.png"
+}

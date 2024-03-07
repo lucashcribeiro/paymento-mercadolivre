@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<content_type_fields>
+  <field content_type="dbtech_upgrade_coupon" field_name="admin_search_class">DBTech\UserUpgradeCoupon\AdminSearch\Coupon</field>
+  <field content_type="dbtech_upgrade_coupon" field_name="entity">DBTech\UserUpgradeCoupon:Coupon</field>
+  <field content_type="dbtech_upgrade_coupon" field_name="permission_handler_class">DBTech\UserUpgradeCoupon\Permission\CouponPermissions</field>
+  <field content_type="dbtech_upgrade_coupon" field_name="phrase">dbtech_user_upgrade_coupon_long</field>
+  <field content_type="dbtech_upgrade_coupon" field_name="phrase_plural">dbtech_user_upgrade_coupons_long</field>
+</content_type_fields>

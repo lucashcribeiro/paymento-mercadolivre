@@ -1,0 +1,21 @@
+{
+    "legacy_addon_id": "",
+    "title": "[Xen-Soluce] User Upgrade Pro",
+    "description": "This add-on allows users to renew their subscription before it expires, send email/conversation once the upgrade has expired.",
+    "version_id": 2010010,
+    "version_string": "2.1.0 Fix 1",
+    "dev": "Xen-Soluce",
+    "dev_url": "https://xen-soluce.com/",
+    "faq_url": "",
+    "support_url": "https://xen-soluce.com/forums/supports.79/",
+    "extra_urls": {
+        "Suggestions": "https://xen-soluce.com/forums/suggestions.80/"
+    },
+    "require": {
+        "XF": [
+            2010031,
+            "XenForo 2.1.0 Beta 1+"
+        ]
+    },
+    "icon": "fa-shopping-cart"
+}

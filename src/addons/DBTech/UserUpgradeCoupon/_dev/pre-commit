@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+
+echo "Running PHP-CS-Fixer"
+
+PHP_CS_FIXER="~/.composer/vendor/bin/php-cs-fixer"
+HAS_PHP_CS_FIXER=false
+
+if [ -x ~/.composer/vendor/bin/php-cs-fixer ]; then
+    HAS_PHP_CS_FIXER=true
+fi
+
+CONFIG_FILE=.php_cs
+
+if [ ! -e $CONFIG_FILE ];
+then
+    echo "$CONFIG_FILE does not exist. Please configure php-cs-fixer."
+    exit 1
+fi
+
+if $HAS_PHP_CS_FIXER; then
+    while read -r file;
+    do
+        file="$(echo -e "${file:1}" | sed -e 's/^[[:space:]]*//')"
+        if [[ $file = *.php ]];
+        then
+            $PHP_CS_FIXER fix "$file"
+            git add "$file"
+        fi
+    done < <(git diff --cached --name-status --diff-filter=ACM)
+else
+    echo ""
+    echo "Please install php-cs-fixer, e.g.:"
+    echo ""
+    echo "  composer require --dev fabpot/php-cs-fixer:dev-master"
+    echo ""
+    exit 1
+fi

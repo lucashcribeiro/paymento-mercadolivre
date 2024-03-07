@@ -1,0 +1,43 @@
+<?php namespace angelleye\PayPal;
+class PPConfiguration
+{
+    // To see how to get credentials, see the following page : https://developer.paypal.com/webapps/developer/docs/classic/api/apiCredentials/
+
+    static protected $_userName   = ""; // Set your paypal API username here
+
+    static protected $_password   = ""; // Set your paypal API password here
+
+    static protected $_signature  = ""; // Set your paypal API signature here, if you are not using certificate authentication
+
+    public static function getConfig($mode = 'sandbox')//, $authType = 'certificate')
+    {
+        if ($mode == "sandbox")
+        {
+            return array(
+                'Sandbox'       => true,
+                'APIUsername'   => "jb-us-seller_api1.paypal.com",
+                'APIPassword'   => "WX4WTU3S8MY44S7F",
+                'APISignature'  => "AFcWxV21C7fd0v3bYYYRCpSSRl31A7yDhhsPUU2XhtMoZXsWHFxu-RWy",
+                'APIVersion'    => '97.0',
+                'APISubject'    => '',
+                'PrintHeaders'  => false,
+                'LogResults'    => false,
+                'LogPath'       => "",
+            );
+        }
+        else
+        {
+            return array(
+                'Sandbox'       => false,
+                'APIUsername'   => self::$_userName,
+                'APIPassword'   => self::$_password,
+                'APISignature'  => self::$_signature,
+                'APIVersion'    => '97.0',
+                'APISubject'    => '',
+                'PrintHeaders'  => false,
+                'LogResults'    => false,
+                'LogPath'       => "",
+            );
+        }
+    }
+}

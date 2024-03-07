@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<class_extensions>
+  <extension from_class="XF\Admin\Controller\User" to_class="XenSoluce\UserUpgradePro\XF\Admin\Controller\User" execute_order="10" active="1"/>
+  <extension from_class="XF\Admin\Controller\UserField" to_class="XenSoluce\UserUpgradePro\XF\Admin\Controller\UserField" execute_order="10" active="1"/>
+  <extension from_class="XF\Admin\Controller\UserUpgrade" to_class="XenSoluce\UserUpgradePro\XF\Admin\Controller\UserUpgrade" execute_order="10" active="1"/>
+  <extension from_class="XF\Entity\User" to_class="XenSoluce\UserUpgradePro\XF\Entity\User" execute_order="10" active="1"/>
+  <extension from_class="XF\Entity\UserField" to_class="XenSoluce\UserUpgradePro\XF\Entity\UserField" execute_order="10" active="1"/>
+  <extension from_class="XF\Entity\UserUpgrade" to_class="XenSoluce\UserUpgradePro\XF\Entity\UserUpgrade" execute_order="10" active="1"/>
+  <extension from_class="XF\Entity\UserUpgradeActive" to_class="XenSoluce\UserUpgradePro\XF\Entity\UserUpgradeActive" execute_order="10" active="1"/>
+  <extension from_class="XF\Entity\UserUpgradeExpired" to_class="XenSoluce\UserUpgradePro\XF\Entity\UserUpgradeExpired" execute_order="10" active="1"/>
+  <extension from_class="XF\Purchasable\UserUpgrade" to_class="XenSoluce\UserUpgradePro\XF\Purchasable\UserUpgrade" execute_order="10" active="1"/>
+</class_extensions>

@@ -1,0 +1,25 @@
+{
+    "legacy_addon_id": "xfa_nit",
+    "title": "[XFA] Nodes Icon Tweak",
+    "description": "Nodes Icon Tweak allows you to easily change the default icons of your nodes.",
+    "version_id": 903001190,
+    "version_string": "3.0.11",
+    "dev": "XFA",
+    "dev_url": "http://www.xen-factory.com",
+    "faq_url": "http://xen-factory.com/index.php?forums/add-ons-support.123/",
+    "support_url": "http://www.xen-factory.com/index.php?forums/",
+    "extra_urls": {
+        
+    },
+    "require": {
+        "XF": [
+            2020270,
+            "XenForo 2.2.2+"
+        ],
+        "XFA/Core": [
+            901000099,
+            "[XFA] Core 1.0.0"
+        ]
+    },
+    "icon": "icon.jpg"
+}

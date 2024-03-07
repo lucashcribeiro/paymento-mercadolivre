@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates>
+  <template type="admin" title="cv6_collapse_icon" version_id="1030070" version_string="1.3.0"><![CDATA[    <xf:macro name="cv6_fa_icon::cv6_inputIcon" 
+        arg-target="node-collapse-icon" 
+        arg-rowclass="{$rowClass}"
+        arg-name="{$formBaseKey}"
+        arg-label="{$titleHtml}" 
+        arg-hint="{$hintHtml}"
+        arg-explain="{$property.description}" 
+        arg-value="{$property.property_value}"
+        arg-stylechooser="{false}" 
+    />]]></template>
+  <template type="admin" title="cv6_ni_macros" version_id="1030080" version_string="1.3.0.10"><![CDATA[<xf:macro name="cv6_icon" arg-node="!" arg-category="0">
+	
+	<xf:css src="nodeicon.less" />
+	<xf:if is="$category">
+		<xf:checkboxrow>
+			<xf:option name="cv6_can_collapsed" selected="{$category.cv6_can_collapsed}">{{ phrase('cv6_user_can_collapse_category') }}</xf:option>
+		</xf:checkboxrow>
+	</xf:if>
+
+	<xf:radiorow name="node[cv6_icon_type]" 
+		value="{{ $node.cv6_icon_type }}" 
+		label="{{  phrase('cv6_icon_type') }}"
+		explain="{{ phrase('cv6_icon_explain') }}"
+		class="js-cv6-iconoptions"
+		data-xf-init="cv6-node-icon-toggle"
+	>
+		<xf:option value="0" label="{{ phrase('cv6_default_icon') }}" />
+		<xf:foreach loop="$node.getNodeIconTypes()" key="$key" value="$phrase">
+			<xf:option value="{$key}" label="{$phrase.label}" hint="{$phrase.hint}" 
+					   data-hide="true"
+					   data-xf-init="disabler"
+					   data-container=".js-{$key}"/>
+		</xf:foreach>
+
+	</xf:radiorow>
+
+	<div class="js-cv6-ni-fa js-1">
+		<xf:macro name="cv6_fa_icon::cv6_inputIcon" 
+			arg-target="node-icon" 
+			arg-name="node[cv6_icon]"
+			arg-label="{{ phrase('cv6_nodeicon') }}" 
+			arg-hint="{{ phrase('cv6_including_fa') }}" 
+			arg-explain="{{ phrase('cv6_nodeicon_explain') }}" 
+			arg-value="{$node.cv6_icon}" 
+			arg-stylechooser="{{ ['style','rotation'] }}"
+
+		/>
+	</div>
+
+	<div class="js-cv6-ni-image js-2">
+
+		<xf:macro name="cv6_assetupload::cv6_assetuploadrow" 
+			arg-name="node[cv6_image_path]" 
+			arg-asset="nodeicons" 
+			arg-label="{{ phrase('cv6_nodeicon_path') }}" 
+			arg-hint="hint" 
+			arg-explain="{{ phrase('cv6_nodeimage_explain') }}"
+			arg-value="{$node.cv6_image_path}" 
+			arg-class="" 
+			arg-placeholder="path/to/icon.svg" />
+
+	</div>
+
+</xf:macro>
+
+<xf:macro name="cv6_nodelist_icon" arg-node="!">
+	<xf:css src="nodeicon.less" />
+	<xf:if is="{{$node.cv6_icon_type}} == 1">
+		<xf:fa icon="{{$node.cv6_icon}}" class="cv6-custom-icon" />
+	<xf:else />
+		<img src="{{$node.cv6_image_path}}" class="cv6-custom-icon" />
+	</xf:if>
+</xf:macro>]]></template>
+  <template type="admin" title="nodeicon.less" version_id="1010010" version_string="1.1.0 Alpha"><![CDATA[.cv6--node-imagepreview {
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-position: right;
+}
+.js-cv6-ni-fa.hidden,
+.js-cv6-ni-image.hidden {
+	display: none;
+}
+
+.cv6-custom-icon {
+	max-height: 20px;
+}]]></template>
+  <template type="public" title="cv6_collapse_node.less" version_id="1030070" version_string="1.3.0"><![CDATA[.block--category {
+    .collapseTrigger {
+        .cv6-DefaultOpacity();
+        .m-transition();
+        
+
+        &.is-active:before {
+
+            .cv6-IconVar(@xf-cv6CollapseIcon);
+            transform: rotate(0);
+        }
+
+        &:before {
+            .m-faBase();
+            .m-transition();
+            .cv6-IconVar(@xf-cv6CollapseIcon);
+            transform: rotate(90deg);
+        }
+    }
+
+    .block-container:hover .collapseTrigger {
+        opacity: 1;
+    }
+}
+
+.block-body.block-body--collapsible {
+    .m-transition('all');
+}
+
+.collapsible-nodes {
+    .block-header {
+        display: flex;
+    }
+
+    .block-header--left {
+        margin-right: auto;
+        max-width: 100%;
+    }
+}]]></template>
+  <template type="public" title="cv6_nodeicon_macros" version_id="1030300" version_string="1.3.3"><![CDATA[<xf:macro name="heading_icon" arg-node="!">
+	<xf:if is="{{$node.cv6_icon_type == 1}}">
+		<xf:h1><xf:fa icon="{{$node.getNodeIcon()}}" /> {$node.title}</xf:h1>
+	<xf:elseif is="{{$node.cv6_icon_type == 2}}" />
+		<xf:css src="nodeicon.less" />
+		<xf:h1><img src="{{$node.getNodeImage()}}" class="cv6-node--img"> {$node.title}</xf:h1>
+	<xf:elseif is="{{$node.cv6_icon_type == 3}}" />
+		<xf:js src="cv6/nodeicon/svg.js" min="1" addon="cv6/NodeIcon" />
+		<xf:css src="nodeicon.less" />
+		<xf:h1><img src="{{$node.getNodeImage()}}" class="cv6-node--img cv6-svg" data-xf-init="cv6-node-svg"> {$node.title}</xf:h1>
+	</xf:if>
+</xf:macro>
+
+<xf:macro name="node_icon" arg-node="!" arg-hasNew="">
+	<xf:if is="$hasNew && $xf.visitor.user_id && $xf.options.cv6NodeIconDoubleClickAction}}">
+		<xf:set var="$markread" value="{{ link('forums/mark-read', $node, {'date': $date}) }}" />
+	<xf:else />
+		<xf:set var="$markread" value="{{ false }}" />
+	</xf:if>
+	<xf:if is="{{$node.cv6_icon_type}} > 0">
+		<xf:css src="nodeicon.less" />
+		<xf:if is="{{$node.cv6_icon_type == 3}}">
+			<xf:macro name="icon" arg-class="node-icon" arg-url="{$markread}" />
+				<xf:js src="cv6/nodeicon/svg.js" min="1" addon="cv6/NodeIcon" />
+				<img src="{{$node.getNodeImage()}}" class="cv6-node--img cv6-svg" data-xf-init="cv6-node-svg" />
+			</span>
+		<xf:elseif is="{{$node.cv6_icon_type == 2}}" />
+			<xf:macro name="icon" arg-class="node-icon" arg-url="{$markread}" />
+				<img src="{{$node.getNodeImage()}}" class="cv6-node--img" />
+			</span>
+		<xf:elseif is="{{$node.cv6_icon_type == 1}}" />
+			<xf:macro name="icon" arg-class="no-icon" arg-url="{$markread}" />
+				<xf:fa icon="{{$node.cv6_icon}}" />
+			</span>
+		</xf:if>
+	<xf:else />
+		<xf:macro name="icon" arg-class="node-icon" arg-url="{$markread}" />
+			<xf:fa icon="{{ $node.Data.TypeHandler.getTypeIconClass() ?: 'fa-comments' }}" />
+		</span>
+	</xf:if>
+</xf:macro>
+
+<xf:macro name="icon" arg-class="" arg-url="">
+	<xf:if is="$url">
+		<span class="{$class}" aria-hidden="true" data-xf-init="cv6-mark-as-read" data-cv6-href="{$url}">
+	<xf:else />
+		<span class="{$class}" aria-hidden="true">
+	</xf:if>
+</xf:macro>
+
+<xf:macro name="cat_icon" arg-node="!">
+	<xf:css src="nodeicon.less" />
+	<xf:if is="{{$node.cv6_icon_type == 3}}">
+		<xf:js src="cv6/nodeicon/svg.js" min="1" addon="cv6/NodeIcon" />
+		<img src="{{$node.getNodeImage()}}" class="cv6-node--img cv6-svg" data-xf-init="cv6-node-svg" />
+	<xf:elseif is="{{$node.cv6_icon_type == 2}}" />
+		<img src="{{$node.getNodeImage()}}" class="cv6-node--img" />
+	<xf:elseif is="{{$node.cv6_icon_type == 1}}" />
+		<xf:fa icon="{{$node.cv6_icon}}" />
+	</xf:if>
+</xf:macro>
+
+<xf:macro name="subnode_icon" 
+			arg-href="!"
+			arg-class="!"
+			arg-title="!"
+			arg-hasnew="{false}"
+			arg-node="!"
+	>
+		<xf:css src="nodeicon.less" />
+		<a href="{$href}" class="{$class} no-subicon {{ $hasnew ? 'subNodeLink--unread' : '' }}">
+			<xf:if is="{{$node.cv6_icon_type == 1}}">
+				<xf:fa icon="{{$node.getNodeIcon()}}" class="cv6-subnode custom--icon" />
+			<xf:elseif is="{{$node.cv6_icon_type == 2}}" />
+				<img src="{{$node.getNodeImage()}}" class="cv6-subnode custom--icon {{ $hasnew ? 'icon--unread' : '' }}" />
+			<xf:elseif is="{{$node.cv6_icon_type == 3}}" />
+				<xf:js src="cv6/nodeicon/svg.js" min="1" addon="cv6/NodeIcon" />
+				<img src="{{$node.getNodeImage()}}" 
+					class="cv6-subnode custom--icon {{ $hasnew ? 'icon--unread' : '' }}"
+					data-xf-init="cv6-node-svg" />
+			</xf:if>
+			{$title}
+		</a>
+</xf:macro>]]></template>
+  <template type="public" title="nodeicon.less" version_id="1030300" version_string="1.3.3"><![CDATA[.node, .dataList-cell {
+
+    svg.cv6-node--img.replaced-svg {
+        width: 100%;
+        height: auto;
+        display: block;
+        max-height: @xf-cv6DisplayIconSize;
+    }
+
+    &.node--unread,
+    &.node--link,
+    &.node--search {
+        .node-icon {
+            img.cv6-node--img {
+                opacity: 1;
+                max-height: @xf-cv6DisplayIconSize;
+                filter: @xf-cv6NodeImageUnread;
+                .m-transition(opacity, filter; @xf-animationSpeed);
+                &:hover {
+                    filter: @xf-cv6NodeImageHover;
+                }
+                &.cv6-svg {
+                    opacity: 0.1;
+                }
+            }
+            svg.cv6-node--img.replaced-svg {
+                color: @xf-nodeIconUnreadColor;
+            }
+        }
+    }
+
+    &.node--read {
+        .node-icon {
+            img.cv6-node--img {
+                opacity: calc(~'@{xf-cv6NodeImageReadOpacity} / 100');
+                max-height: @xf-cv6DisplayIconSize;
+                filter: @xf-cv6NodeImageRead;
+                .m-transition(opacity, filter; @xf-animationSpeed);
+                &:hover {
+                    filter: @xf-cv6NodeImageHover;
+                }
+                &.cv6-svg {
+                    opacity: 0.1;
+                }
+            }
+            svg.cv6-node--img.replaced-svg {
+                color: @xf-nodeIconReadColor;
+            }
+        }
+    }
+}
+
+.block-header {
+    .cv6-node--img {
+        width: auto;
+        max-height: @xf-cv6DisplayIconSize;
+        max-width: @xf-cv6DisplayIconSize;
+        vertical-align: bottom;
+    }
+}
+
+svg.cv6-subnode {
+    width: auto;
+    height: 15px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.subNodeLink.no-subicon {
+    &:before {
+        content: none;
+    }
+
+    i.cv6-subnode {
+        display: contents;
+    }
+
+    img.cv6-subnode {
+        max-height: 15px;
+        vertical-align: middle;
+        opacity: calc(~'@{xf-cv6NodeImageReadOpacity} / 100');
+
+        filter: @xf-cv6NodeImageRead;
+
+        &.icon--unread {
+            opacity: 1;
+            filter: @xf-cv6NodeImageUnread;
+        }
+    }
+
+    .custom--icon {
+        color: @xf-nodeIconReadColor;
+
+        &.icon--unread {
+            color: @xf-nodeIconUnreadColor;
+        }
+    }
+}
+
+div.p-title {
+    svg.cv6-node--img {
+        max-height: @xf-cv6DisplayIconSize;
+        width: @xf-cv6DisplayIconSize;
+        margin-right: 5px;
+        vertical-align: bottom;
+    }
+
+    img.cv6-node--img {
+        max-height: @xf-cv6DisplayIconSize;
+        margin-right: 5px;
+        vertical-align: bottom;
+        &.cv6-svg {
+            opacity: 0.1;
+        }
+    }
+}]]></template>
+</templates>

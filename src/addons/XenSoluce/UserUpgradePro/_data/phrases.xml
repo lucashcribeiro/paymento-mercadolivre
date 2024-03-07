@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<phrases>
+  <phrase title="cron_entry.xs_uup_alert" version_id="2000000" version_string="2.0.0"><![CDATA[[Xen-Soluce] User Upgrade Pro: Alert user]]></phrase>
+  <phrase title="option.xs_uup_administrator_alert_after_expiration" version_id="2000300" version_string="2.0.3"><![CDATA[Administrator alert (after expiration)]]></phrase>
+  <phrase title="option.xs_uup_administrator_alert_before_expiration" version_id="2000300" version_string="2.0.3"><![CDATA[Administrator alert (before expiration)]]></phrase>
+  <phrase title="option.xs_uup_conversation_user" version_id="2000000" version_string="2.0.0"><![CDATA[Sender name]]></phrase>
+  <phrase title="option.xs_uup_count_manual_upgrades" version_id="2000100" version_string="2.0.1"><![CDATA[Count manual upgrades]]></phrase>
+  <phrase title="option.xs_uup_delete_the_invoice_number" version_id="2000300" version_string="2.0.3"><![CDATA[Delete the invoice number]]></phrase>
+  <phrase title="option.xs_uup_enable_send_alert" version_id="2000510" version_string="2.0.5 Fix 1"><![CDATA[Enable send alert]]></phrase>
+  <phrase title="option.xs_uup_enable_send_email" version_id="2000510" version_string="2.0.5 Fix 1"><![CDATA[Enable send email]]></phrase>
+  <phrase title="option.xs_uup_footer_block" version_id="2000000" version_string="2.0.0"><![CDATA[Footer block]]></phrase>
+  <phrase title="option.xs_uup_invoice_campany_details" version_id="2000000" version_string="2.0.0"><![CDATA[Company details]]></phrase>
+  <phrase title="option.xs_uup_invoice_logo" version_id="2000000" version_string="2.0.0"><![CDATA[Invoice logo]]></phrase>
+  <phrase title="option_explain.xs_uup_administrator_alert_after_expiration" version_id="2000300" version_string="2.0.3"><![CDATA[This option allows you to send an alert to the administrators after the expiration date of a user's subscription (enter 0 to disable this option).]]></phrase>
+  <phrase title="option_explain.xs_uup_administrator_alert_before_expiration" version_id="2000300" version_string="2.0.3"><![CDATA[This option allows you to send an alert to the administrators before the expiration date of a user's subscription (enter 0 to disable this option).]]></phrase>
+  <phrase title="option_explain.xs_uup_conversation_user" version_id="2000000" version_string="2.0.0"><![CDATA[Enter the sender username who will start a conversation before/after the expiration date.]]></phrase>
+  <phrase title="option_explain.xs_uup_count_manual_upgrades" version_id="2000100" version_string="2.0.1"><![CDATA[If this option is enabled, manual upgrades will be counted in total purchased upgrades number.]]></phrase>
+  <phrase title="option_explain.xs_uup_delete_the_invoice_number" version_id="2000300" version_string="2.0.3"><![CDATA[If this option is enabled the invoice number will be deleted.]]></phrase>
+  <phrase title="option_explain.xs_uup_enable_send_alert" version_id="2000510" version_string="2.0.5 Fix 1"><![CDATA[If this option is enabled it will send an alert to the user with his subscription that will expire, or has expired.]]></phrase>
+  <phrase title="option_explain.xs_uup_enable_send_email" version_id="2000510" version_string="2.0.5 Fix 1"><![CDATA[If this option is enabled it will send an email to the user with his subscription that will expire, or has expired.]]></phrase>
+  <phrase title="option_explain.xs_uup_footer_block" version_id="2000000" version_string="2.0.0"><![CDATA[]]></phrase>
+  <phrase title="option_explain.xs_uup_invoice_campany_details" version_id="2000000" version_string="2.0.0"><![CDATA[This option allows you to add your company details to invoice information.]]></phrase>
+  <phrase title="option_explain.xs_uup_invoice_logo" version_id="2000000" version_string="2.0.0"><![CDATA[This option allows you to add the URL of the logo to invoices.]]></phrase>
+  <phrase title="option_group.xs_uup_settings" version_id="2000000" version_string="2.0.0"><![CDATA[[Xen-Soluce] User Upgrade Pro]]></phrase>
+  <phrase title="option_group_description.xs_uup_settings" version_id="2000000" version_string="2.0.0"><![CDATA[Options here control the User Upgrade Pro add-on by Xen-Soluce.]]></phrase>
+  <phrase title="style_prop.xs_uup_button_in_nav_bar_active" version_id="2000100" version_string="2.0.1"><![CDATA[Enabled icon]]></phrase>
+  <phrase title="style_prop_desc.xs_uup_button_in_nav_bar_active" version_id="2000100" version_string="2.0.1"><![CDATA[If one of these options is activated, an icon will appear in the navigation bar to display the list of active subscriptions or the list of expired subscriptions.]]></phrase>
+  <phrase title="style_prop_group.xs_uup" version_id="2000100" version_string="2.0.1"><![CDATA[[Xen-Soluce] User Upgrade Pro]]></phrase>
+  <phrase title="style_prop_group_desc.xs_uup" version_id="2000100" version_string="2.0.1"><![CDATA[This add-on allows users to renew their subscription before it expires, send email/conversation once the upgrade has expired.]]></phrase>
+  <phrase title="xs_uup_active_email_expiring_user_upgrade_body_html" version_id="2000000" version_string="2.0.0"><![CDATA[{username}, your account upgrade <i><b>{upgradeTitle}</b></i> at {boardTitle} will expire in {days} days.<br />Thank you for having purchased this upgrade and we hope you have enjoyed the benefits it offered.<br />You may extend or renew your account upgrades <a href="{upgradeUrl}" style="color: #176093; text-decoration: none">here</a>. <p>Sincerely,<br />
+{boardTitle}</p>]]></phrase>
+  <phrase title="xs_uup_active_email_expiring_user_upgrade_subject" version_id="2000000" version_string="2.0.0"><![CDATA[{boardTitle} Account Upgrade Expiring]]></phrase>
+  <phrase title="xs_uup_active_subscriptions" version_id="2000000" version_string="2.0.0"><![CDATA[Active subscriptions]]></phrase>
+  <phrase title="xs_uup_active_user_upgrade_expiring_and_expired_email_html_footer" version_id="2000000" version_string="2.0.0"><![CDATA[<p class="minorText">Please do not reply to this message. You must visit the forum to reply.</p>
+
+<p class="minorText">This message was sent to you because you opted to receive emails when your user upgrades are about to expire or have expired at {board}.</p>
+
+<p class="minorText">If you no longer wish to receive these emails, you may <a href="{disable_this_link}">disable emails when your user upgrades are about to expire or have expired</a> or <a href="{disable_all_link}">disable all emails</a>.</p>]]></phrase>
+  <phrase title="xs_uup_alert_administrator" version_id="2000300" version_string="2.0.3"><![CDATA[Send an alert to the admin]]></phrase>
+  <phrase title="xs_uup_alert_administrator_explain" version_id="2000300" version_string="2.0.3"><![CDATA[If this option is enabled it will send an alert according to the settings in the options <a href="admin.php?options/groups/xs_uup_settings" target="_bank">here</a>.]]></phrase>
+  <phrase title="xs_uup_alert_explain" version_id="2000300" version_string="2.0.3"><![CDATA[If this option is enabled the user will receive an alert according to the settings set in the options <a href="admin.php?options/groups/xs_uup_settings" target="_bank">here</a>.]]></phrase>
+  <phrase title="xs_uup_alert_time_active" version_id="2000000" version_string="2.0.0"><![CDATA[User alert (before expiration)]]></phrase>
+  <phrase title="xs_uup_alert_time_active_explain" version_id="2000000" version_string="2.0.0"><![CDATA[This option allows you to send an email and/or start a conversation before the expiration of this upgrade, enter the number of days to notify the user before the expiration date (enter 0 to disable this option).]]></phrase>
+  <phrase title="xs_uup_alert_time_expired" version_id="2000000" version_string="2.0.0"><![CDATA[User alert (after expiration)]]></phrase>
+  <phrase title="xs_uup_alert_time_expired_explain" version_id="2000000" version_string="2.0.0"><![CDATA[This option allows you to send an email and/or start a conversation after the expiration of this upgrade, enter the number of days to notify the user after the expiration date (enter 0 to disable this option).]]></phrase>
+  <phrase title="xs_uup_campany_details" version_id="2000000" version_string="2.0.0"><![CDATA[Campany details]]></phrase>
+  <phrase title="xs_uup_cant_renew_subscription" version_id="2000000" version_string="2.0.0"><![CDATA[You can't renew this subscription.]]></phrase>
+  <phrase title="xs_uup_conversation_active_message" version_id="2000000" version_string="2.0.0"><![CDATA[Hi {username},
+
+Your [B]{upgradeTitle}[/B] user subscription expires in {days} days.
+
+You can renew it by going to the [url={upgradeUrl}]Account Upgrades[/URL] page.]]></phrase>
+  <phrase title="xs_uup_conversation_active_title" version_id="2000000" version_string="2.0.0"><![CDATA[You user subscription ({upgradeTitle}) expire in {days} days.]]></phrase>
+  <phrase title="xs_uup_conversation_expired_message" version_id="2000000" version_string="2.0.0"><![CDATA[Hi {username},
+
+Your [B]{upgradeTitle}[/B] user subscription has expired.
+
+You can renew it by going to the [url={upgradeUrl}]Account Upgrades[/URL] page.]]></phrase>
+  <phrase title="xs_uup_conversation_expired_title" version_id="2000000" version_string="2.0.0"><![CDATA[Your subscription ({upgradeTitle}) has expired.]]></phrase>
+  <phrase title="xs_uup_enable_in_invoice" version_id="2000000" version_string="2.0.0"><![CDATA[Enable field on the invoice]]></phrase>
+  <phrase title="xs_uup_enable_in_invoice_hint" version_id="2000000" version_string="2.0.0"><![CDATA[If this option is enabled, the information entered will be added on the invoice.]]></phrase>
+  <phrase title="xs_uup_enable_invoice_for_this_upgrade" version_id="2000000" version_string="2.0.0"><![CDATA[Exclude from invoicing]]></phrase>
+  <phrase title="xs_uup_enable_invoice_for_this_upgrade_explain" version_id="2000000" version_string="2.0.0"><![CDATA[This option allows you to exclude this upgrade from invoicing.]]></phrase>
+  <phrase title="xs_uup_expired_email_expiring_user_upgrade_body_html" version_id="2000000" version_string="2.0.0"><![CDATA[{username}, your account upgrade <i><b>{upgradeTitle}</b></i> at {boardTitle} has expired.<br />Thank you for having purchased this upgrade and we hope you have enjoyed the benefits it offered.<br />You may extend or renew your account upgrades <a href="{upgradeUrl}" style="color: #176093; text-decoration: none">here</a>. <p>Sincerely,<br />
+{boardTitle}</p>]]></phrase>
+  <phrase title="xs_uup_expired_email_expiring_user_upgrade_subject" version_id="2000000" version_string="2.0.0"><![CDATA[{boardTitle} The account upgrade has expired]]></phrase>
+  <phrase title="xs_uup_expired_subscriptions" version_id="2000000" version_string="2.0.0"><![CDATA[Expired subscriptions]]></phrase>
+  <phrase title="xs_uup_expired_upgrades" version_id="2000000" version_string="2.0.0"><![CDATA[Expired upgrades]]></phrase>
+  <phrase title="xs_uup_has_active_user_upgrade" version_id="2000020" version_string="2.0.0 Fix 2"><![CDATA[User has active user upgrades]]></phrase>
+  <phrase title="xs_uup_has_at_least_x_active_user_upgrades_in_all_selected_user_upgrades" version_id="2000410" version_string="2.0.4 Fix 1"><![CDATA[User has at least X active user upgrades in all of the selected user upgrades]]></phrase>
+  <phrase title="xs_uup_has_at_least_x_expired_user_upgrades" version_id="2000020" version_string="2.0.0 Fix 2"><![CDATA[User has at least X expired user upgrades]]></phrase>
+  <phrase title="xs_uup_has_at_least_x_expired_user_upgrades_in_all_selected_user_upgrades" version_id="2000410" version_string="2.0.4 Fix 1"><![CDATA[User has at least X expired user upgrades in all of the selected user upgrades]]></phrase>
+  <phrase title="xs_uup_has_no_active_user_upgrade" version_id="2000020" version_string="2.0.0 Fix 2"><![CDATA[User has no active user upgrades]]></phrase>
+  <phrase title="xs_uup_has_no_more_than_x_expired_user_upgrades" version_id="2000020" version_string="2.0.0 Fix 2"><![CDATA[User has no more than X expired user upgrades]]></phrase>
+  <phrase title="xs_uup_has_purchased_at_least_x_user_upgrades_in_all_selected_user_upgrades" version_id="2000410" version_string="2.0.4 Fix 1"><![CDATA[User has purchased at least X user upgrades in all of the selected user upgrades]]></phrase>
+  <phrase title="xs_uup_has_purchased_through_any_of_the_selected_payment_profiles" version_id="2000200" version_string="2.0.2"><![CDATA[User has purchased through any of the selected payment profiles]]></phrase>
+  <phrase title="xs_uup_has_user_expiring_next_x_day" version_id="2000020" version_string="2.0.0 Fix 2"><![CDATA[User has a user upgrade expiring within the next X days]]></phrase>
+  <phrase title="xs_uup_helper_criteria_upgrade_expired" version_id="2000000" version_string="2.0.0"><![CDATA[One / more of these subscriptions are over]]></phrase>
+  <phrase title="xs_uup_invoice" version_id="2000000" version_string="2.0.0"><![CDATA[Invoice]]></phrase>
+  <phrase title="xs_uup_invoice_hashtag" version_id="2000000" version_string="2.0.0"><![CDATA[Invoice #]]></phrase>
+  <phrase title="xs_uup_invoice_list" version_id="2000000" version_string="2.0.0"><![CDATA[Invoice list]]></phrase>
+  <phrase title="xs_uup_manual_upgrade" version_id="2000200" version_string="2.0.2"><![CDATA[Manual upgrade]]></phrase>
+  <phrase title="xs_uup_nav_active_list_upgrade" version_id="2000000" version_string="2.0.0"><![CDATA[]]></phrase>
+  <phrase title="xs_uup_nav_expired_list_upgrade" version_id="2000000" version_string="2.0.0"><![CDATA[]]></phrase>
+  <phrase title="xs_uup_payment_method" version_id="2000000" version_string="2.0.0"><![CDATA[Payment method]]></phrase>
+  <phrase title="xs_uup_renew" version_id="2000000" version_string="2.0.0"><![CDATA[Renew]]></phrase>
+  <phrase title="xs_uup_renew_day" version_id="2000000" version_string="2.0.0"><![CDATA[Renewal day]]></phrase>
+  <phrase title="xs_uup_renew_day_explain" version_id="2000000" version_string="2.0.0"><![CDATA[Set the number of days before the expiration date the user will be able to renew his subscription.]]></phrase>
+  <phrase title="xs_uup_subscription_active" version_id="2000000" version_string="2.0.0"><![CDATA[Your subscription <b><a href="{link}" class="fauxBlockLink-blockLink">{title}</a></b>
+]]></phrase>
+  <phrase title="xs_uup_subscription_expired" version_id="2000000" version_string="2.0.0"><![CDATA[Your <b><a href="{link}" class="fauxBlockLink-blockLink">{title}</a></b> subscription has expired
+]]></phrase>
+  <phrase title="xs_uup_subscription_expired_footer" version_id="2000000" version_string="2.0.0"><![CDATA[Cost: {price}
+<div class="contentRow-minor contentRow-minor--smaller">
+	Duration: {time} {length}
+</div>]]></phrase>
+  <phrase title="xs_uup_the_user_x_has_his_subscription_y_which_has_expired" version_id="2000300" version_string="2.0.3"><![CDATA[The user: {link} has  his subscription ({subscription}) which has expired]]></phrase>
+  <phrase title="xs_uup_the_user_x_has_his_subscription_y_which_is_about_to_expire" version_id="2000300" version_string="2.0.3"><![CDATA[The user: {link} has  his subscription ({subscription}) which is about to expire]]></phrase>
+  <phrase title="xs_uup_upgrade_number" version_id="2000100" version_string="2.0.1"><![CDATA[Purchased upgrades]]></phrase>
+  <phrase title="xs_uup_user" version_id="2000000" version_string="2.0.0"><![CDATA[User]]></phrase>
+  <phrase title="xs_uup_view_invoice" version_id="2000000" version_string="2.0.0"><![CDATA[View invoice]]></phrase>
+  <phrase title="xs_uup_your_subscription_x_expires_in_y" version_id="2000510" version_string="2.0.5 Fix 1"><![CDATA[Your subscription {upgrade} expires in {days} days.]]></phrase>
+  <phrase title="xs_uup_your_subscription_x_has_expired" version_id="2000510" version_string="2.0.5 Fix 1"><![CDATA[Your subscription {upgrade} has expired.]]></phrase>
+</phrases>

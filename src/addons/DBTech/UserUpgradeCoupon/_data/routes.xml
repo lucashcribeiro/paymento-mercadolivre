@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<routes>
+  <route route_type="admin" route_prefix="dbtech-upgrades" sub_name="coupons" format="coupons/:int&lt;coupon_id,title&gt;/" controller="DBTech\UserUpgradeCoupon:Coupon" context="dbtechUpgrCoupons"/>
+  <route route_type="admin" route_prefix="dbtech-upgrades" sub_name="logs" format="logs/" controller="DBTech\UserUpgradeCoupon:Log" context="dbtechUpgrLogs"/>
+  <route route_type="admin" route_prefix="dbtech-upgrades" sub_name="logs/coupons" format="logs/coupons/:int&lt;coupon_log_id,title&gt;/" controller="DBTech\UserUpgradeCoupon:Log" context="dbtechUpgrCouponLog" action_prefix="coupon"/>
+  <route route_type="admin" route_prefix="permissions" sub_name="dbtech-upgrade-coupons" format="dbtech-upgrade-coupons/:int&lt;coupon_id,title&gt;/" controller="DBTech\UserUpgradeCoupon:Permission" context="dbtUpgrCouponPermissions" action_prefix="coupon"/>
+</routes>

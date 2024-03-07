@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template_modifications>
+  <modification type="public" template="PAGE_CONTAINER" modification_key="cv6_ni_inject_svg" description="Injects the SVG Inject Script" execution_order="10" enabled="1" action="str_replace">
+    <find><![CDATA[<xf:macro template="helper_js_global" name="head" arg-app="public" />]]></find>
+    <replace><![CDATA[<xf:if is="$xf.options.cv6NodeIconSvgInline ">
+	<xf:js src="cv6/nodeicon/svg-inject.min.js" />
+</xf:if>
+$0]]></replace>
+  </modification>
+  <modification type="admin" template="category_edit" modification_key="cv6_add_icon_macro_category" description="adds macro inside category edit" execution_order="10" enabled="1" action="str_replace">
+    <find><![CDATA[<xf:macro template="node_edit_macros" name="description" arg-node="{$node}" />
+]]></find>
+    <replace><![CDATA[$0
+<xf:macro  name="cv6_ni_macros::cv6_icon" arg-node="{$node}" arg-category="{$category}" />]]></replace>
+  </modification>
+  <modification type="public" template="category_view" modification_key="cv6_ni_catview_addicon" description="Adds the Icon" execution_order="36" enabled="1" action="str_replace">
+    <find><![CDATA[<xf:description>]]></find>
+    <replace><![CDATA[<xf:if is="$xf.visitor.user_id && $xf.options.cv6NodeIconDoubleClickAction}}">
+	<xf:js src="cv6/nodeicon/markread.js" min="1" addon="cv6/NodeIcon" />
+</xf:if>
+<xf:if is="property('cv6DisplayIconHeading') AND $category.Node.cv6_icon_type > 0">
+	<xf:macro template="cv6_nodeicon_macros" name="heading_icon" arg-node="{{$category.Node}}" />
+</xf:if>
+$0]]></replace>
+  </modification>
+  <modification type="admin" template="forum_edit" modification_key="cv6_add_icon_macro" description="adds macro inside forum edit" execution_order="10" enabled="1" action="str_replace">
+    <find><![CDATA[<xf:macro template="node_edit_macros" name="description" arg-node="{$node}" />
+]]></find>
+    <replace><![CDATA[$0
+<xf:macro template="cv6_ni_macros" name="cv6_icon" arg-node="{$node}" />
+]]></replace>
+  </modification>
+  <modification type="public" template="forum_list" modification_key="cv6_ni_fl_add_js" description="Adds markread JS" execution_order="10" enabled="1" action="str_replace">
+    <find><![CDATA[<xf:widgetpos id="forum_list_sidebar" position="sidebar" />]]></find>
+    <replace><![CDATA[<xf:if is="$xf.visitor.user_id && $xf.options.cv6NodeIconDoubleClickAction}}">
+	<xf:js src="cv6/nodeicon/markread.js" min="1" addon="cv6/NodeIcon" />
+</xf:if>
+$0]]></replace>
+  </modification>
+  <modification type="public" template="forum_view" modification_key="cv6_ni_forumview_addicon" description="Adds the Icon" execution_order="10" enabled="1" action="str_replace">
+    <find><![CDATA[<xf:description>]]></find>
+    <replace><![CDATA[<xf:if is="$xf.visitor.user_id && $xf.options.cv6NodeIconDoubleClickAction}}">
+	<xf:js src="cv6/nodeicon/markread.js" min="1" addon="cv6/NodeIcon" />
+</xf:if>
+<xf:if is="property('cv6DisplayIconHeading') AND $forum.Node.cv6_icon_type > 0">
+	<xf:macro template="cv6_nodeicon_macros" name="heading_icon" arg-node="{{$forum.Node}}" arg-hasnew="{$nodeExtras.hasNew}" />
+</xf:if>
+$0]]></replace>
+  </modification>
+  <modification type="admin" template="link_forum_edit" modification_key="cv6_add_icon_macro_link" description="adds macro inside link forum edit" execution_order="10" enabled="1" action="str_replace">
+    <find><![CDATA[<xf:macro template="node_edit_macros" name="description" arg-node="{$node}" />]]></find>
+    <replace><![CDATA[$0
+<xf:macro template="cv6_ni_macros" name="cv6_icon" arg-node="{$node}" />]]></replace>
+  </modification>
+  <modification type="admin" template="node_edit_macros" modification_key="cv6_add_iconmacro" description="Adds a macro to edit icon" execution_order="10" enabled="1" action="str_replace">
+    <find><![CDATA[<xf:macro name="navigation"]]></find>
+    <replace><![CDATA[<xf:macro name="cv6_icon" arg-node="!">
+	<xf:js src="cv6/nodeicon/admin.js" min="0" />
+	<xf:textboxrow name="node[cv6_icon]" 
+				   value="{$node.cv6_icon}" 
+				   label="{{ phrase('cv6_nodeicon') }}"
+				   hint="{{ phrase('cv6_including_fa') }}"
+				   explain="{{ phrase('cv6_nodeicon_explain') }}"
+				   placeholder="fa-..." 
+				   initialhtml = "<div class='inputGroup inputGroup--joined'><span class='inputGroup-text'><i class='fa {$node.cv6_icon}' id='fa-preview' style='width: 30px;'></i></span>"
+				   html="</div>"  />
+</xf:macro>
+$0]]></replace>
+  </modification>
+  <modification type="admin" template="node_list" modification_key="cv6_add_icon_admin_nodes" description="Adds node icons to the list" execution_order="10" enabled="1" action="str_replace">
+    <find><![CDATA[<xf:macro name="node_icon" arg-node="{$node}" />]]></find>
+    <replace><![CDATA[	<xf:if is="$xf.options.cv6ShowNodeIconsinAdmin AND {{$node.cv6_icon_type}} > 0">
+		<xf:macro name="cv6_nodelist_icon" template="cv6_ni_macros" arg-node="{$node}" />
+	<xf:else />
+		$0
+    </xf:if>]]></replace>
+  </modification>
+  <modification type="public" template="node_list.less" modification_key="cv6_add_css_no_icon" description="Adds CSS for No-Icon" execution_order="10" enabled="1" action="str_replace">
+    <find><![CDATA[.node-main
+{
+]]></find>
+    <replace><![CDATA[.no-icon {
+    &:extend(.node-icon);
+
+    i {
+        display: block;
+        line-height: 1.125;
+        font-size: 32px;
+
+        &:before {
+            color: @xf-nodeIconReadColor;
+            font-weight: @xf-fontAwesomeWeight;
+
+            .node--unread & {
+                opacity: 1;
+                color: @xf-nodeIconUnreadColor;
+            }
+        }
+    }
+}
+$0]]></replace>
+  </modification>
+  <modification type="public" template="node_list_category" modification_key="cv6_add_caticon_sub" description="Adds Sub Icon..." execution_order="10" enabled="1" action="str_replace">
+    <find><![CDATA[<a href="{{ link('categories', $node) }}" class="subNodeLink subNodeLink--category {{ $extras.hasNew ? 'subNodeLink--unread' : '' }}">{$node.title}</a>]]></find>
+    <replace><![CDATA[<xf:if is="{{$node.cv6_icon_type > 0}}">
+	<xf:macro template="cv6_nodeicon_macros" name="subnode_icon"
+			  arg-href="{{ link('categories', $node) }}"
+			  arg-class="subNodeLink subNodeLink--category {{ $extras.hasNew ? 'subNodeLink--unread' : '' }}"
+			  arg-title="{$node.title}"
+			  arg-hasnew="{$extras.hasNew}"
+			  arg-node="{$node}"
+			 />
+<xf:else />
+	$0
+</xf:if>]]></replace>
+  </modification>
+  <modification type="public" template="node_list_category" modification_key="cv6_add_icon_pub_cat" description="adds the Category Icon" execution_order="10" enabled="1" action="str_replace">
+    <find><![CDATA[<span class="node-icon" aria-hidden="true"><i></i></span>]]></find>
+    <replace><![CDATA[<xf:if is="{{$node.cv6_icon_type}} > 1">
+	<xf:macro name="node_icon" template="cv6_nodeicon_macros" arg-node="{{$node}}" />
+<xf:else />
+	$0 
+</xf:if>]]></replace>
+  </modification>
+  <modification type="public" template="node_list_category" modification_key="cv6_ni_collapse_class" description="Adds Collapse Class" execution_order="100" enabled="1" action="str_replace">
+    <find><![CDATA[<div class="block block--category block--category{$node.node_id}]]></find>
+    <replace><![CDATA[<xf:if is="$node.Data.cv6_can_collapsed && property('cv6CollapseActive')">
+	<xf:css src="cv6_collapse_node.less" /> 
+	$0 collapsible-nodes
+<xf:else />
+	$0
+</xf:if>
+]]></replace>
+  </modification>
+  <modification type="public" template="node_list_category" modification_key="cv6_ni_nlc_addIcon" description="Adds Main Icon" execution_order="10" enabled="1" action="str_replace">
+    <find><![CDATA[<a href="{{ link('categories', $node) }}">{$node.title}</a>]]></find>
+    <replace><![CDATA[	<xf:if is="property('cv6DisplayIconCategory') AND $node.cv6_icon_type > 0">
+	<xf:macro template="cv6_nodeicon_macros" name="cat_icon"
+			  arg-node="{$node}"
+			 />		
+	</xf:if>
+$0]]></replace>
+  </modification>
+  <modification type="public" template="node_list_category" modification_key="cv6_ni_nlc_add_collapse_corpse" description="Adds collapsable area" execution_order="120" enabled="1" action="str_replace">
+    <find><![CDATA[<div class="block-body">]]></find>
+    <replace><![CDATA[<xf:if is="$node.Data.cv6_can_collapsed && property('cv6CollapseActive')">
+				<div class="block-body block-body--collapsible {{ !is_toggled('_cv6_node-' . $node.node_id) ? ' is-active' : '' }}">
+			<xf:else />	
+				$0
+			</xf:if>]]></replace>
+  </modification>
+  <modification type="public" template="node_list_category" modification_key="cv6_ni_nlc_add_div" description="Add new div for collapse" execution_order="110" enabled="1" action="preg_replace">
+    <find><![CDATA[#(<h2 class="block-header">)(.*)(</h2>)#sU
+]]></find>
+    <replace><![CDATA[$1
+<div class="block-header--left">
+$2
+</div>
+<xf:if is="$node.Data.cv6_can_collapsed && property('cv6CollapseActive')">
+	<span id="collapse-{$node.node_id}" class="collapseTrigger collapseTrigger--block {{ !is_toggled('_cv6_node-' . $node.node_id) ? ' is-active' : '' }}" data-xf-click="toggle" data-xf-init="toggle-storage" data-storage-type="cookie" data-target=".block--category{$node.node_id} .block-body" data-storage-key="_cv6_node-{$node.node_id}"></span>
+</xf:if>
+$3]]></replace>
+  </modification>
+  <modification type="public" template="node_list_category" modification_key="cv6_ni_nlc_add_level_2_item" description="Add Level 2 Icon" execution_order="10" enabled="1" action="str_replace">
+    <find><![CDATA[<span class="node-icon" aria-hidden="true"><i></i></span>]]></find>
+    <replace><![CDATA[<xf:if is="$node.cv6_icon_type > 0">
+			<xf:macro name="cv6_nodeicon_macros::node_icon"
+					  arg-node="{$node}"
+					 />		
+			<xf:else />
+				$0
+			</xf:if>]]></replace>
+  </modification>
+  <modification type="public" template="node_list_forum" modification_key="cv6_add_forumicon_sub" description="Adds the sub icon" execution_order="11" enabled="1" action="str_replace">
+    <find><![CDATA[		<a href="{{ link('forums', $node) }}" class="subNodeLink subNodeLink--forum {{ $extras.hasNew ? 'subNodeLink--unread' : '' }}">
+			<xf:fa icon="{{ $node.Data.TypeHandler.getTypeIconClass() ?: 'fa-comments' }}" class="subNodeLink-icon" />{$node.title}
+		</a>]]></find>
+    <replace><![CDATA[		<xf:if is="{{ $node.cv6_icon_type > 1}}">
+			<xf:macro template="cv6_nodeicon_macros" name="subnode_icon"
+					  arg-href="{{ link('forums', $node) }}"
+					  arg-class="subNodeLink subNodeLink--forum {{ $extras.hasNew ? 'subNodeLink--unread' : '' }}"
+					  arg-title="{$node.title}"
+					  arg-hasnew="{$extras.hasNew}"
+					  arg-node="{$node}"
+					 />
+		<xf:else />
+			$0
+		</xf:if>]]></replace>
+  </modification>
+  <modification type="public" template="node_list_forum" modification_key="cv6_add_icon_pub_forum" description="Adds the Icon into the Forum" execution_order="30" enabled="1" action="str_replace">
+    <find><![CDATA[<span class="node-icon" aria-hidden="true">
+				<xf:fa icon="{{ $node.Data.TypeHandler.getTypeIconClass() ?: 'fa-comments' }}" />
+			</span>]]></find>
+    <replace><![CDATA[<xf:if is="{{$node.cv6_icon_type}} > 0">
+	<xf:macro name="cv6_nodeicon_macros::node_icon" arg-node="{{$node}}" arg-hasNew="{{$extras.hasNew}}" />
+<xf:elseif is="$extras.hasNew && $xf.visitor.user_id && $xf.options.cv6NodeIconDoubleClickAction}}" />
+	<xf:macro name="cv6_nodeicon_macros::icon" arg-class="node-icon" arg-url="{{ link('forums/mark-read', $node, {'date': $date}) }}" />
+		<xf:fa icon="{{ $node.Data.TypeHandler.getTypeIconClass() ?: 'fa-comments' }}" />
+	</span>
+<xf:else />
+	$0
+</xf:if>]]></replace>
+  </modification>
+  <modification type="public" template="node_list_forum" modification_key="cv6_ni_nlf_adds_new_fa_icon_class" description="Adds new fa class if exists" execution_order="360" enabled="1" action="str_replace">
+    <find><![CDATA[$node.Data.TypeHandler.getTypeIconClass() ?: 'fa-comments']]></find>
+    <replace><![CDATA[$node.getNodeIcon() ?: ( $0 )]]></replace>
+  </modification>
+  <modification type="public" template="node_list_link_forum" modification_key="cv6_add_icon_pub_link" description="Adds the Icon into the Link Forum" execution_order="10" enabled="1" action="str_replace">
+    <find><![CDATA[<span class="node-icon" aria-hidden="true"><i></i></span>]]></find>
+    <replace><![CDATA[	<xf:if is="{{$node.cv6_icon_type}} > 0">
+			<xf:macro name="node_icon" template="cv6_nodeicon_macros" arg-node="{{$node}}" />
+	<xf:else />
+		<span class="node-icon" aria-hidden="true"><i></i></span>
+	</xf:if>]]></replace>
+  </modification>
+  <modification type="public" template="node_list_link_forum" modification_key="cv6_subicon_link_change" description="New sub link forum icon" execution_order="11" enabled="1" action="str_replace">
+    <find><![CDATA[<a href="{{ link('link-forums', $node) }}" class="subNodeLink subNodeLink--link">{$node.title}</a>]]></find>
+    <replace><![CDATA[<xf:if is="{{$node.cv6_icon_type > 0}}">
+	<xf:macro template="cv6_nodeicon_macros" name="subnode_icon"
+			  arg-href="{{ link('link-forums', $node) }}"
+			  arg-class="subNodeLink subNodeLink--link"
+			  arg-title="{$node.title}"
+			  arg-node="{$node}"
+			 />
+<xf:else />
+	$0
+</xf:if>]]></replace>
+  </modification>
+  <modification type="public" template="node_list_page" modification_key="cv6_add_icon_pub_page" description="Adds the page icon" execution_order="10" enabled="1" action="str_replace">
+    <find><![CDATA[<span class="node-icon" aria-hidden="true"><i></i></span>]]></find>
+    <replace><![CDATA[<xf:if is="{{$node.cv6_icon_type}} > 0">
+	<xf:macro name="node_icon" template="cv6_nodeicon_macros" arg-node="{{$node}}" />
+	<xf:else />
+	$0
+</xf:if>
+]]></replace>
+  </modification>
+  <modification type="public" template="node_list_page" modification_key="cv6_add_subicon_page" description="adds icon sub node" execution_order="11" enabled="1" action="str_replace">
+    <find><![CDATA[<a href="{{ link('pages', $node) }}" class="subNodeLink subNodeLink--page">{$node.title}</a>]]></find>
+    <replace><![CDATA[<xf:if is="{{$node.cv6_icon_type > 0}}">
+	<xf:macro template="cv6_nodeicon_macros" name="subnode_icon"
+			  arg-href="{{ link('pages', $node) }}"
+			  arg-class="subNodeLink subNodeLink--page"
+			  arg-title="{$node.title}"
+			  arg-node="{$node}"
+			 />
+<xf:else />
+	$0
+</xf:if>]]></replace>
+  </modification>
+  <modification type="public" template="node_list_search_forum" modification_key="cv6_add_icon_search_forum" description="Adds the Icon into the Search forum" execution_order="10" enabled="1" action="str_replace">
+    <find><![CDATA[<span class="node-icon" aria-hidden="true"><i></i></span>]]></find>
+    <replace><![CDATA[<xf:if is="{{$node.cv6_icon_type}} > 0">
+	<xf:macro name="node_icon" template="cv6_nodeicon_macros" arg-node="{{$node}}" />
+<xf:else />
+	$0
+</xf:if>]]></replace>
+  </modification>
+  <modification type="admin" template="page_edit" modification_key="cv6_add_icon_macro_page" description="adds macro inside page edit" execution_order="10" enabled="1" action="str_replace">
+    <find><![CDATA[<xf:macro template="node_edit_macros" name="description" arg-node="{$node}" />]]></find>
+    <replace><![CDATA[$0
+<xf:macro template="cv6_ni_macros" name="cv6_icon" arg-node="{$node}" />]]></replace>
+  </modification>
+  <modification type="public" template="page_view" modification_key="cv6_ni_pageview_addicon" description="Adds the Icon" execution_order="36" enabled="1" action="str_replace">
+    <find><![CDATA[<xf:description>]]></find>
+    <replace><![CDATA[<xf:if is="property('cv6DisplayIconHeading') AND $page.Node.cv6_icon_type > 0">
+	<xf:macro template="cv6_nodeicon_macros" name="heading_icon" arg-node="{{$page.Node}}" />
+</xf:if>
+$0]]></replace>
+  </modification>
+  <modification type="admin" template="search_forum_edit" modification_key="cv6_sf_add_icon_macro" description="adds macro inside search forum edit" execution_order="10" enabled="1" action="str_replace">
+    <find><![CDATA[<xf:macro template="node_edit_macros" name="description" arg-node="{$node}" />]]></find>
+    <replace><![CDATA[$0
+<xf:macro template="cv6_ni_macros" name="cv6_icon" arg-node="{$node}" />]]></replace>
+  </modification>
+  <modification type="public" template="search_forum_view" modification_key="cv6_ni_searchforumview_addicon" description="Adds the Icon" execution_order="10" enabled="1" action="str_replace">
+    <find><![CDATA[<xf:description>]]></find>
+    <replace><![CDATA[<xf:if is="property('cv6DisplayIconHeading') AND $searchForum.Node.cv6_icon_type > 0">
+	<xf:macro template="cv6_nodeicon_macros" name="heading_icon" arg-node="{{$searchForum.Node}}" />
+</xf:if>
+$0]]></replace>
+  </modification>
+</template_modifications>

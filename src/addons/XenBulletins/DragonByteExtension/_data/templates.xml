@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates>
+  <template type="admin" title="dbtech_user_upgrade_bulk_coupon" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[<xf:if is="$coupon.isInsert()">
+	<xf:title>{{ phrase('dbtech_user_upgrade_add_coupon') }}</xf:title>
+</xf:if>
+
+<xf:form action="{{ link('dbtech-upgrades/coupons/bulksave', $coupon) }}" ajax="true" class="block">
+	<div class="block-container">
+		<div class="block-body">
+			<xf:textboxrow name="title" value="{{ $coupon.exists() ? $coupon.MasterTitle.phrase_text : '' }}"
+				label="{{ phrase('title') }}" />
+
+			<hr class="formRowSep" />
+
+			<xf:textarearow name="coupon_code" value="{$coupon.coupon_code}" 
+				label="{{ phrase('dbtech_user_upgrade_coupon_code') }}" />
+
+			<xf:radiorow name="coupon_type" value="{$coupon.coupon_type}"
+				label="{{ phrase('dbtech_user_upgrade_coupon_type') }}"
+				explain="{{ phrase('dbtech_user_upgrade_coupon_type_explain') }}">
+
+				<xf:option value="percent" label="{{ phrase('dbtech_user_upgrade_percent') }}">
+					<xf:dependent>
+						<div class="inputGroup">
+							<xf:numberbox name="coupon_percent" value="{$coupon.coupon_percent}" min="0" max="100"
+								step="any" />
+							<span class="inputGroup-text">%</span>
+						</div>
+					</xf:dependent>
+				</xf:option>
+				<xf:option value="value" label="{{ phrase('dbtech_user_upgrade_flat_value') }}">
+					<xf:dependent>
+						<div class="inputGroup">
+							<xf:numberbox name="coupon_value" value="{$coupon.coupon_value}" min="0"
+								step="any" />
+						</div>
+					</xf:dependent>
+				</xf:option>
+			</xf:radiorow>
+
+			<hr class="formRowSep" />
+
+			<xf:formrow label="{{ phrase('dbtech_user_upgrade_valid_from') }}" rowtype="input">
+				<div class="inputGroup">
+					<xf:dateinput name="start_date" value="{{ $coupon.start_date ? date($coupon.start_date, 'picker') : date($xf.time, 'picker') }}" />
+					<span class="inputGroup-splitter"></span>
+					<xf:textbox type="time" name="start_time" value="{{ $coupon.start_date ? date($coupon.start_date, 'H:i') : date($xf.time, 'H:i') }}" />
+				</div>
+			</xf:formrow>
+
+			<xf:if is="$coupon.isInsert()">
+				<xf:formrow rowtype="input"
+					label="{{ phrase('dbtech_user_upgrade_valid_for') }}">
+
+					<div class="inputGroup">
+						<xf:numberbox name="length_amount" value="7" min="1" max="255" />
+						<span class="inputGroup-splitter"></span>
+						<xf:select name="length_unit" value="day" class="input--inline">
+							<xf:option value="day">{{ phrase('days') }}</xf:option>
+							<xf:option value="month">{{ phrase('months') }}</xf:option>
+							<xf:option value="year">{{ phrase('years') }}</xf:option>
+						</xf:select>
+					</div>
+				</xf:formrow>
+			<xf:else />
+				<xf:formrow rowtype="input"
+					label="{{ phrase('dbtech_user_upgrade_valid_to') }}">
+
+					<div class="inputGroup">
+						<xf:dateinput name="expiry_date" value="{{ $coupon.expiry_date ? date($coupon.expiry_date, 'picker') : date($xf.time, 'picker') }}" />
+						<span class="inputGroup-splitter"></span>
+						<xf:textbox type="time" name="expiry_time" value="{{ $coupon.expiry_date ? date($coupon.expiry_date, 'H:i') : date($xf.time, 'H:i') }}" />
+					</div>
+				</xf:formrow>
+			</xf:if>
+
+			<xf:numberboxrow name="remaining_uses" value="{$coupon.remaining_uses}" min="-1" step="1"
+							 label="{{ phrase('dbtech_user_upgrade_coupon_remaining_uses') }}"
+							 explain="{{ phrase('dbtech_user_upgrade_coupon_remaining_uses_explain') }}" />
+
+			<xf:formrow rowtype="input"
+						label="{{ phrase('dbtech_user_upgrade_coupon_applicable_user_upgrades') }}"
+						explain="{{ phrase('dbtech_user_upgrade_coupon_applicable_user_upgrades_explain') }}">
+
+				<ul class="listPlain inputPair-container">
+					<xf:foreach loop="$coupon.user_upgrade_discounts" key="$counter" value="$discountInfo">
+						<li class="inputPair">
+							<div class="inputGroup">
+								<xf:select name="user_upgrade_discounts[{$counter}][user_upgrade_id]" value="{$discountInfo.user_upgrade_id}" class="filterBlock-input">
+									<xf:option>{{ phrase('(none)') }}</xf:option>
+
+									<xf:foreach loop="$userUpgrades" value="$userUpgrade">
+										<xf:option value="{$userUpgrade.user_upgrade_id}">{$userUpgrade.title}</xf:option>
+									</xf:foreach>
+								</xf:select>
+
+								<span class="inputGroup-splitter"></span>
+
+								<xf:numberbox name="user_upgrade_discounts[{$counter}][upgrade_value]" min="0" value="{$discountInfo.upgrade_value}"
+											  step="any" required="{{ false }}" />
+							</div>
+						</li>
+					</xf:foreach>
+					<li class="inputPair" data-xf-init="field-adder" data-increment-format="user_upgrade_discounts[{counter}]">
+						<div class="inputGroup">
+							<xf:select name="user_upgrade_discounts[{$nextCounter}][user_upgrade_id]" class="filterBlock-input">
+								<xf:option>{{ phrase('(none)') }}</xf:option>
+
+								<xf:foreach loop="$userUpgrades" value="$userUpgrade">
+									<xf:option value="{$userUpgrade.user_upgrade_id}">{$userUpgrade.title}</xf:option>
+								</xf:foreach>
+							</xf:select>
+
+							<span class="inputGroup-splitter"></span>
+
+							<xf:numberbox name="user_upgrade_discounts[{$nextCounter}][upgrade_value]" min="0"
+										  step="any" required="{{ false }}" />
+						</div>
+					</li>
+				</ul>
+			</xf:formrow>
+		</div>
+
+		<xf:submitrow sticky="true" icon="save" />
+	</div>
+</xf:form>]]></template>
+</templates>

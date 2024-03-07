@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<phrases>
+  <phrase title="xfa_core_accept_this_payment_mean" version_id="901090090" version_string="1.9.0"><![CDATA[Accept this payment mean]]></phrase>
+  <phrase title="xfa_core_check_all" version_id="901080090" version_string="1.8.0"><![CDATA[Check all]]></phrase>
+  <phrase title="xfa_core_days" version_id="901070090" version_string="1.7.0"><![CDATA[Days]]></phrase>
+  <phrase title="xfa_core_error_initiating_paypal_communication" version_id="901051090" version_string="1.5.10"><![CDATA[Error initializing paypal communication]]></phrase>
+  <phrase title="xfa_core_hours" version_id="901070090" version_string="1.7.0"><![CDATA[Hours]]></phrase>
+  <phrase title="xfa_core_minutes" version_id="901070090" version_string="1.7.0"><![CDATA[Minutes]]></phrase>
+  <phrase title="xfa_core_ncp_cc_api_key_explain" version_id="901110090" version_string="1.11.0"><![CDATA[Enter your API key for Coinbase Commerce. You can find this <a href="https://commerce.coinbase.com/dashboard/settings">here</a>. Additionally, you may also need to whitelist our domain on that page (board URL is: {boardUrl}).]]></phrase>
+  <phrase title="xfa_core_ncp_cc_webhook_secret_explain" version_id="901110090" version_string="1.11.0"><![CDATA[The key for your webhook secret. Found on the <a href="https://commerce.coinbase.com/dashboard/settings">Coinbase Commerce settings page</a>. You will also need to add the callback URL in the same location. Click "Add an endpoint" and add: {boardUrl}/{url}]]></phrase>
+  <phrase title="xfa_core_purchase" version_id="901070190" version_string="1.7.1"><![CDATA[Purchase]]></phrase>
+  <phrase title="xfa_core_redirecting_to_paypal" version_id="901051090" version_string="1.5.10"><![CDATA[Redirecting to paypal]]></phrase>
+  <phrase title="xfa_core_seconds" version_id="901070090" version_string="1.7.0"><![CDATA[Seconds]]></phrase>
+  <phrase title="xfa_core_type_to_filter" version_id="901070090" version_string="1.7.0"><![CDATA[Type to filter]]></phrase>
+  <phrase title="xfa_core_uncheck_all" version_id="901080090" version_string="1.8.0"><![CDATA[Uncheck all]]></phrase>
+</phrases>

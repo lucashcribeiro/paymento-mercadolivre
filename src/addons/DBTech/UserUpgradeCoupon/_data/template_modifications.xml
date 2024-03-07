@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template_modifications>
+  <modification type="public" template="account_upgrades" modification_key="dbtech_user_upgrade_coupon_account_upgrades_free" description="Override the form action if the cost is free" execution_order="10" enabled="1" action="str_replace">
+    <find><![CDATA[link('purchase']]></find>
+    <replace><![CDATA[$0 . ($upgrade.isFreeAfterCoupon() ? '/free-user-upgrade' : '')]]></replace>
+  </modification>
+  <modification type="public" template="account_upgrades" modification_key="dbtech_user_upgrade_coupon_account_upgrades_free2" description="Override the form action if the cost is free" execution_order="10" enabled="1" action="str_replace">
+    <find><![CDATA[<xf:button type="submit" icon="purchase" />]]></find>
+    <replace><![CDATA[<xf:if is="$upgrade.isFreeAfterCoupon()">
+												<xf:button type="submit">{{ phrase('dbtech_user_upgrade_get_free') }}</xf:button>
+											<xf:else />
+												$0
+											</xf:if>]]></replace>
+  </modification>
+  <modification type="public" template="account_upgrades" modification_key="dbtech_user_upgrade_coupon_account_upgrades_free3" description="Override the payment profile select if the cost is free" execution_order="10" enabled="1" action="str_replace">
+    <find><![CDATA[count($upgrade.payment_profile_ids) > 1]]></find>
+    <replace><![CDATA[!$upgrade.isFreeAfterCoupon() && $0]]></replace>
+  </modification>
+  <modification type="public" template="account_upgrades" modification_key="user_upgrade_coupon_account_upgrades" description="Add the coupon code box" execution_order="10" enabled="1" action="str_replace">
+    <find><![CDATA[<xf:if is="$available is not empty">]]></find>
+    <replace><![CDATA[$0
+			<xf:include template="dbtech_user_upgrade_coupon" />]]></replace>
+  </modification>
+  <modification type="public" template="core_formrow.less" modification_key="dbtech_user_upgrade_core_formrow_less_append" description="Append dbtech_user_upgrade_core_formrow.less to core_formrow.less" execution_order="10" enabled="1" action="preg_replace">
+    <find><![CDATA[/$/]]></find>
+    <replace><![CDATA[{{ include('dbtech_user_upgrade_core_formrow.less') }}]]></replace>
+  </modification>
+</template_modifications>

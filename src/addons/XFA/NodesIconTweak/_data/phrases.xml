@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<phrases>
+  <phrase title="option.xfa_nit_defaultIconSize" version_id="903000090" version_string="3.0.0 Beta 1"><![CDATA[Default icon size]]></phrase>
+  <phrase title="option.xfa_nit_defaultSmallIconSize" version_id="903000090" version_string="3.0.0 Beta 1"><![CDATA[Default small icon size]]></phrase>
+  <phrase title="option.xfa_nit_iconSizeACP" version_id="903000090" version_string="3.0.0 Beta 1"><![CDATA[ACP icon size]]></phrase>
+  <phrase title="option.xfa_nit_separateSrvIcons" version_id="903000090" version_string="3.0.0 Beta 1"><![CDATA[Separate small/normal server icons]]></phrase>
+  <phrase title="option.xfa_nit_showIconsInACP" version_id="903000090" version_string="3.0.0 Beta 1"><![CDATA[Show icons in ACP]]></phrase>
+  <phrase title="option_explain.xfa_nit_defaultIconSize" version_id="903000090" version_string="3.0.0 Beta 1"><![CDATA[Set the default icon size to be used.<br />
+This size will be used in case the set icon size is 0 in the node to avoid icon from not showing.]]></phrase>
+  <phrase title="option_explain.xfa_nit_defaultSmallIconSize" version_id="903000090" version_string="3.0.0 Beta 1"><![CDATA[Set the default small icon size to be used.<br />
+This size will be used in case the set icon size is 0 in the node to avoid icon from not showing.]]></phrase>
+  <phrase title="option_explain.xfa_nit_iconSizeACP" version_id="903000090" version_string="3.0.0 Beta 1"><![CDATA[Set the size of the icons in the admincp node tree.<br />
+Note that it won't change sprite image size if any.]]></phrase>
+  <phrase title="option_explain.xfa_nit_separateSrvIcons" version_id="903000090" version_string="3.0.0 Beta 1"><![CDATA[If you set this option to yes, small icons will be retrieved from data/xfa/nodesicontweak/icons-small instead of data/xfa/nodesicontweak/icons thus letting you sort icons for both purposes in two folders.]]></phrase>
+  <phrase title="option_explain.xfa_nit_showIconsInACP" version_id="903000090" version_string="3.0.0 Beta 1"><![CDATA[Set this option to yes if you want the icons to be displayed in the node tree of the admincp.]]></phrase>
+  <phrase title="option_group.xfa_nit" version_id="903000090" version_string="3.0.0 Beta 1"><![CDATA[[XFA] Nodes Icon Tweak]]></phrase>
+  <phrase title="option_group_description.xfa_nit" version_id="903000090" version_string="3.0.0 Beta 1"><![CDATA[Configuration of the Nodes Icon Tweak add-on from Xen Factory]]></phrase>
+  <phrase title="xfa_nit_flip_horizontally" version_id="903000090" version_string="3.0.0 Beta 1"><![CDATA[Flip horizontally
+]]></phrase>
+  <phrase title="xfa_nit_flip_vertically" version_id="903000090" version_string="3.0.0 Beta 1"><![CDATA[Flip vertically
+]]></phrase>
+  <phrase title="xfa_nit_icon" version_id="903000090" version_string="3.0.0 Beta 1"><![CDATA[Icon
+]]></phrase>
+  <phrase title="xfa_nit_icon_preview" version_id="903000090" version_string="3.0.0 Beta 1"><![CDATA[Icon preview
+]]></phrase>
+  <phrase title="xfa_nit_icon_read" version_id="903000090" version_string="3.0.0 Beta 1"><![CDATA[Read Icon
+]]></phrase>
+  <phrase title="xfa_nit_icon_unread" version_id="903000090" version_string="3.0.0 Beta 1"><![CDATA[Unread Icon
+]]></phrase>
+  <phrase title="xfa_nit_lower_layer" version_id="903000090" version_string="3.0.0 Beta 1"><![CDATA[Lower layer
+]]></phrase>
+  <phrase title="xfa_nit_lower_layer_animate" version_id="903000090" version_string="3.0.0 Beta 1"><![CDATA[Lower layer animate]]></phrase>
+  <phrase title="xfa_nit_lower_layer_color" version_id="903000090" version_string="3.0.0 Beta 1"><![CDATA[Lower layer color]]></phrase>
+  <phrase title="xfa_nit_lower_layer_transform" version_id="903000090" version_string="3.0.0 Beta 1"><![CDATA[Lower layer transform]]></phrase>
+  <phrase title="xfa_nit_no_animation" version_id="903000090" version_string="3.0.0 Beta 1"><![CDATA[No animation
+]]></phrase>
+  <phrase title="xfa_nit_no_icons_on_server" version_id="903000090" version_string="3.0.0 Beta 1"><![CDATA[No icons found on server
+]]></phrase>
+  <phrase title="xfa_nit_no_transformation" version_id="903000090" version_string="3.0.0 Beta 1"><![CDATA[No transformation
+]]></phrase>
+  <phrase title="xfa_nit_nodes_icons_tweak" version_id="903000090" version_string="3.0.0 Beta 1"><![CDATA[Nodes Icon Tweak
+]]></phrase>
+  <phrase title="xfa_nit_nodes_icons_tweak_explain" version_id="903000090" version_string="3.0.0 Beta 1"><![CDATA[Ensure when setting icon size, that the set size correspond to your nodeIcon css style width (xF default is 36px). <br />
+For "Category" and "Forum", if you don't enter an "Unread" icon, then the "Read" will be displayed wether are or not new messages.
+]]></phrase>
+  <phrase title="xfa_nit_position" version_id="903000090" version_string="3.0.0 Beta 1"><![CDATA[Position
+]]></phrase>
+  <phrase title="xfa_nit_pulse" version_id="903000090" version_string="3.0.0 Beta 1"><![CDATA[Pulse
+]]></phrase>
+  <phrase title="xfa_nit_rotate_180" version_id="903000090" version_string="3.0.0 Beta 1"><![CDATA[Rotate 180&deg;
+]]></phrase>
+  <phrase title="xfa_nit_rotate_270" version_id="903000090" version_string="3.0.0 Beta 1"><![CDATA[Rotate 270&deg;
+]]></phrase>
+  <phrase title="xfa_nit_rotate_90" version_id="903000090" version_string="3.0.0 Beta 1"><![CDATA[Rotate 90&deg;
+]]></phrase>
+  <phrase title="xfa_nit_select_icon" version_id="903000090" version_string="3.0.0 Beta 1"><![CDATA[Select icon
+]]></phrase>
+  <phrase title="xfa_nit_select_server_icon" version_id="903000090" version_string="3.0.0 Beta 1"><![CDATA[Select server icon
+]]></phrase>
+  <phrase title="xfa_nit_select_small_server_icon" version_id="903000090" version_string="3.0.0 Beta 1"><![CDATA[Select small server icon
+]]></phrase>
+  <phrase title="xfa_nit_server_icons_explain" version_id="903000090" version_string="3.0.0 Beta 1"><![CDATA[Server icons are loaded from the data (or another name if you renamed it) folder of your xF installation. <br /> Icons shall be located in the xfa/nodesicontweak/icons subdirectory.
+]]></phrase>
+  <phrase title="xfa_nit_size" version_id="903000090" version_string="3.0.0 Beta 1"><![CDATA[Size
+]]></phrase>
+  <phrase title="xfa_nit_size_explain" version_id="903000090" version_string="3.0.0 Beta 1"><![CDATA[If you use both up and down layer, set the size to half your expected size as the stacking multiply the down layer size by 2.
+]]></phrase>
+  <phrase title="xfa_nit_small_icon_preview" version_id="903000090" version_string="3.0.0 Beta 1"><![CDATA[Small icon preview
+]]></phrase>
+  <phrase title="xfa_nit_small_size" version_id="903000090" version_string="3.0.0 Beta 1"><![CDATA[Small Size
+]]></phrase>
+  <phrase title="xfa_nit_small_size_explain" version_id="903000090" version_string="3.0.0 Beta 1"><![CDATA[This size corresponds to the icon displayed near the node title if displayed (ie. not in a popup, style property "Show sub-forums popup" disabled).<br /> If you use both up and down layer, set the size to half your expected size as the stacking multiply the down layer size by 2.
+]]></phrase>
+  <phrase title="xfa_nit_spin" version_id="903000090" version_string="3.0.0 Beta 1"><![CDATA[Spin
+]]></phrase>
+  <phrase title="xfa_nit_sprite_coordinates" version_id="903000090" version_string="3.0.0 Beta 1"><![CDATA[Coordinates
+]]></phrase>
+  <phrase title="xfa_nit_sprite_url" version_id="903000090" version_string="3.0.0 Beta 1"><![CDATA[Sprite URL
+]]></phrase>
+  <phrase title="xfa_nit_sprite_url_explain" version_id="903000090" version_string="3.0.0 Beta 1"><![CDATA[Sprite file must be located in a directory of your forum, input in this field the url relative to your forum base url. eg. : styles/default/xenforo/node-sprite.png if I wanted to get xenforo nodes sprite.]]></phrase>
+  <phrase title="xfa_nit_type_to_filter" version_id="903000090" version_string="3.0.0 Beta 1"><![CDATA[Type to filter
+]]></phrase>
+  <phrase title="xfa_nit_upper_layer" version_id="903000090" version_string="3.0.0 Beta 1"><![CDATA[Upper layer
+]]></phrase>
+  <phrase title="xfa_nit_upper_layer_animate" version_id="903000090" version_string="3.0.0 Beta 1"><![CDATA[Upper layer animate]]></phrase>
+  <phrase title="xfa_nit_upper_layer_color" version_id="903000090" version_string="3.0.0 Beta 1"><![CDATA[Upper layer color]]></phrase>
+  <phrase title="xfa_nit_upper_layer_transform" version_id="903000090" version_string="3.0.0 Beta 1"><![CDATA[Upper layer transform]]></phrase>
+  <phrase title="xfa_nit_use_default_xf_icons" version_id="903000090" version_string="3.0.0 Beta 1"><![CDATA[Use default XenForo Nodes icons
+]]></phrase>
+  <phrase title="xfa_nit_use_font_awesome_icons" version_id="903000090" version_string="3.0.0 Beta 1"><![CDATA[Use Font Awesome Nodes icons
+]]></phrase>
+  <phrase title="xfa_nit_use_latest_poster_avatar" version_id="903000090" version_string="3.0.0 Beta 1"><![CDATA[Use latest poster avatar
+]]></phrase>
+  <phrase title="xfa_nit_use_server_icons" version_id="903000090" version_string="3.0.0 Beta 1"><![CDATA[Use icons from server
+]]></phrase>
+  <phrase title="xfa_nit_use_sprite_url" version_id="903000090" version_string="3.0.0 Beta 1"><![CDATA[Use Sprite Image URL (Don't use for sub-forums level n > 2)
+]]></phrase>
+</phrases>

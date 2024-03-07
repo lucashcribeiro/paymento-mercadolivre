@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<content_type_fields>
+  <field content_type="xs_uup_active" field_name="alert_handler_class">XenSoluce\UserUpgradePro\Alert\Active</field>
+  <field content_type="xs_uup_active" field_name="entity">XF:UserUpgradeActive</field>
+  <field content_type="xs_uup_expired" field_name="alert_handler_class">XenSoluce\UserUpgradePro\Alert\Expired</field>
+  <field content_type="xs_uup_expired" field_name="entity">XF:UserUpgradeExpired</field>
+</content_type_fields>

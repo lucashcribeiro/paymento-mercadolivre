@@ -1,0 +1,966 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates>
+  <template type="admin" title="xfa_nit_node_edit.less" version_id="903000590" version_string="3.0.5"><![CDATA[.xfaNitFa,
+.xfaNitSrv,
+.xfaNitSprite
+{
+  &.hiddenDiv
+  {
+    display: none;
+  }
+}
+
+.tabbedBlock
+{
+  .block-body
+  {
+    padding: 10px;
+  }
+}
+
+.xfaNitSrv
+{
+  .xfa_nit_icon_list
+  {
+    height: 83px;
+    overflow: auto;
+    padding: 5px;
+    .xf-contentBase();
+    .xf-blockBorder();
+    border-radius: @xf-blockBorderRadius;
+
+    > li
+    {
+      display: inline-block;
+      cursor: pointer;
+      padding: 2px;
+
+      &.selected
+      {
+        .xf-blockBorder();
+        border-radius: @xf-blockBorderRadius;
+        padding: 1px;
+      }
+	
+	  img {
+		max-width: 32px;
+	  }
+    }
+  }
+}
+
+.xfaNitSprite
+{
+  #sprite_icon1_preview:after
+  {
+    content: " ";
+    clear: both;
+    display: block;
+  }
+}]]></template>
+  <template type="admin" title="xfa_nit_node_edit_macros" version_id="903000090" version_string="3.0.0 Beta 1"><![CDATA[<xf:macro name="xfa_nit" arg-node="!" arg-serverIconsData="" arg-showSecondIcon="0">
+    <xf:js src="xfa/nodesicontweak/NodesIconTweak.min.js" />
+    <xf:css src="xfa_nit_node_edit.less" />
+
+    <hr class="formRowSep" />
+
+    <xf:radiorow name="xfa_nit_type"
+                 label="{{ phrase('xfa_nit_nodes_icons_tweak') }}"
+                 value="{$node.xfa_nit_type}"
+                 rowclass="xfa_nit" >
+        <xf:option value="0" label="{{ phrase('xfa_nit_use_default_xf_icons') }}" />
+        <xf:option value="1" label="{{ phrase('xfa_nit_use_font_awesome_icons') }}">
+            <xf:macro template="xfa_nit_node_edit_macros" name="xfa_nit_fa" arg-node="{$node}" arg-showSecondIcon="{$showSecondIcon}" />
+        </xf:option>
+        <xf:if is="{$serverIconsData.icons}">
+            <xf:option value="2" label="{{ phrase('xfa_nit_use_server_icons') }}" hint="{{ phrase('xfa_nit_server_icons_explain') }}">
+                <xf:macro template="xfa_nit_node_edit_macros" name="xfa_nit_server" arg-node="{$node}" arg-serverIconsData="{$serverIconsData}" arg-showSecondIcon="{$showSecondIcon}" />
+            </xf:option>
+        <xf:else />
+            <xf:option value="2" disabled="disabled" label="{{ phrase('xfa_nit_no_icons_on_server') }}" hint="{{ phrase('xfa_nit_server_icons_explain') }}" />
+        </xf:if>
+        <xf:option value="3" label="{{ phrase('xfa_nit_use_sprite_url') }}">
+            <xf:macro template="xfa_nit_node_edit_macros" name="xfa_nit_sprite" arg-node="{$node}" arg-showSecondIcon="{$showSecondIcon}" />
+        </xf:option>
+        <xf:option value="5" label="{{ phrase('xfa_nit_use_latest_poster_avatar') }}" />
+        <xf:html><div class="formRow-explain">{{ phrase('xfa_nit_nodes_icons_tweak_explain') }}</div></xf:html>
+    </xf:radiorow>
+</xf:macro>
+
+<xf:macro name="xfa_nit_fa" arg-node="!" arg-showSecondIcon="0">
+    <div class="xfaNitFa hiddenDiv">
+        <xf:if is="$showSecondIcon">
+            <div class="block tabbedBlock">
+                <div class="block-container">
+                    <h2 class="block-tabHeader tabs" data-xf-init="tabs" role="tablist">
+                        <span class="hScroller-scroll">
+                            <a href="#"
+                               class="tabs-tab is-active" role="tab" aria-controls="read">{{ phrase('xfa_nit_icon_read') }}</a>
+                            <a href="#"
+                               class="tabs-tab" role="tab" aria-controls="unread">{{ phrase('xfa_nit_icon_unread') }}</a>
+                        </span>
+                    </h2>
+                    <ul class="tabPanes">
+                        <li class="is-active" role="tabpanel" id="read">
+                            <div class="block-body">
+                                <xf:macro template="xfa_nit_node_edit_macros" name="xfa_nit_fa_icon"
+                                          arg-node="{$node}"
+                                          arg-name="fa_icon1"
+                                          arg-callback="XFANodesIconTweak_updateFAIcon1Preview" />
+                            </div>
+                        </li>
+                        <li role="tabpanel" id="unread">
+                            <div class="block-body">
+                                <xf:macro template="xfa_nit_node_edit_macros" name="xfa_nit_fa_icon"
+                                          arg-node="{$node}"
+                                          arg-name="fa_icon2"
+                                          arg-callback="XFANodesIconTweak_updateFAIcon2Preview" />
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        <xf:else />
+            <xf:macro template="xfa_nit_node_edit_macros" name="xfa_nit_fa_icon"
+                      arg-node="{$node}"
+                      arg-name="fa_icon1"
+                      arg-callback="XFANodesIconTweak_updateFAIcon1Preview" />
+        </xf:if>
+    </div>
+</xf:macro>
+
+<xf:macro name="xfa_nit_fa_icon" arg-node="!" arg-name="" arg-callback="">
+    <div class="{$name}">
+        <input type="hidden" name="{$name}[layer_down]" id="{$name}_layer_down" value="{$node.xfa_nit_params.{$name}.layer_down}" />
+        <input type="hidden" name="{$name}[layer_up]" id="{$name}_layer_up" value="{$node.xfa_nit_params.{$name}.layer_up}" />
+
+        <dl>
+            <dt>{{ phrase('xfa_nit_lower_layer') }}:</dt>
+            <dd>
+                <xf:macro template="public:xfa_fa_picker_macros" name="xfa_fa_picker"
+                          arg-name="{$name}_layer_down_list"
+                          arg-value="{$node.xfa_nit_params.{$name}.layer_down}"
+                          arg-additionalInputUpdate="input[name=\"{$name}[layer_down]\"]"
+                          arg-callback="{$callback}"
+                          arg-row="{{ false }}" />
+            </dd>
+        </dl>
+
+        <dl>
+            <dt>{{ phrase('xfa_nit_lower_layer_color') }}:</dt>
+            <dd>
+                <xf:macro template="public:xfa_color_picker_macros" name="xfa_color_picker"
+                          arg-name="{$name}[layer_down_color]"
+                          arg-value="{$node.xfa_nit_params.{$name}.layer_down_color}"
+                          arg-allowPalette="{{ false }}"
+                          arg-row=""
+                          arg-includeScripts="{{ true }}"
+                          arg-callback="{$callback}" />
+            </dd>
+        </dl>
+
+        <dl>
+            <dt>{{ phrase('xfa_nit_lower_layer_transform') }}:</dt>
+            <dd>
+                <select name="{$name}[layer_down_transform]" id="{$name}_layer_down_transform" class="input">
+                    <option value="" {{ $node.xfa_nit_params.{$name}.layer_down_transform == '' ? 'selected="selected"' : '' }}>{{ phrase('xfa_nit_no_transformation') }}</option>
+                    <option value="fa-rotate-90" {{ $node.xfa_nit_params.{$name}.layer_down_transform == 'fa-rotate-90' ? 'selected="selected"' : ''  }}>{{ phrase('xfa_nit_rotate_90') }}</option>
+                    <option value="fa-rotate-180" {{ $node.xfa_nit_params.{$name}.layer_down_transform == 'fa-rotate-180' ? 'selected="selected"' : ''  }}>{{ phrase('xfa_nit_rotate_180') }}</option>
+                    <option value="fa-rotate-270" {{ $node.xfa_nit_params.{$name}.layer_down_transform == 'fa-rotate-270' ? 'selected="selected"' : ''  }}>{{ phrase('xfa_nit_rotate_270') }}</option>
+                    <option value="fa-flip-horizontal" {{ $node.xfa_nit_params.{$name}.layer_down_transform == 'fa-flip-horizontal' ? 'selected="selected"' : ''  }}>{{ phrase('xfa_nit_flip_horizontally') }}</option>
+                    <option value="fa-flip-vertical" {{ $node.xfa_nit_params.{$name}.layer_down_transform == 'fa-flip-vertical' ? 'selected="selected"' : ''  }}>{{ phrase('xfa_nit_flip_vertically') }}</option>
+                </select>
+            </dd>
+        </dl>
+
+        <dl>
+            <dt>{{ phrase('xfa_nit_lower_layer_animate') }}:</dt>
+            <dd>
+                <select name="{$name}[layer_down_animate]" id="{$name}_layer_down_animate" class="input">
+                    <option value="" {{ $node.xfa_nit_params.{$name}.layer_down_animate == '' ? 'selected="selected"' : ''  }}>{{ phrase('xfa_nit_no_animation') }}</option>
+                    <option value="fa-spin" {{ $node.xfa_nit_params.{$name}.layer_down_animate == 'fa-spin' ? 'selected="selected"' : ''  }}>{{ phrase('xfa_nit_spin') }}</option>
+                    <option value="fa-pulse" {{$node.xfa_nit_params.{$name}.layer_down_animate == 'fa-pulse' ? 'selected="selected"' : ''  }}>{{ phrase('xfa_nit_pulse') }}</option>
+                </select>
+            </dd>
+        </dl>
+
+        <dl>
+            <dt>{{ phrase('xfa_nit_upper_layer') }}:</dt>
+            <dd>
+                <xf:macro template="public:xfa_fa_picker_macros" name="xfa_fa_picker"
+                          arg-name="{$name}_layer_up_list"
+                          arg-value="{$node.xfa_nit_params.{$name}.layer_up}"
+                          arg-additionalInputUpdate="input[name=\"{$name}[layer_up]\"]"
+                          arg-callback="{$callback}"
+                          arg-row="{{ false }}" />
+            </dd>
+        </dl>
+
+        <dl>
+            <dt>{{ phrase('xfa_nit_upper_layer_color') }}:</dt>
+            <dd>
+                <xf:macro template="public:xfa_color_picker_macros" name="xfa_color_picker"
+                          arg-name="{$name}[layer_up_color]"
+                          arg-value="{$node.xfa_nit_params.{$name}.layer_up_color}"
+                          arg-allowPalette="{{ false }}"
+                          arg-row=""
+                          arg-includeScripts="{{ true }}"
+                          arg-callback="{$callback}" />
+            </dd>
+        </dl>
+
+        <dl>
+            <dt>{{ phrase('xfa_nit_upper_layer_transform') }}:</dt>
+            <dd>
+                <select name="{$name}[layer_up_transform]" id="{$name}_layer_up_transform" class="input">
+                    <option value="" {{ $node.xfa_nit_params.{$name}.layer_up_transform == '' ? 'selected="selected"' : '' }}>{{ phrase('xfa_nit_no_transformation') }}</option>
+                    <option value="fa-rotate-90" {{ $node.xfa_nit_params.{$name}.layer_up_transform == 'fa-rotate-90' ? 'selected="selected"' : ''  }}>{{ phrase('xfa_nit_rotate_90') }}</option>
+                    <option value="fa-rotate-180" {{ $node.xfa_nit_params.{$name}.layer_up_transform == 'fa-rotate-180' ? 'selected="selected"' : ''  }}>{{ phrase('xfa_nit_rotate_180') }}</option>
+                    <option value="fa-rotate-270" {{ $node.xfa_nit_params.{$name}.layer_up_transform == 'fa-rotate-270' ? 'selected="selected"' : ''  }}>{{ phrase('xfa_nit_rotate_270') }}</option>
+                    <option value="fa-flip-horizontal" {{ $node.xfa_nit_params.{$name}.layer_up_transform == 'fa-flip-horizontal' ? 'selected="selected"' : ''  }}>{{ phrase('xfa_nit_flip_horizontally') }}</option>
+                    <option value="fa-flip-vertical" {{ $node.xfa_nit_params.{$name}.layer_up_transform == 'fa-flip-vertical' ? 'selected="selected"' : ''  }}>{{ phrase('xfa_nit_flip_vertically') }}</option>
+                </select>
+            </dd>
+        </dl>
+
+        <dl>
+            <dt>{{ phrase('xfa_nit_upper_layer_animate') }}:</dt>
+            <dd>
+                <select name="{$name}[layer_up_animate]" id="{$name}_layer_up_animate" class="input">
+                    <option value="" {{ $node.xfa_nit_params.{$name}.layer_up_animate == '' ? 'selected="selected"' : ''  }}>{{ phrase('xfa_nit_no_animation') }}</option>
+                    <option value="fa-spin" {{ $node.xfa_nit_params.{$name}.layer_up_animate == 'fa-spin' ? 'selected="selected"' : ''  }}>{{ phrase('xfa_nit_spin') }}</option>
+                    <option value="fa-pulse" {{$node.xfa_nit_params.{$name}.layer_up_animate == 'fa-pulse' ? 'selected="selected"' : ''  }}>{{ phrase('xfa_nit_pulse') }}</option>
+                </select>
+            </dd>
+        </dl>
+
+        <dl>
+            <dt>{{ phrase('xfa_nit_size') }} (px):</dt>
+            <dd>
+                <xf:numberbox name="{$name}[size]" value="{$node.xfa_nit_params.{$name}.size}" min="0" step="1" />
+                <div class="formRow-explain">{{ phrase('xfa_nit_size_explain') }}</div>
+            </dd>
+        </dl>
+
+        <dl>
+            <dt>{{ phrase('xfa_nit_small_size') }} (px):</dt>
+            <dd>
+                <xf:numberbox name="{$name}[small_size]" value="{$node.xfa_nit_params.{$name}.small_size}" min="0" step="1" />
+                <div class="formRow-explain">{{ phrase('xfa_nit_small_size_explain') }}</div>
+            </dd>
+        </dl>
+
+        <dl>
+            <dt>{{ phrase('xfa_nit_icon_preview') }}:</dt>
+            <dd><div id="{$name}_preview"></div></dd>
+        </dl>
+    </div>
+</xf:macro>
+
+<xf:macro name="xfa_nit_server" arg-node="!" arg-serverIconsData="" arg-showSecondIcon="0">
+    <div class="xfaNitSrv hiddenDiv">
+        <xf:if is="$showSecondIcon">
+            <div class="block tabbedBlock">
+                <div class="block-container">
+                    <h2 class="block-tabHeader tabs" data-xf-init="tabs" role="tablist">
+                        <span class="hScroller-scroll">
+                            <a href="#"
+                               class="tabs-tab is-active" role="tab" aria-controls="read">{{ phrase('xfa_nit_icon_read') }}</a>
+                            <a href="#"
+                               class="tabs-tab" role="tab" aria-controls="unread">{{ phrase('xfa_nit_icon_unread') }}</a>
+                        </span>
+                    </h2>
+                    <ul class="tabPanes">
+                        <li class="is-active" role="tabpanel" id="read">
+                            <div class="block-body">
+                               <xf:macro template="xfa_nit_node_edit_macros" name="xfa_nit_srv_icon"
+                                         arg-node="{$node}"
+                                         arg-name="srv_icon1"
+                                         arg-serverIconsData="{$serverIconsData}" />
+                            </div>
+                        </li>
+                        <li role="tabpanel" id="unread">
+                            <div class="block-body">
+                               <xf:macro template="xfa_nit_node_edit_macros" name="xfa_nit_srv_icon"
+                                         arg-node="{$node}"
+                                         arg-name="srv_icon2"
+                                         arg-serverIconsData="{$serverIconsData}" />
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <xf:else />
+            <xf:macro template="xfa_nit_node_edit_macros" name="xfa_nit_srv_icon"
+                      arg-node="{$node}"
+                      arg-name="srv_icon1"
+                      arg-serverIconsData="{$serverIconsData}" />
+        </xf:if>
+    </div>
+</xf:macro>
+
+<xf:macro name="xfa_nit_srv_icon" arg-node="!" arg-name="" arg-serverIconsData="">
+    <div class="{$name}">
+        <input type="hidden" name="{$name}[icon]" id={$name}_icon" value="{$node.xfa_nit_params.{$name}.icon}" />
+        <input type="hidden" name="{$name}[small_icon]" id={$name}_small_icon" value="{$node.xfa_nit_params.{$name}.small_icon}" />
+
+        <dl>
+            <dt>{{ phrase('xfa_nit_select_server_icon') }}:</dt>
+            <dd>
+                <ul id="{$name}_list_srv" class="xfa_nit_icon_list" data-baseurl="{$serverIconsData.icons_url}">
+                    <xf:foreach loop="$serverIconsData.icons" value="$icon">
+                        <li data-value="{$icon}" class="nitIcon {{ $node.xfa_nit_params.{$name}.icon == $icon ? 'selected' : '' }}">
+                            <img src="{$xf.options.boardUrl}/{$serverIconsData.icons_url}/{$icon}" />
+                        </li>
+                    </xf:foreach>
+                </ul>
+            </dd>
+        </dl>
+
+        <dl>
+            <dt>{{ phrase('xfa_nit_size') }} (px):</dt>
+            <dd><xf:numberbox name="{$name}[size]" value="{$node.xfa_nit_params.{$name}.size}" min="0" step="1" /></dd>
+        </dl>
+
+        <dl>
+            <dt>{{ phrase('xfa_nit_icon_preview') }}:</dt>
+            <dd>
+                <div id="{$name}_preview" data-preview-base-url="{$xf.options.boardUrl}/{$serverIconsData.icons_url}/">
+                    <xf:if is="{$node.xfa_nit_params.{$name}.icon}"><img src="{$xf.options.boardUrl}/{$serverIconsData.icons_url}/{$node.xfa_nit_params.{$name}.icon}" /></xf:if>
+                </div>
+            </dd>
+        </dl>
+
+        <dl>
+            <dt>{{ phrase('xfa_nit_select_small_server_icon') }}:</dt>
+            <dd>
+                <ul id="{$name}_small_list_srv" class="xfa_nit_icon_list" data-baseurl="{$serverIconsData.small_icons_url}">
+                    <xf:if is="{$serverIconsData.small_icons}">
+                        <xf:foreach loop="$serverIconsData.small_icons" value="$icon">
+                            <li data-value="{$icon}" class="nitIcon {{ $node.xfa_nit_params.{$name}.icon == $icon ? 'selected' : '' }}">
+                                <img src="{$xf.options.boardUrl}/{$serverIconsData.small_icons_url}/{$icon}" />
+                            </li>
+                        </xf:foreach>
+                    <xf:else />
+                        <xf:foreach loop="$serverIconsData.icons" value="$icon">
+                            <li data-value="{$icon}" class="nitIcon {{ $node.xfa_nit_params.{$name}.icon == $icon ? 'selected' : '' }}">
+                                <img src="{$xf.options.boardUrl}/{$serverIconsData.icons_url}/{$icon}" />
+                            </li>
+                        </xf:foreach>
+                    </xf:if>
+                </ul>
+            </dd>
+        </dl>
+
+        <dl>
+            <dt>{{ phrase('xfa_nit_small_size') }} (px):</dt>
+            <dd><xf:numberbox name="{$name}[small_size]" value="{$node.xfa_nit_params.{$name}.small_size}" min="0" step="1" /></dd>
+        </dl>
+
+        <dl>
+            <dt>{{ phrase('xfa_nit_small_icon_preview') }}:</dt>
+            <dd>
+                <xf:if is="{$serverIconsData.small_icons}">
+                    <div id="{$name}_small_preview" data-preview-base-url="{$xf.options.boardUrl}/{$serverIconsData.small_icons_url}/">
+                        <xf:if is="{$node.xfa_nit_params.{$name}.small_icon}"><img src="{$xf.options.boardUrl}/{$serverIconsData.small_icons_url}/{$node.xfa_nit_params.{$name}.small_icon}" /></xf:if>
+                    </div>
+                <xf:else />
+                    <div id="{$name}_small_preview" data-preview-base-url="{$xf.options.boardUrl}/{$serverIconsData.icons_url}/">
+                        <xf:if is="{$node.xfa_nit_params.{$name}.small_icon}"><img src="{$xf.options.boardUrl}/{$serverIconsData.icons_url}/{$node.xfa_nit_params.{$name}.small_icon}" /></xf:if>
+                    </div>
+                </xf:if>
+            </dd>
+        </dl>
+    </div>
+</xf:macro>
+
+<xf:macro name="xfa_nit_sprite" arg-node="!" arg-showSecondIcon="0">
+    <div class="xfaNitSprite hiddenDiv">
+        <xf:if is="$showSecondIcon">
+            <div class="block tabbedBlock">
+                <div class="block-container">
+                    <h2 class="block-tabHeader tabs" data-xf-init="tabs" role="tablist">
+                        <span class="hScroller-scroll">
+                            <a href="#"
+                               class="tabs-tab is-active" role="tab" aria-controls="read">{{ phrase('xfa_nit_icon_read') }}</a>
+                            <a href="#"
+                               class="tabs-tab" role="tab" aria-controls="unread">{{ phrase('xfa_nit_icon_unread') }}</a>
+                        </span>
+                    </h2>
+                    <ul class="tabPanes">
+                        <li class="is-active" role="tabpanel" id="read">
+                            <div class="block-body">
+                                <xf:macro template="xfa_nit_node_edit_macros" name="xfa_nit_sprite_icon"
+                                          arg-node="{$node}"
+                                          arg-name="sprite_icon1" />
+                            </div>
+                        </li>
+                        <li role="tabpanel" id="unread">
+                            <div class="block-body">
+                                <xf:macro template="xfa_nit_node_edit_macros" name="xfa_nit_sprite_icon"
+                                          arg-node="{$node}"
+                                          arg-name="sprite_icon2" />
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <xf:else />
+            <xf:macro template="xfa_nit_node_edit_macros" name="xfa_nit_sprite_icon"
+                      arg-node="{$node}"
+                      arg-name="sprite_icon1" />
+        </xf:if>
+    </div>
+</xf:macro>
+
+<xf:macro name="xfa_nit_sprite_icon" arg-node="!" arg-name="">
+    <div class="{$name}">
+        <dl>
+            <dt>{{ phrase('xfa_nit_sprite_url') }}:</dt>
+            <dd>
+                <xf:textbox name="{$name}[icon]" value="{$node.xfa_nit_params.{$name}.icon}" />
+                <div class="formRow-explain">{{ phrase('xfa_nit_sprite_url_explain') }}</div>
+            </dd>
+        </dl>
+
+        <dl>
+            <dt>{{ phrase('xfa_nit_position') }} (px):</dt>
+            <dd>
+                X: <xf:numberbox name="{$name}[x]" value="{$node.xfa_nit_params.{$name}.x}" min="0" step="1" />
+                Y: <xf:numberbox name="{$name}[y]" value="{$node.xfa_nit_params.{$name}.y}" min="0" step="1" />
+            </dd>
+        </dl>
+
+        <dl>
+            <dt>{{ phrase('xfa_nit_size') }} (px):</dt>
+            <dd><xf:numberbox name="{$name}[size]" value="{$node.xfa_nit_params.{$name}.size}" min="0" step="1" /></dd>
+        </dl>
+
+        <dl>
+            <dt>{{ phrase('xfa_nit_icon_preview') }}:</dt>
+            <dd><div id="{$name}_preview"></div></dd>
+        </dl>
+    </div>
+</xf:macro>]]></template>
+  <template type="admin" title="xfa_nit_node_list" version_id="903000090" version_string="3.0.0 Beta 1"><![CDATA[<xf:css src="xfa_nit_node_list.less" />
+
+<style type="text/css">
+    <xf:if is="{$node.xfa_nit_type} == 1">
+        /* Font Awesome */
+        .nodeIcon.node_{$node.node_id}
+        {
+            background-image: none !important;
+            background-position: 0 0 !important;
+            height: {$xf.options.xfa_nit_iconSizeACP}px;
+            width: {$xf.options.xfa_nit_iconSizeACP}px;
+        }
+    <xf:elseif is="{$node.xfa_nit_type} == 2" />
+        /* Server icon */
+        .nodeIcon.node_{$node.node_id}
+        {
+            <xf:if is="{$node.xfa_nit_params.srv_icon1.icon}">
+                background-image: url('{$iconsUrl}/{$node.xfa_nit_params.srv_icon1.icon}') !important;
+                background-position: 0 0 !important;
+                background-size: {$xf.options.xfa_nit_iconSizeACP}px {$xf.options.xfa_nit_iconSizeACP}px;
+                height: {$xf.options.xfa_nit_iconSizeACP}px;
+                width: {$xf.options.xfa_nit_iconSizeACP}px;
+            </xf:if>
+        }
+    <xf:elseif is="{$node.xfa_nit_type} == 3" />
+        /* Sprite icon */
+        .nodeIcon.node_{$node.node_id}
+        {
+            <xf:if is="{$node.xfa_nit_params.sprite_icon1.icon}">
+                background: url('{$node.xfa_nit_params.sprite_icon1.icon}') no-repeat -{$node.xfa_nit_params.sprite_icon1.x}px -{$node.xfa_nit_params.sprite_icon1.y}px !important;
+                background-size: {$node.xfa_nit_params.sprite_icon1.size}px {$node.xfa_nit_params.sprite_icon1.size}px;
+                height: {$node.xfa_nit_params.sprite_icon1.size}px;
+                width: {$node.xfa_nit_params.sprite_icon1.size}px;
+            </xf:if>
+        }
+    </xf:if>
+</style>
+
+<xf:if is="{$node.xfa_nit_type} == 1">
+    <div class="nodeIcon node_{$node.node_id}">
+        <xf:if is="{$node.xfa_nit_params.fa_icon1.layer_up}">
+            <div class="fa-stack">
+                <i class="fa fa-stack-2x {$node.xfa_nit_params.fa_icon1.layer_down} {$node.xfa_nit_params.fa_icon1.layer_down_transform} {$node.xfa_nit_params.fa_icon1.layer_down_animate}" style="color: {$node.xfa_nit_params.fa_icon1.layer_down_color};"></i>
+                <i class="fa fa-stack-1x {$node.xfa_nit_params.fa_icon1.layer_up} {$node.xfa_nit_params.fa_icon1.layer_up_transform} {$node.xfa_nit_params.fa_icon1.layer_up_animate}" style="color: {$node.xfa_nit_params.fa_icon1.layer_up_color};"></i>
+            </div>
+        <xf:else />
+            <i class="fa fa-fw {$node.xfa_nit_params.fa_icon1.layer_down} {$node.xfa_nit_params.fa_icon1.layer_down_transform} {$node.xfa_nit_params.fa_icon1.layer_down_animate}" style="color: {$node.xfa_nit_params.fa_icon1.layer_down_color}; font-size: {$xf.options.xfa_nit_iconSizeACP}px;"></i>
+        </xf:if>
+    </div>
+<xf:else />
+        <div class="nodeIcon node_{$node.node_id}">&nbsp;</div>
+</xf:if>]]></template>
+  <template type="admin" title="xfa_nit_node_list.less" version_id="903000090" version_string="3.0.0 Beta 1"><![CDATA[@_nodeIcon-width: xf-option('xfa_nit_iconSizeACP', px);
+
+.dataList-cell--icon
+{
+  width: @_nodeIcon-width + 10px;
+  padding: 0px;
+}
+
+.nodeIcon
+{
+  margin: auto;
+
+  .fa-stack
+  {
+    font-size: @_nodeIcon-width / 2;
+  }
+
+  .fa-fw
+  {
+    width: @_nodeIcon-width;
+  }
+}]]></template>
+  <template type="public" title="xfa_nit_node_list" version_id="903001090" version_string="3.0.10"><![CDATA[<xf:if is="{$node.xfa_nit_type} == 1">
+    <span class="xfa-nit-node-icon" aria-hidden="true">
+    <xf:if is="{$extras.hasNew} AND {$node.xfa_nit_params.fa_icon2.layer_down}">
+        <xf:if is="{$node.xfa_nit_params.fa_icon2.layer_up}">
+            <span class="fa-stack" style="font-size: {$node.xfa_nit_params.fa_icon2.size}px;">
+                <i class="fa fa-stack-2x {$node.xfa_nit_params.fa_icon2.layer_down} {$node.xfa_nit_params.fa_icon2.layer_down_transform} {$node.xfa_nit_params.fa_icon2.layer_down_animate}" style="color: {$node.xfa_nit_params.fa_icon2.layer_down_color};"></i>
+                <i class="fa fa-stack-1x {$node.xfa_nit_params.fa_icon2.layer_up} {$node.xfa_nit_params.fa_icon2.layer_up_transform} {$node.xfa_nit_params.fa_icon2.layer_up_animate}" style="color: {$node.xfa_nit_params.fa_icon2.layer_up_color};"></i>
+            </span>
+        <xf:else />
+            <i class="fa {$node.xfa_nit_params.fa_icon2.layer_down} {$node.xfa_nit_params.fa_icon2.layer_down_transform} {$node.xfa_nit_params.fa_icon2.layer_down_animate}" style="color: {$node.xfa_nit_params.fa_icon2.layer_down_color};  font-size: {$node.xfa_nit_params.fa_icon2.size}px;"></i>
+        </xf:if>
+    <xf:else />
+        <xf:if is="{$node.xfa_nit_params.fa_icon1.layer_up}">
+            <span class="fa-stack" style="font-size: {$node.xfa_nit_params.fa_icon1.size}px;">
+                <i class="fa fa-stack-2x {$node.xfa_nit_params.fa_icon1.layer_down} {$node.xfa_nit_params.fa_icon1.layer_down_transform} {$node.xfa_nit_params.fa_icon1.layer_down_animate}" style="color: {$node.xfa_nit_params.fa_icon1.layer_down_color};"></i>
+                <i class="fa fa-stack-1x {$node.xfa_nit_params.fa_icon1.layer_up} {$node.xfa_nit_params.fa_icon1.layer_up_transform} {$node.xfa_nit_params.fa_icon1.layer_up_animate}" style="color: {$node.xfa_nit_params.fa_icon1.layer_up_color};"></i>
+            </span>
+        <xf:else />
+            <i class="fa {$node.xfa_nit_params.fa_icon1.layer_down} {$node.xfa_nit_params.fa_icon1.layer_down_transform} {$node.xfa_nit_params.fa_icon1.layer_down_animate}" style="color: {$node.xfa_nit_params.fa_icon1.layer_down_color}; font-size: {$node.xfa_nit_params.fa_icon1.size}px;"></i>
+        </xf:if>
+    </xf:if>
+    </span>
+<xf:elseif is="{$node.xfa_nit_type} == 2 OR {$node.xfa_nit_type} == 3" />
+    <span class="xfa-nit-node-icon" aria-hidden="true"><i></i></span>
+<xf:elseif is="{$node.xfa_nit_type} == 5" />
+    <span class="xfa-nit-node-icon"><xf:avatar size="xs" user="{$extras.LastPoster}" /></span>
+<xf:elseif is="{$node.parent_node_id}" />
+	<span class="node-icon" aria-hidden="true">
+		<xf:if is="{$node.node_type_id} == 'Forum'">
+            <xf:fa icon="{{ $node.Data.TypeHandler.getTypeIconClass() ?: 'fa-comments' }}" />
+        <xf:else />
+            <i></i>
+        </xf:if>
+	</span>
+</xf:if>]]></template>
+  <template type="public" title="xfa_nit_node_list.less" version_id="903000790" version_string="3.0.7"><![CDATA[.xfa-nit-node-icon
+{
+	display: table-cell;
+	vertical-align: middle;
+	text-align: center;
+	width: 46px;
+	padding: @xf-paddingLarge 0 @xf-paddingLarge @xf-paddingLarge;
+}
+
+.block--category
+{
+	.block-header
+	{
+		.xfa-nit-node-icon
+		{
+			display: inline;
+			vertical-align: middle;
+			text-align: center;
+			width: 46px;
+			padding: 0px
+		}
+	}
+
+	<xf:foreach loop="{$nodes}" key="{$nodeId}" value="{$node}">
+		<xf:if is="{$node.xfa_nit_type} == 2">
+			/* Server icon */
+			&.block--category{$nodeId}
+			{
+				.block-header .xfa-nit-node-icon i
+				{
+					<xf:if is="{$node.xfa_nit_params.srv_icon1.icon}">
+					background-image: url('{$iconsUrl}/{$node.xfa_nit_params.srv_icon1.icon}') !important;
+					background-position: 0 0 !important;
+					background-size: {$node.xfa_nit_params.srv_icon1.size}px {$node.xfa_nit_params.srv_icon1.size}px;
+					background-repeat: no-repeat;
+					</xf:if>
+				}
+			}
+
+			&.block--category{$nodeId} .block-header
+			{
+				i
+				{
+					font-size: {$node.xfa_nit_params.srv_icon1.size}px;
+				}
+
+				i:before
+				{
+					.m-faContent(" ", {$node.xfa_nit_params.srv_icon1.size}px);
+				}
+			}
+		<xf:elseif is="{$node.xfa_nit_type} == 3" />
+			/* Sprite icon */
+			&.block--category{$nodeId}
+			{
+				.block-header .xfa-nit-node-icon i
+				{
+				<xf:if is="{$node.xfa_nit_params.sprite_icon1.icon}">
+				background: url('{$node.xfa_nit_params.sprite_icon1.icon}') no-repeat -{$node.xfa_nit_params.sprite_icon1.x}px -{$node.xfa_nit_params.sprite_icon1.y}px !important;
+				background-size: {$node.xfa_nit_params.sprite_icon1.size}px {$node.xfa_nit_params.sprite_icon1.size}px;
+				height: {$node.xfa_nit_params.sprite_icon1.size}px;
+				width: {$node.xfa_nit_params.sprite_icon1.size}px;
+				</xf:if>
+				}
+			}
+
+			&.block--category{$nodeId} .block-header
+			{
+				i
+				{
+					font-size: {$node.xfa_nit_params.sprite_icon1.size}px;
+				}
+
+				i:before
+				{
+					.m-faContent(" ", {$node.xfa_nit_params.sprite_icon1.size}px);
+				}
+			}
+		</xf:if>
+	</xf:foreach>
+}
+
+.node
+{
+	<xf:foreach loop="{$nodes}" key="{$nodeId}" value="{$node}">
+		<xf:if is="{$node.xfa_nit_type} == 2">
+			/* Server icon */
+			&.node--id{$nodeId} .xfa-nit-node-icon i
+			{
+				<xf:if is="{$node.xfa_nit_params.srv_icon1.icon}">
+				background-image: url('{$iconsUrl}/{$node.xfa_nit_params.srv_icon1.icon}') !important;
+				background-position: 0 0 !important;
+				background-size: {$node.xfa_nit_params.srv_icon1.size}px {$node.xfa_nit_params.srv_icon1.size}px;
+				background-repeat: no-repeat;
+				</xf:if>
+			}
+
+			&.node--id{$nodeId}.node--unread .xfa-nit-node-icon i
+			{
+				<xf:if is="{$node.xfa_nit_params.srv_icon2.icon}">
+					background-image: url('{$iconsUrl}/{$node.xfa_nit_params.srv_icon2.icon}') !important;
+					background-position: 0 0 !important;
+					background-size: {$node.xfa_nit_params.srv_icon2.size}px {$node.xfa_nit_params.srv_icon2.size}px;
+					background-repeat: no-repeat;
+				<xf:elseif is="{$node.xfa_nit_params.srv_icon1.icon}" />
+					background-image: url('{$iconsUrl}/{$node.xfa_nit_params.srv_icon1.icon}') !important;
+					background-position: 0 0 !important;
+					background-size: {$node.xfa_nit_params.srv_icon1.size}px {$node.xfa_nit_params.srv_icon1.size}px;
+					background-repeat: no-repeat;
+				</xf:if>
+			}
+
+			&.node--id{$nodeId} .xfa-nit-node-icon
+			{
+				i
+				{
+					display: block;
+					line-height: 1.125;
+					font-size: {$node.xfa_nit_params.srv_icon1.size}px;
+				}
+
+				i:before
+				{
+					.m-faContent(" ", {$node.xfa_nit_params.srv_icon1.size}px);
+				}
+			}
+		<xf:elseif is="{$node.xfa_nit_type} == 3" />
+			/* Sprite icon */
+			&.node--id{$nodeId} .xfa-nit-node-icon i
+			{
+				<xf:if is="{$node.xfa_nit_params.sprite_icon1.icon}">
+				background: url('{$node.xfa_nit_params.sprite_icon1.icon}') no-repeat -{$node.xfa_nit_params.sprite_icon1.x}px -{$node.xfa_nit_params.sprite_icon1.y}px !important;
+				background-size: {$node.xfa_nit_params.sprite_icon1.size}px {$node.xfa_nit_params.sprite_icon1.size}px;
+				height: {$node.xfa_nit_params.sprite_icon1.size}px;
+				width: {$node.xfa_nit_params.sprite_icon1.size}px;
+				</xf:if>
+			}
+
+			&.node--id{$nodeId}.node--unread .xfa-nit-node-icon i
+			{
+				<xf:if is="{$node.xfa_nit_params.sprite_icon2.icon}">
+				background: url('{$node.xfa_nit_params.sprite_icon2.icon}') no-repeat -{$node.xfa_nit_params.sprite_icon2.x}px -{$node.xfa_nit_params.sprite_icon2.y}px !important;
+				background-size: {$node.xfa_nit_params.sprite_icon2.size}px {$node.xfa_nit_params.sprite_icon2.size}px;
+				height: {$node.xfa_nit_params.sprite_icon1.size}px;
+				width: {$node.xfa_nit_params.sprite_icon1.size}px;
+				</xf:if>
+			}
+
+			&.node--id{$nodeId} .xfa-nit-node-icon
+			{
+				i
+				{
+					display: block;
+					line-height: 1.125;
+					font-size: {$node.xfa_nit_params.srv_icon1.size}px;
+				}
+
+				i:before
+				{
+					.m-faContent(" ", {$node.xfa_nit_params.srv_icon1.size}px);
+				}
+			}
+		</xf:if>
+	</xf:foreach>
+}
+
+.subNodeLink
+{
+	.xfa-nit-node-icon-small
+	{
+		display: inline;
+		vertical-align: middle;
+		text-align: center;
+		width: 46px;
+		padding: 0px
+	}
+
+	<xf:foreach loop="{$nodes}" key="{$nodeId}" value="{$node}">
+		<xf:if is="{$node.xfa_nit_type} != 0">
+		    &.node--id{$nodeId}
+		    {
+				&:before
+				{
+					content: none;
+				}
+		    }
+		</xf:if>
+
+		<xf:if is="{$node.xfa_nit_type} == 2">
+			/* Server icon */
+			&.node--id{$nodeId} .xfa-nit-node-icon-small i
+			{
+				<xf:if is="{$node.xfa_nit_params.srv_icon1.small_icon}">
+				background-image: url('{$iconsUrl}/{$node.xfa_nit_params.srv_icon1.small_icon}') !important;
+				background-position: 0 0 !important;
+				background-size: {$node.xfa_nit_params.srv_icon1.small_size}px {$node.xfa_nit_params.srv_icon1.small_size}px;
+				background-repeat: no-repeat;
+				</xf:if>
+			}
+
+			&.node--id{$nodeId}.subNodeLink--unread .xfa-nit-node-icon-small i
+			{
+				<xf:if is="{$node.xfa_nit_params.srv_icon2.small_icon}">
+					background-image: url('{$iconsUrl}/{$node.xfa_nit_params.srv_icon2.small_icon}') !important;
+					background-position: 0 0 !important;
+					background-size: {$node.xfa_nit_params.srv_icon2.small_size}px {$node.xfa_nit_params.srv_icon2.small_size}px;
+					background-repeat: no-repeat;
+				<xf:elseif is="{$node.xfa_nit_params.srv_icon1.small_icon}" />
+					background-image: url('{$iconsUrl}/{$node.xfa_nit_params.srv_icon1.small_icon}') !important;
+					background-position: 0 0 !important;
+					background-size: {$node.xfa_nit_params.srv_icon1.small_size}px {$node.xfa_nit_params.srv_icon1.small_size}px;
+					background-repeat: no-repeat;
+				</xf:if>
+			}
+
+			&.node--id{$nodeId}
+			{
+				i
+				{
+					display: inline;
+					line-height: 1.125;
+					font-size: {$node.xfa_nit_params.srv_icon1.small_size}px;
+				}
+				i:before
+				{
+					.m-faContent(" ", {$node.xfa_nit_params.srv_icon1.small_size}px);
+				}
+			}
+		<xf:elseif is="{$node.xfa_nit_type} == 3" />
+			/* Sprite icon */
+			&.node--id{$nodeId} .xfa-nit-node-icon-small i
+			{
+				<xf:if is="{$node.xfa_nit_params.sprite_icon1.icon}">
+				background: url('{$node.xfa_nit_params.sprite_icon1.icon}') no-repeat -{$node.xfa_nit_params.sprite_icon1.x}px -{$node.xfa_nit_params.sprite_icon1.y}px !important;
+				background-size: {$node.xfa_nit_params.sprite_icon1.size}px {$node.xfa_nit_params.sprite_icon1.size}px;
+				height: {$node.xfa_nit_params.sprite_icon1.size}px;
+				width: {$node.xfa_nit_params.sprite_icon1.size}px;
+				</xf:if>
+			}
+
+			&.node--id{$nodeId}.subNodeLink--unread .xfa-nit-node-icon-small i
+			{
+				<xf:if is="{$node.xfa_nit_params.sprite_icon2.icon}">
+				background: url('{$node.xfa_nit_params.sprite_icon2.icon}') no-repeat -{$node.xfa_nit_params.sprite_icon2.x}px -{$node.xfa_nit_params.sprite_icon2.y}px !important;
+				background-size: {$node.xfa_nit_params.sprite_icon2.size}px {$node.xfa_nit_params.sprite_icon2.size}px;
+				height: {$node.xfa_nit_params.sprite_icon1.size}px;
+				width: {$node.xfa_nit_params.sprite_icon1.size}px;
+				</xf:if>
+			}
+
+			&.node--id{$nodeId}
+			{
+				i
+				{
+					display: inline;
+					line-height: 1.125;
+					font-size: {$node.xfa_nit_params.sprite_icon1.size}px;
+				}
+
+				i:before
+				{
+					.m-faContent(" ", {$node.xfa_nit_params.sprite_icon1.size}px);
+				}
+			}
+		<xf:elseif is="{$node.xfa_nit_type} == 5" />
+			&.node--id{$nodeId}
+			{
+				.avatar
+				{
+					width: 13px;
+					height: 13px;
+					font-size: 9px;
+					margin-top: 2px;
+				}
+			}
+		</xf:if>
+	</xf:foreach>
+}
+
+<xf:foreach loop="{$nodes}" key="{$nodeId}" value="{$node}">
+	<xf:if is="{$node.xfa_nit_type} == 2">
+		/* Server icon */
+		&.node-header-{$nodeId} .xfa-nit-node-icon i
+		{
+			<xf:if is="{$node.xfa_nit_params.srv_icon1.icon}">
+			background-image: url('{$iconsUrl}/{$node.xfa_nit_params.srv_icon1.icon}') !important;
+			background-position: 0 0 !important;
+			background-size: {$node.xfa_nit_params.srv_icon1.size}px {$node.xfa_nit_params.srv_icon1.size}px;
+			background-repeat: no-repeat;
+			</xf:if>
+		}
+
+		&.node-header-{$nodeId}.node--unread .xfa-nit-node-icon i
+		{
+			<xf:if is="{$node.xfa_nit_params.srv_icon2.icon}">
+				background-image: url('{$iconsUrl}/{$node.xfa_nit_params.srv_icon2.icon}') !important;
+				background-position: 0 0 !important;
+				background-size: {$node.xfa_nit_params.srv_icon2.size}px {$node.xfa_nit_params.srv_icon2.size}px;
+				background-repeat: no-repeat;
+			<xf:elseif is="{$node.xfa_nit_params.srv_icon1.icon}" />
+				background-image: url('{$iconsUrl}/{$node.xfa_nit_params.srv_icon1.icon}') !important;
+				background-position: 0 0 !important;
+				background-size: {$node.xfa_nit_params.srv_icon1.size}px {$node.xfa_nit_params.srv_icon1.size}px;
+				background-repeat: no-repeat;
+			</xf:if>
+		}
+
+		&.node-header-{$nodeId} .xfa-nit-node-icon
+		{
+			i
+			{
+				display: block;
+				line-height: 1.125;
+				font-size: {$node.xfa_nit_params.srv_icon1.size}px;
+			}
+
+			i:before
+			{
+				.m-faContent(" ", {$node.xfa_nit_params.srv_icon1.size}px);
+			}
+		}
+	<xf:elseif is="{$node.xfa_nit_type} == 3" />
+		/* Sprite icon */
+		&.node-header-{$nodeId} .xfa-nit-node-icon i
+		{
+			<xf:if is="{$node.xfa_nit_params.sprite_icon1.icon}">
+			background: url('{$node.xfa_nit_params.sprite_icon1.icon}') no-repeat -{$node.xfa_nit_params.sprite_icon1.x}px -{$node.xfa_nit_params.sprite_icon1.y}px !important;
+			background-size: {$node.xfa_nit_params.sprite_icon1.size}px {$node.xfa_nit_params.sprite_icon1.size}px;
+			height: {$node.xfa_nit_params.sprite_icon1.size}px;
+			width: {$node.xfa_nit_params.sprite_icon1.size}px;
+			</xf:if>
+		}
+
+		&.node-header-{$nodeId}.node--unread .xfa-nit-node-icon i
+		{
+			<xf:if is="{$node.xfa_nit_params.sprite_icon2.icon}">
+			background: url('{$node.xfa_nit_params.sprite_icon2.icon}') no-repeat -{$node.xfa_nit_params.sprite_icon2.x}px -{$node.xfa_nit_params.sprite_icon2.y}px !important;
+			background-size: {$node.xfa_nit_params.sprite_icon2.size}px {$node.xfa_nit_params.sprite_icon2.size}px;
+			height: {$node.xfa_nit_params.sprite_icon1.size}px;
+			width: {$node.xfa_nit_params.sprite_icon1.size}px;
+			</xf:if>
+		}
+
+		&.node-header-{$nodeId} .xfa-nit-node-icon
+		{
+			i
+			{
+				display: block;
+				line-height: 1.125;
+				font-size: {$node.xfa_nit_params.srv_icon1.size}px;
+			}
+
+			i:before
+			{
+				.m-faContent(" ", {$node.xfa_nit_params.srv_icon1.size}px);
+			}
+		}
+	</xf:if>
+</xf:foreach>]]></template>
+  <template type="public" title="xfa_nit_node_list_small" version_id="903001090" version_string="3.0.10"><![CDATA[<xf:if is="{$node.xfa_nit_type} == 1">
+    <span class="xfa-nit-node-icon-small" aria-hidden="true">
+    <xf:if is="{$extras.hasNew} AND {$node.xfa_nit_params.fa_icon2.layer_down}">
+        <xf:if is="{$node.xfa_nit_params.fa_icon2.layer_up}">
+            <span class="fa-stack" style="font-size: {$node.xfa_nit_params.fa_icon2.small_size}px;">
+                <i class="fa fa-stack-2x {$node.xfa_nit_params.fa_icon2.layer_down} {$node.xfa_nit_params.fa_icon2.layer_down_transform} {$node.xfa_nit_params.fa_icon2.layer_down_animate}" style="color: {$node.xfa_nit_params.fa_icon2.layer_down_color};"></i>
+                <i class="fa fa-stack-1x {$node.xfa_nit_params.fa_icon2.layer_up} {$node.xfa_nit_params.fa_icon2.layer_up_transform} {$node.xfa_nit_params.fa_icon2.layer_up_animate}" style="color: {$node.xfa_nit_params.fa_icon2.layer_up_color};"></i>
+            </span>
+        <xf:else />
+            <i class="fa {$node.xfa_nit_params.fa_icon2.layer_down} {$node.xfa_nit_params.fa_icon2.layer_down_transform} {$node.xfa_nit_params.fa_icon2.layer_down_animate}" style="color: {$node.xfa_nit_params.fa_icon2.layer_down_color};  font-size: {$node.xfa_nit_params.fa_icon2.small_size}px;"></i>
+        </xf:if>
+    <xf:else />
+        <xf:if is="{$node.xfa_nit_params.fa_icon1.layer_up}">
+            <span class="fa-stack" style="font-size: {$node.xfa_nit_params.fa_icon1.small_size}px;">
+                <i class="fa fa-stack-2x {$node.xfa_nit_params.fa_icon1.layer_down} {$node.xfa_nit_params.fa_icon1.layer_down_transform} {$node.xfa_nit_params.fa_icon1.layer_down_animate}" style="color: {$node.xfa_nit_params.fa_icon1.layer_down_color};"></i>
+                <i class="fa fa-stack-1x {$node.xfa_nit_params.fa_icon1.layer_up} {$node.xfa_nit_params.fa_icon1.layer_up_transform} {$node.xfa_nit_params.fa_icon1.layer_up_animate}" style="color: {$node.xfa_nit_params.fa_icon1.layer_up_color};"></i>
+            </span>
+        <xf:else />
+            <i class="fa {$node.xfa_nit_params.fa_icon1.layer_down} {$node.xfa_nit_params.fa_icon1.layer_down_transform} {$node.xfa_nit_params.fa_icon1.layer_down_animate}" style="color: {$node.xfa_nit_params.fa_icon1.layer_down_color}; font-size: {$node.xfa_nit_params.fa_icon1.small_size}px;"></i>
+        </xf:if>
+    </xf:if>
+    </span>
+<xf:elseif is="{$node.xfa_nit_type} == 2 OR {$node.xfa_nit_type} == 3" />
+    <span class="xfa-nit-node-icon-small" aria-hidden="true"><i></i></span>
+<xf:elseif is="{$node.xfa_nit_type} == 5" />
+    <span class="xfa-nit-node-icon-small"><xf:avatar size="xs" user="{$extras.LastPoster}" notooltip="true" href="" /></span>
+<xf:else />
+    <xf:if is="{$node.node_type_id} == 'Forum'">
+	    <xf:fa icon="{{ $node.Data.TypeHandler.getTypeIconClass() ?: 'fa-comments' }}" class="subNodeLink-icon" />
+    <xf:else />
+        <i></i>
+    </xf:if>
+</xf:if>]]></template>
+  <template type="public" title="xfa_nit_th_header" version_id="903000790" version_string="3.0.7"><![CDATA[<xf:css src="node_list.less" />
+
+<xf:if is="{$thNode.xfa_nit_type} == 1">
+    <span class="xfa-nit-node-icon" aria-hidden="true">
+		<xf:if is="{$thNode.xfa_nit_params.fa_icon1.layer_up}">
+			<span class="fa-stack" style="font-size: {$thNode.xfa_nit_params.fa_icon1.size}px;">
+				<i class="fa fa-stack-2x {$thNode.xfa_nit_params.fa_icon1.layer_down} {$thNode.xfa_nit_params.fa_icon1.layer_down_transform} {$thNode.xfa_nit_params.fa_icon1.layer_down_animate}" style="color: {$thNode.xfa_nit_params.fa_icon1.layer_down_color};"></i>
+				<i class="fa fa-stack-1x {$thNode.xfa_nit_params.fa_icon1.layer_up} {$thNode.xfa_nit_params.fa_icon1.layer_up_transform} {$thNode.xfa_nit_params.fa_icon1.layer_up_animate}" style="color: {$thNode.xfa_nit_params.fa_icon1.layer_up_color};"></i>
+			</span>
+		<xf:else />
+			<i class="fa {$thNode.xfa_nit_params.fa_icon1.layer_down} {$thNode.xfa_nit_params.fa_icon1.layer_down_transform} {$thNode.xfa_nit_params.fa_icon1.layer_down_animate}" style="color: {$thNode.xfa_nit_params.fa_icon1.layer_down_color}; font-size: {$thNode.xfa_nit_params.fa_icon1.size}px;"></i>
+		</xf:if>
+    </span>
+<xf:elseif is="{$thNode.xfa_nit_type} == 2 OR {$thNode.xfa_nit_type} == 3" />
+    <span class="xfa-nit-node-icon" aria-hidden="true"><i></i></span>
+<xf:elseif is="{$thNode.xfa_nit_type} == 5" />
+    <span class="xfa-nit-node-icon"><xf:avatar size="xs" user="{$extras.LastPoster}" /></span>
+<xf:elseif is="{$thNode.parent_node_id}" />
+    <span class="node-icon" aria-hidden="true"><i></i></span>
+</xf:if>]]></template>
+</templates>

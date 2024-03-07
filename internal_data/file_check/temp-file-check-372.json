@@ -1,0 +1,1 @@
+{"missing":{"DBTech\/eCommerce":["src\/addons\/DBTech\/eCommerce\/vendor\/maxmind\/web-service-common\/dev-bin\/release.sh"],"ThemeHouse\/UIX":["js\/themehouse\/uix\/style-property-upload.js","js\/themehouse\/uix\/style-property-upload.min.js"]},"inconsistent":{"ThemeHouse\/UIX":["styles\/uix_addon\/brandmark.png"]},"total_missing":3,"total_inconsistent":1,"total_checked":5717}

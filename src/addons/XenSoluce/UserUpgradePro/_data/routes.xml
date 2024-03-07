@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<routes>
+  <route route_type="public" route_prefix="renew-sub" format=":int&lt;user_upgrade_id&gt;/" controller="XenSoluce\UserUpgradePro:RenewSub" context="renew-sub"/>
+  <route route_type="public" route_prefix="user-upgrade-invoice" format=":int&lt;user_upgrade_record_id&gt;/" controller="XenSoluce\UserUpgradePro:UserUpgradeInvoice"/>
+</routes>

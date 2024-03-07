@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<style_properties>
+  <style_property property_name="xs_uup_button_in_nav_bar_active" group_name="xs_uup" title="Enabled icon" description="If one of these options is activated, an icon will appear in the navigation bar to display the list of active subscriptions or the list of expired subscriptions." property_type="value" value_type="template" display_order="0">
+    <value_parameters>template=xs_uup_style_property_template_display_icon
+type=array</value_parameters>
+    <value>{
+    "expired": "1"
+}</value>
+  </style_property>
+</style_properties>

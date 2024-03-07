@@ -1,0 +1,1536 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates>
+  <template type="admin" title="xfa_core_option_template_paymentProfileIds" version_id="901080190" version_string="1.8.1"><![CDATA[<xf:checkboxrow name="{$inputName}" value="{$option.option_value}"
+				label="{$option.title}"
+				hint="{$hintHtml}"
+				explain="{$explainHtml}"
+				html="{$listedHtml}">
+
+	<xf:foreach loop="$xf.app.em.getRepository('XF:Payment').findPaymentProfilesForList().fetch()" key="$profileId" value="$profile">
+		<xf:option value="{$profileId}" label="{{ $profile.Provider.title !== $profile.title ? $profile.Provider.title . ' - ' . $profile.title : $profile.Provider.title }}" />
+	</xf:foreach>
+</xf:checkboxrow>]]></template>
+  <template type="admin" title="xfa_core_option_template_paymentProviderIds" version_id="901090090" version_string="1.9.0"><![CDATA[<xf:checkboxrow name="{$inputName}" value="{$option.option_value}"
+				label="{$option.title}"
+				hint="{$hintHtml}"
+				explain="{$explainHtml}"
+				html="{$listedHtml}">
+
+	<xf:foreach loop="$xf.app.em.getRepository('XF:Payment').findActivePaymentProviders().fetch()" key="$providerId" value="$provider">
+		<xf:option value="{$providerId}" label="{$provider.title}" />
+	</xf:foreach>
+</xf:checkboxrow>]]></template>
+  <template type="admin" title="xfa_core_option_template_resourcePrefixId" version_id="901090090" version_string="1.9.0"><![CDATA[<xf:radiorow name="{$inputName}" value="{$option.option_value}"
+				label="{$option.title}"
+				hint="{$hintHtml}"
+				explain="{$explainHtml}"
+				html="{$listedHtml}">
+	<xf:option value="0" label="{{ phrase('none') }}" />
+	<xf:foreach loop="$xf.app.em.getRepository('XFRM:ResourcePrefix').findPrefixesForList().fetch()" key="$prefixId" value="$prefix">
+		<xf:option value="{$prefixId}" label="{$prefix.title}" />
+	</xf:foreach>
+</xf:radiorow>]]></template>
+  <template type="public" title="xfa_attach_upload" version_id="901020090" version_string="1.2.0"><![CDATA[<xf:macro name="uploaded_files_list" arg-attachments="{{ [] }}" arg-listClass="" arg-displayOrder="" arg-url="">
+	<xf:css src="attachments.less" />
+	<ul class="attachUploadList {$listClass} js-attachmentFiles u-hidden {{ $attachments is not empty ? 'is-active' : '' }}">
+		<li class="attachUploadList-insertAll js-attachmentInsertAllRow u-hidden">
+			<span>{{ phrase('insert_all:') }}</span>
+			<span class="buttonGroup buttonGroup--aligned">
+				<xf:button class="button--small js-attachmentAllAction" data-action="thumbnail">
+					{{ phrase('thumbnail') }}
+				</xf:button>
+				<xf:button class="button--small js-attachmentAllAction" data-action="full">
+					{{ phrase('full_image') }}
+				</xf:button>
+			</span>
+		</li>
+	<xf:foreach loop="$attachments" value="$attachment">
+		<xf:macro name="uploaded_file" arg-attachment="{$attachment}" arg-displayOrder="{$displayOrder}" arg-url="{$url}" />
+	</xf:foreach>
+	</ul>
+	<xf:macro name="uploaded_file_template" />
+</xf:macro>
+
+<xf:macro name="uploaded_file" arg-attachment="!" arg-noJsFallback="{{ false }}"  arg-displayOrder="" arg-url="">
+	<li class="js-attachmentFile" data-attachment-id="{$attachment.attachment_id}">
+		<div class="contentRow">
+			<span class="contentRow-figure attachUploadList-figure">
+				<xf:if is="$attachment.has_thumbnail">
+					<a href="{{ link('attachments', $attachment, {'hash': $attachment.temp_hash}) }}" target="_blank"><img src="{{ base_url($attachment.thumbnail_url) }}" class="js-attachmentThumb" alt="{$attachment.filename}" /></a>
+				<xf:else />
+					<a href="{{ link('attachments', $attachment, {'hash': $attachment.temp_hash}) }}" target="_blank"><i class="attachUploadList-placeholder" aria-hidden="true"></i></a>
+				</xf:if>
+			</span>
+	
+			<div class="contentRow-main">
+				<xf:if is="$noJsFallback">
+					<span class="contentRow-extra">
+						<xf:button type="submit" class="button--small" name="delete" value="{$attachment.attachment_id}">
+							{{ phrase('button.delete') }}
+						</xf:button>
+					</span>
+				<xf:else />
+					<span class="contentRow-extra u-jsOnly">
+						<xf:button class="button--small js-attachmentAction" data-action="delete">
+							{{ phrase('button.delete') }}
+						</xf:button>
+					</span>
+				</xf:if>
+				<div class="contentRow-title">
+					<a href="{{ link('attachments', $attachment, {'hash': $attachment.temp_hash}) }}" class="js-attachmentView" target="_blank">{$attachment.filename}</a>
+				</div>
+
+				<xf:if is="$displayOrder">
+					<xf:textboxrow
+						name="displayOrder[{$attachment.data_id}]"
+						value="{$attachment.displayOrder}"
+						explain="{{ phrase('xfa_core_display_order_explain') }}"
+						type="number"
+						label="{{ phrase('xfa_core_display_order') }}"
+					/>
+				</xf:if>
+
+				<xf:if is="$url">
+					<xf:textboxrow
+							name="targetUrl[{$attachment.data_id}]"
+							value="{$attachment.targetUrl}"
+							explain="{{ phrase('xfa_core_url_explain') }}"
+							type="text"
+							label="{{ phrase('xfa_core_url') }}"
+					/>
+				</xf:if>
+				
+				<xf:if is="$attachment.has_thumbnail AND !$noJsFallback">
+					<div class="contentRow-spaced contentRow-minor attachUploadList-insertRow js-attachmentInsertRow">
+						<span>{{ phrase('insert:') }}</span>
+						<span class="buttonGroup buttonGroup--aligned">
+							<xf:button class="button--small js-attachmentAction" data-action="thumbnail">
+								{{ phrase('thumbnail') }}
+							</xf:button>
+							<xf:button class="button--small js-attachmentAction" data-action="full">
+								{{ phrase('full_image') }}
+							</xf:button>
+						</span>
+					</div>
+				</xf:if>
+			</div>
+		</div>
+	</li>
+</xf:macro>
+
+<xf:macro name="uploaded_file_template">
+	<script type="text/template" class="js-attachmentUploadTemplate">
+		<li class="js-attachmentFile" {{ mustache('#attachment_id', 'data-attachment-id="{{attachment_id}}"') }}>
+			<div class="contentRow">
+				<span class="contentRow-figure attachUploadList-figure">
+					<xf:mustache name="#thumbnail_url">
+						<a href="{{ mustache('link') }}" target="_blank"><img src="{{ mustache('thumbnail_url') }}" class="js-attachmentThumb" alt="{{ mustache('filename') }}" /></a>
+					</xf:mustache>
+					<xf:mustache name="^thumbnail_url">
+						<i class="attachUploadList-placeholder" aria-hidden="true"></i>
+					</xf:mustache>
+				</span>
+				<div class="contentRow-main">
+					<span class="contentRow-extra u-jsOnly">
+						<xf:mustache name="^uploading">
+							<xf:button class="button--small js-attachmentAction" data-action="delete">
+								{{ phrase('button.delete') }}
+							</xf:button>
+						</xf:mustache>
+						<xf:mustache name="#uploading">
+							<xf:button class="button--small js-attachmentAction" data-action="cancel">
+								{{ phrase('button.cancel') }}
+							</xf:button>
+						</xf:mustache>
+					</span>
+					<div class="contentRow-title">
+						<xf:mustache name="#link">
+							<a href="{{ mustache('link') }}" class="js-attachmentView" target="_blank">{{ mustache('filename') }}</a>
+						</xf:mustache>
+						<xf:mustache name="^link">
+							<span>{{ mustache('filename') }}</span>
+						</xf:mustache>
+					</div>
+
+					<xf:mustache name="#uploading">
+						<div class="contentRow-spaced">
+							<div class="attachUploadList-progress js-attachmentProgress"></div>
+							<div class="attachUploadList-error js-attachmentError"></div>
+						</div>
+					</xf:mustache>
+
+					<xf:mustache name="^uploading">
+						<xf:mustache name="#thumbnail_url">
+							<div class="contentRow-spaced attachUploadList-insertRow js-attachmentInsertRow">
+								<span>{{ phrase('insert:') }}</span>
+								<span class="buttonGroup buttonGroup--aligned">
+									<xf:button class="button--small js-attachmentAction" data-action="thumbnail">
+										{{ phrase('thumbnail') }}
+									</xf:button>
+									<xf:button class="button--small js-attachmentAction" data-action="full">
+										{{ phrase('full_image') }}
+									</xf:button>
+								</span>
+							</div>
+						</xf:mustache>
+					</xf:mustache>
+				</div>
+			</div>
+		</li>
+	</script>
+</xf:macro>
+
+<xf:macro name="upload_block" arg-attachmentData="!" arg-forceHash="" arg-hiddenName="attachment_hash" arg-displayOrder="" arg-url="">
+	<xf:macro name="uploaded_files_list" arg-attachments="{$attachmentData.attachments}" arg-displayOrder="{$displayOrder}" arg-url="{$url}" />
+
+	<xf:macro template="helper_attach_upload" name="upload_link_from_data"
+		arg-attachmentData="{$attachmentData}"
+		arg-forceHash="{$forceHash}"
+		arg-hiddenName="{$hiddenName}" />
+</xf:macro>]]></template>
+  <template type="public" title="xfa_color_picker_macros" version_id="901110190" version_string="1.11.1"><![CDATA[<xf:macro name="xfa_color_picker"
+          arg-name="!"
+          arg-value=""
+          arg-mapName=""
+          arg-allowPalette="false"
+          arg-label=""
+          arg-hint=""
+          arg-explain=""
+          arg-html=""
+          arg-row="{{ true }}"
+          arg-rowClass=""
+          arg-rowtype=""
+          arg-colorData=""
+          arg-required="{{ false }}"
+          arg-includeScripts="{{ true }}"
+          arg-callback=""
+          arg-callbackParam="" >
+
+    <xf:css src="public:color_picker.less" />
+    <xf:js src="xf/color_picker.js" min="1" />
+    <xf:js src="xfa/core/color_picker_with_callback.js" min="1" />
+
+    <xf:set var="$picker">
+        <div class="inputGroup inputGroup--joined inputGroup--color"
+             data-xf-init="xfa-color-picker"
+             data-allow-palette="{$allowPalette}"
+             data-map-name="{$mapName}"
+             data-callback="{$callback}"
+             data-callback-param="{$callbackParam}">
+
+            <xf:textbox name="{$name}" value="{$value}" required="{$required}" />
+            <div class="inputGroup-text"><span class="colorPickerBox js-colorPickerTrigger"></span></div>
+        </div>
+    </xf:set>
+
+    <xf:if is="$row">
+        <xf:formrow rowtype="{$rowtype}"
+                    rowclass="formRow--input {$rowClass}"
+                    label="{$label}"
+                    hint="{$hint}"
+                    explain="{$explain}"
+                    html="{$html}">
+
+            {$picker|raw}
+        </xf:formrow>
+        <xf:else />
+        {$picker|raw}
+    </xf:if>
+
+    <xf:if is="{$includeScripts}">
+        <xf:macro name="xfa_color_picker_scripts" arg-colorData="{$colorData}" />
+    </xf:if>
+</xf:macro>
+
+<xf:macro name="xfa_color_picker_scripts" arg-colorData="">
+
+    <xf:macro template="public:color_picker_macros" name="color_picker_scripts" arg-colorData="{$colorData}" />
+
+</xf:macro>]]></template>
+  <template type="public" title="xfa_core_macros" version_id="901070090" version_string="1.7.0"><![CDATA[<xf:macro name="check_uncheck_all" arg-input="!" arg-type="link">
+	<xf:if is="{$type} == 'link'">
+		<a href="#" data-xf-click="XFACheckAll" data-input-name="{$input}" data-check="true">{{ phrase('xfa_core_check_all') }}</a>/<a href="#" data-xf-click="XFACheckAll" data-input-name="{$input}" data-check="false">{{ phrase('xfa_core_uncheck_all') }}</a>
+	<xf:else />
+		<xf:button class="u-jsOnly" data-xf-click="XFACheckAll" data-input-name="{$input}" data-check="true">{{ phrase('xfa_core_check_all') }}</xf:button> <xf:button class="u-jsOnly" data-xf-click="XFACheckAll" data-input-name="{$input}" data-check="false">{{ phrase('xfa_core_uncheck_all') }}</xf:button>
+	</xf:if>
+</xf:macro>]]></template>
+  <template type="public" title="xfa_core_paypal_express_checkout_redirect" version_id="901000099" version_string="1.0.0"><![CDATA[<xf:title>{{ phrase('xfa_core_redirecting_to_paypal') }}</xf:title>
+
+<div class="block">
+    <div class="block-container" style="padding: 5px;">
+		<script type="text/javascript">
+			window.location.replace("{$redirect}");
+		</script>
+        {{ phrase('xfa_core_you_are_being_redirected_to_paypal_please_wait') }}
+	</div>
+</div>]]></template>
+  <template type="public" title="xfa_core_user_payment_profiles" version_id="901140090" version_string="1.14.0"><![CDATA[<xf:macro name="braintree" arg-active="!" arg-configuration="!">
+	<xf:checkboxrow>
+		<xf:option name="configuration[braintree][active]" value="1" checked="{{ $active ? true : false  }}">{{ phrase('xfa_core_accept_this_payment_mean') }}</xf:option>
+	</xf:checkboxrow>
+	
+	<xf:textboxrow name="configuration[braintree][merchant_id]" value="{$configuration.merchant_id}"
+		label="{{ phrase('braintree_merchant_id') }}" />
+	
+	<xf:textboxrow name="configuration[braintree][public_key]" value="{$configuration.public_key}"
+		label="{{ phrase('braintree_public_key') }}" />
+	
+	<xf:textboxrow name="configuration[braintree][private_key]" value="{$configuration.private_key}"
+		label="{{ phrase('braintree_private_key') }}"
+		explain="{{ phrase('braintree_api_keys_explain') }}" />
+	
+	<xf:textboxrow name="configuration[braintree][merchant_account]" value="{$configuration.merchant_account}"
+		label="{{ phrase('braintree_merchant_account_id') }}"
+		explain="{{ phrase('braintree_merchant_account_id_explain') }}" />
+	
+	<hr class="formRowSep" />
+	
+	<xf:checkboxrow
+		explain="{{ phrase('enable_paypal_support_braintree_explain') }}">
+		<xf:option name="configuration[braintree][paypal_enable]" selected="{$configuration_enable}">
+			{{ phrase('enable_paypal_support') }}
+		</xf:option>
+	</xf:checkboxrow>
+	
+	
+	<xf:hiddenval name="configuration[braintree][plan_id]"></xf:hiddenval>
+	<xf:hiddenval name="configuration[braintree][apple_pay_enable]">0</xf:hiddenval>
+</xf:macro>
+
+<xf:macro name="paypal" arg-active="!" arg-configuration="!">
+	<xf:checkboxrow>
+		<xf:option name="configuration[paypal][active]" value="1" checked="{{ $active ? true : false  }}">{{ phrase('xfa_core_accept_this_payment_mean') }}</xf:option>
+	</xf:checkboxrow>
+
+	<xf:textboxrow name="configuration[paypal][primary_account]" value="{$configuration.primary_account}" type="email"
+		label="{{ phrase('paypal_primary_account') }}"
+		hint="{{ phrase('required') }}">
+
+		<xf:explain>
+			{{ phrase('paypal_primary_account_explain') }}
+		</xf:explain>
+	</xf:textboxrow>
+
+	<xf:hiddenval name="configuration[paypal][require_address]" value="0" />
+
+	<xf:hiddenval name="configuration[paypal][alternate_accounts]" value="" />
+</xf:macro>
+
+<xf:macro name="stripe" arg-active="!" arg-configuration="!">
+	<xf:checkboxrow>
+		<xf:option name="configuration[stripe][active]" value="1" checked="{{ $active ? true : false  }}">{{ phrase('xfa_core_accept_this_payment_mean') }}</xf:option>
+	</xf:checkboxrow>
+	
+	<xf:textboxrow name="configuration[stripe][live_publishable_key]" value="{$configuration.live_publishable_key}"
+		label="{{ phrase('stripe_live_publishable_key') }}" />
+
+	<xf:textboxrow name="configuration[stripe][live_secret_key]" value="{$configuration.live_secret_key}"
+		label="{{ phrase('stripe_live_secret_key') }}"
+		explain="{{ phrase('stripe_live_secret_key_explain') }}" />
+
+	<hr class="formRowSep" />
+
+	<xf:textboxrow name="configuration[stripe][statement_descriptor]" value="{$configuration.statement_descriptor}"
+		minlength="5" maxlength="22"
+		label="{{ phrase('stripe_statement_descriptor') }}"
+		explain="{{ phrase('stripe_statement_descriptors_explain_charges_or_payments_on_bank_statements') }}" />
+
+	<hr class="formRowSep" />
+
+	<xf:formrow label="">
+		<div class="formRow-explain">
+			{{ phrase('stripe_webhook_explain', {'boardUrl': $xf.options.boardUrl}) }}
+		</div>
+	</xf:formrow>
+
+	<hr class="formRowSep" />
+
+	<xf:checkboxrow>
+		<xf:option label="{{ phrase('stripe_verify_webhook_with_signing_secret:') }}" selected="$configuration.signing_secret">
+			<xf:textbox name="configuration[stripe][signing_secret]" value="{$configuration.signing_secret}" />
+		</xf:option>
+		<xf:explain>{{ phrase('stripe_verify_webhook_with_signing_secret_explain') }}</xf:explain>
+	</xf:checkboxrow>
+
+	<hr class="formRowSep" />
+		
+	<xf:checkboxrow
+		explain="{{ phrase('enable_payment_request_api_support_stripe_explain') }}">
+		<xf:option name="configuration[stripe][payment_request_api_enable]" selected="{$configuration.payment_request_api_enable}">
+			{{ phrase('enable_payment_request_api_support') }}
+		</xf:option>
+	</xf:checkboxrow>
+
+	<xf:hiddenval name="configuration[stripe][stripe_country]">{$configuration.stripe_country}</xf:hiddenval>
+	<xf:hiddenval name="configuration[stripe][test_publishable_key]"></xf:hiddenval>
+	<xf:hiddenval name="configuration[stripe][test_secret_key]"></xf:hiddenval>
+</xf:macro>
+
+<xf:macro name="twocheckout" arg-configuration="!" arg-active="!">
+	<xf:checkboxrow>
+		<xf:option name="configuration[twocheckout][active]" value="1" checked="{{ $active ? true : false  }}">{{ phrase('xfa_core_accept_this_payment_mean') }}</xf:option>
+	</xf:checkboxrow>
+
+	<xf:textboxrow name="configuration[twocheckout][account_number]" value="{$configuration.account_number}"
+				   label="{{ phrase('twocheckout_account_number') }}" />
+
+	<xf:textboxrow name="configuration[twocheckout][secret_word]" value="{$configuration.secret_word}"
+				   label="{{ phrase('twocheckout_secret_word') }}"
+				   explain="{{ phrase('twocheckout_account_number_explain') }}" />
+</xf:macro>
+
+<xf:macro name="ncp_coinbase_commerce" arg-configuration="!" arg-active="!">
+	<xf:checkboxrow>
+		<xf:option name="configuration[ncp_coinbase_commerce][active]" value="1" checked="{{ $active ? true : false  }}">{{ phrase('xfa_core_accept_this_payment_mean') }}</xf:option>
+	</xf:checkboxrow>
+
+	<xf:textboxrow name="configuration[ncp_coinbase_commerce][api_key]" value="{$configuration.api_key}"
+				   label="{{ phrase('ncp_cc_api_key') }}"
+				   explain="{{ phrase('xfa_core_ncp_cc_api_key_explain', {'boardUrl': $xf.options.boardUrl}) }}"/>
+
+	<xf:textboxrow name="configuration[ncp_coinbase_commerce][webhook_secret]" value="{$configuration.webhook_secret}"
+				   label="{{ phrase('ncp_cc_webhook_secret') }}"
+				   explain="{{ phrase('xfa_core_ncp_cc_webhook_secret_explain', { 'boardUrl': $xf.options.boardUrl, 'url': 'payment_callback.php?_xfProvider=ncp_coinbase_commerce' }) }}"/>
+</xf:macro>
+
+<xf:macro name="mollie" arg-configuration="!" arg-active="!">
+	<xf:checkboxrow>
+		<xf:option name="configuration[mollie][active]" value="1" checked="{{ $active ? true : false  }}">{{ phrase('xfa_core_accept_this_payment_mean') }}</xf:option>
+	</xf:checkboxrow>
+
+	<xf:textboxrow name="configuration[mollie][live_api_key]" value="{$configuration.live_api_key}"
+				   label="{{ phrase('nm_mollie_live_secret_key') }}"
+				   explain="{{ phrase('nm_mollie_live_secret_key_explain') }}" />
+</xf:macro>
+
+<xf:macro name="pbp_btcpay" arg-configuration="!" arg-active="!">
+	<xf:checkboxrow>
+		<xf:option name="configuration[pbp_btcpay][active]" value="1" checked="{{ $active ? true : false  }}">{{ phrase('xfa_core_accept_this_payment_mean') }}</xf:option>
+	</xf:checkboxrow>
+
+	<xf:textboxrow name="configuration[pbp_btcpay][api_url]" value="{$configuration.api_url}" type="url" required="true"
+				   explain="{{ phrase('pbp_btcpay_api_url_explain') }}"
+				   label="{{ phrase('pbp_btcpay_api_url') }}" />
+
+	<xf:textboxrow name="configuration[pbp_btcpay][store_id]" value="{$configuration.store_id}" required="true"
+				   explain="{{ phrase('pbp_btcpay_store_id_explain') }}"
+				   label="{{ phrase('pbp_btcpay_store_id') }}" />
+
+	<xf:textboxrow name="configuration[pbp_btcpay][api_key]" value="{$configuration.api_key}" required="true"
+				   label="{{ phrase('pbp_btcpay_api_key') }}"
+				   explain="{{ phrase('pbp_btcpay_api_key_explain') }}" />
+
+	<xf:textboxrow name="configuration[pbp_btcpay][webhook_secret]" required="true"
+				   label="{{ phrase('pbp_btcpay_webhook_secret') }}"
+				   explain="{{ phrase('pbp_btcpay_webhook_secret_explain') }}"
+				   value="{$configuration.webhook_secret}" />
+</xf:macro>]]></template>
+  <template type="public" title="xfa_fa_picker.less" version_id="901000090" version_string="1.0.0 Beta 1"><![CDATA[.inputGroup.inputGroup--fa .inputGroup-text
+{
+    border-top-right-radius: @xf-borderRadiusMedium;
+    border-bottom-right-radius: @xf-borderRadiusMedium;
+    border-left: none;  
+}
+
+.inputGroup.inputGroup--fa .xfaFaPickerBox
+{
+    display: inline-block;
+    position: relative;
+    width: 56px;
+    height: 1.3em;
+    cursor: pointer;
+}
+
+.inputGroup.inputGroup--fa .iconpicker-popover
+{
+    z-index: 1;
+    border: 1px solid rgba(0,0,0,.2);
+    border-radius: 6px;
+    -webkit-box-shadow: 0 5px 10px rgba(0,0,0,.2);
+    box-shadow: 0 5px 10px rgba(0,0,0,.2);
+}
+
+.inputGroup.inputGroup--fa .iconpicker-popover.popover
+{
+    width: 380px !important;
+}
+
+.inputGroup.inputGroup--fa .iconpicker-popover.popover .popover-title input[type=search].iconpicker-search
+{
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+}
+
+.inputGroup.inputGroup--fa .bg-primary {
+    color: #fff;
+    background-color: #337ab7;
+}]]></template>
+  <template type="public" title="xfa_fa_picker_macros" version_id="901110190" version_string="1.11.1"><![CDATA[<xf:macro name="xfa_fa_picker"
+          arg-name="!"
+          arg-value=""
+          arg-additionalInputUpdate=""
+          arg-callback=""
+          arg-callbackParam=""
+          arg-label=""
+          arg-hint=""
+          arg-explain=""
+          arg-html=""
+          arg-row="{{ true }}"
+          arg-rowClass=""
+          arg-rowtype=""
+          arg-includeScripts="{{ true }}">
+
+	<xf:if is="{$xf.options.currentVersionId} < 2001270">
+		<xf:js src="xfa/vendor/jquery-migrate/3.0.0/jquery-migrate.js" min="1" />
+		<xf:js src="xfa/vendor/fontawesome-iconpicker/1.2.2/fontawesome-iconpicker.js" min="1" />
+		<xf:css src="public:xfa_fontawesome_iconpicker_1.2.2.css" />
+	<xf:elseif is="{$xf.options.currentVersionId} < 2020270" />
+		<xf:js src="xfa/vendor/fontawesome-iconpicker/3.2.0/fontawesome-iconpicker.js" min="1" />
+		<xf:css src="public:xfa_fontawesome_iconpicker_3.2.0.css" />
+	<xf:else />
+		<xf:js src="xfa/vendor/fontawesome-iconpicker/fa_5.10.1/fontawesome-iconpicker.js" min="1" />
+		<xf:css src="public:xfa_fontawesome_iconpicker_fa_5.10.1.css" />
+	</xf:if>
+	
+    <xf:js src="xfa/core/fa_picker.js" min="1" />
+    <xf:css src="public:xfa_fa_picker.less" />
+
+    <xf:set var="$picker">
+        <div class="inputGroup inputGroup--joined inputGroup--fa">
+            <input type="text" name="{$name}" class="input icp" value="{$value}" data-additional-input-update="{$additionalInputUpdate}" data-callback="{$callback}" data-callback-param="{$callbackParam}" data-xf-init="xfa-fa-picker" />
+            <div class="inputGroup-text"><span class="xfaFaPickerBox js-xfaFaPickerTrigger"></span></div>
+        </div>
+    </xf:set>
+
+    <xf:if is="$row">
+        <xf:formrow rowtype="{$rowtype}"
+                    rowclass="formRow--input {$rowClass}"
+                    label="{$label}"
+                    hint="{$hint}"
+                    explain="{$explain}"
+                    html="{$html}">
+
+            {$picker|raw}
+        </xf:formrow>
+        <xf:else />
+        {$picker|raw}
+    </xf:if>
+
+    <xf:if is="{$includeScripts}">
+        <xf:macro name="xfa_fa_picker_scripts" />
+    </xf:if>
+</xf:macro>
+
+<xf:macro name="xfa_fa_picker_scripts">
+
+    <xf:head option="js-xfaFaPicker">
+
+        <script class="js-extraPhrases" type="application/json">
+            {
+                "xfa_core_type_to_filter": "{{ phrase('xfa_core_type_to_filter')|escape('js') }}"
+            }
+        </script>
+
+    </xf:head>
+
+</xf:macro>]]></template>
+  <template type="public" title="xfa_fontawesome_iconpicker_1.2.2.css" version_id="901050790" version_string="1.5.7"><![CDATA[/*!
+ * Font Awesome Icon Picker
+ * https://itsjavi.com/fontawesome-iconpicker/
+ *
+ * Originally written by (c) 2016 Javi Aguilar
+ * Licensed under the MIT License
+ * https://github.com/itsjavi/fontawesome-iconpicker/blob/master/LICENSE
+ *
+ */
+/*
+ * Font Awesome Icon Picker
+ * https://itsjavi.com/fontawesome-iconpicker/
+ *
+ * Originally written by (c) 2016 Javi Aguilar
+ * Licensed under the MIT License
+ * https://github.com/itsjavi/fontawesome-iconpicker/blob/master/LICENSE
+ *
+ */
+/*
+ * Font Awesome Icon Picker
+ * https://itsjavi.com/fontawesome-iconpicker/
+ *
+ * Originally written by (c) 2016 Javi Aguilar
+ * Licensed under the MIT License
+ * https://github.com/itsjavi/fontawesome-iconpicker/blob/master/LICENSE
+ *
+ */
+.iconpicker-popover.popover {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: none;
+  max-width: none;
+  padding: 1px;
+  text-align: left;
+  width: 216px;
+  background: #f7f7f7;
+}
+.iconpicker-popover.popover.top,
+.iconpicker-popover.popover.topLeftCorner,
+.iconpicker-popover.popover.topLeft,
+.iconpicker-popover.popover.topRight,
+.iconpicker-popover.popover.topRightCorner {
+  margin-top: -10px;
+}
+.iconpicker-popover.popover.right,
+.iconpicker-popover.popover.rightTop,
+.iconpicker-popover.popover.rightBottom {
+  margin-left: 10px;
+}
+.iconpicker-popover.popover.bottom,
+.iconpicker-popover.popover.bottomRightCorner,
+.iconpicker-popover.popover.bottomRight,
+.iconpicker-popover.popover.bottomLeft,
+.iconpicker-popover.popover.bottomLeftCorner {
+  margin-top: 10px;
+}
+.iconpicker-popover.popover.left,
+.iconpicker-popover.popover.leftBottom,
+.iconpicker-popover.popover.leftTop {
+  margin-left: -10px;
+}
+.iconpicker-popover.popover.inline {
+  margin: 0 0 12px 0;
+  position: relative;
+  display: inline-block;
+  opacity: 1;
+  top: auto;
+  left: auto;
+  bottom: auto;
+  right: auto;
+  max-width: 100%;
+  box-shadow: none;
+  z-index: auto;
+  vertical-align: top;
+}
+.iconpicker-popover.popover.inline > .arrow {
+  display: none;
+}
+.dropdown-menu .iconpicker-popover.inline {
+  margin: 0;
+  border: none;
+}
+.dropdown-menu.iconpicker-container {
+  padding: 0;
+}
+.iconpicker-popover.popover .popover-title {
+  padding: 12px;
+  font-size: 13px;
+  line-height: 15px;
+  border-bottom: 1px solid #ebebeb;
+  background-color: #f7f7f7;
+}
+.iconpicker-popover.popover .popover-title input[type=search].iconpicker-search {
+  margin: 0 0 2px 0;
+}
+.iconpicker-popover.popover .popover-title-text ~ input[type=search].iconpicker-search {
+  margin-top: 12px;
+}
+.iconpicker-popover.popover .popover-content {
+  padding: 0px;
+  text-align: center;
+}
+.iconpicker-popover .popover-footer {
+  float: none;
+  clear: both;
+  padding: 12px;
+  text-align: right;
+  margin: 0;
+  border-top: 1px solid #ebebeb;
+  background-color: #f7f7f7;
+}
+.iconpicker-popover .popover-footer:before,
+.iconpicker-popover .popover-footer:after {
+  content: " ";
+  display: table;
+}
+.iconpicker-popover .popover-footer:after {
+  clear: both;
+}
+.iconpicker-popover .popover-footer .iconpicker-btn {
+  margin-left: 10px;
+}
+.iconpicker-popover .popover-footer input[type=search].iconpicker-search {
+  /*width:auto;
+        float:left;*/
+  margin-bottom: 12px;
+}
+.iconpicker-popover.popover > .arrow,
+.iconpicker-popover.popover > .arrow:after {
+  position: absolute;
+  display: block;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+}
+.iconpicker-popover.popover > .arrow {
+  border-width: 11px;
+}
+.iconpicker-popover.popover > .arrow:after {
+  border-width: 10px;
+  content: "";
+}
+.iconpicker-popover.popover.top > .arrow,
+.iconpicker-popover.popover.topLeft > .arrow,
+.iconpicker-popover.popover.topRight > .arrow {
+  left: 50%;
+  margin-left: -11px;
+  border-bottom-width: 0;
+  border-top-color: #999999;
+  border-top-color: rgba(0, 0, 0, 0.25);
+  bottom: -11px;
+}
+.iconpicker-popover.popover.top > .arrow:after,
+.iconpicker-popover.popover.topLeft > .arrow:after,
+.iconpicker-popover.popover.topRight > .arrow:after {
+  content: " ";
+  bottom: 1px;
+  margin-left: -10px;
+  border-bottom-width: 0;
+  border-top-color: #ffffff;
+}
+.iconpicker-popover.popover.topLeft > .arrow {
+  left: 8px;
+  margin-left: 0;
+}
+.iconpicker-popover.popover.topRight > .arrow {
+  left: auto;
+  right: 8px;
+  margin-left: 0;
+}
+.iconpicker-popover.popover.right > .arrow,
+.iconpicker-popover.popover.rightTop > .arrow,
+.iconpicker-popover.popover.rightBottom > .arrow {
+  top: 50%;
+  left: -11px;
+  margin-top: -11px;
+  border-left-width: 0;
+  border-right-color: #999999;
+  border-right-color: rgba(0, 0, 0, 0.25);
+}
+.iconpicker-popover.popover.right > .arrow:after,
+.iconpicker-popover.popover.rightTop > .arrow:after,
+.iconpicker-popover.popover.rightBottom > .arrow:after {
+  content: " ";
+  left: 1px;
+  bottom: -10px;
+  border-left-width: 0;
+  border-right-color: #ffffff;
+}
+.iconpicker-popover.popover.rightTop > .arrow {
+  top: auto;
+  bottom: 8px;
+  margin-top: 0;
+}
+.iconpicker-popover.popover.rightBottom > .arrow {
+  top: 8px;
+  margin-top: 0;
+}
+.iconpicker-popover.popover.bottom > .arrow,
+.iconpicker-popover.popover.bottomRight > .arrow,
+.iconpicker-popover.popover.bottomLeft > .arrow {
+  left: 50%;
+  margin-left: -11px;
+  border-top-width: 0;
+  border-bottom-color: #999999;
+  border-bottom-color: rgba(0, 0, 0, 0.25);
+  top: -11px;
+}
+.iconpicker-popover.popover.bottom > .arrow:after,
+.iconpicker-popover.popover.bottomRight > .arrow:after,
+.iconpicker-popover.popover.bottomLeft > .arrow:after {
+  content: " ";
+  top: 1px;
+  margin-left: -10px;
+  border-top-width: 0;
+  border-bottom-color: #ffffff;
+}
+.iconpicker-popover.popover.bottomLeft > .arrow {
+  left: 8px;
+  margin-left: 0;
+}
+.iconpicker-popover.popover.bottomRight > .arrow {
+  left: auto;
+  right: 8px;
+  margin-left: 0;
+}
+.iconpicker-popover.popover.left > .arrow,
+.iconpicker-popover.popover.leftBottom > .arrow,
+.iconpicker-popover.popover.leftTop > .arrow {
+  top: 50%;
+  right: -11px;
+  margin-top: -11px;
+  border-right-width: 0;
+  border-left-color: #999999;
+  border-left-color: rgba(0, 0, 0, 0.25);
+}
+.iconpicker-popover.popover.left > .arrow:after,
+.iconpicker-popover.popover.leftBottom > .arrow:after,
+.iconpicker-popover.popover.leftTop > .arrow:after {
+  content: " ";
+  right: 1px;
+  border-right-width: 0;
+  border-left-color: #ffffff;
+  bottom: -10px;
+}
+.iconpicker-popover.popover.leftBottom > .arrow {
+  top: 8px;
+  margin-top: 0;
+}
+.iconpicker-popover.popover.leftTop > .arrow {
+  top: auto;
+  bottom: 8px;
+  margin-top: 0;
+}
+.iconpicker {
+  position: relative;
+  text-align: left;
+  text-shadow: none;
+  line-height: 0;
+  display: block;
+  margin: 0;
+  overflow: hidden;
+}
+.iconpicker * {
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+  position: relative;
+}
+.iconpicker:before,
+.iconpicker:after {
+  content: " ";
+  display: table;
+}
+.iconpicker:after {
+  clear: both;
+}
+.iconpicker .iconpicker-items {
+  position: relative;
+  clear: both;
+  float: none;
+  padding: 12px 0 0 12px;
+  background: #fff;
+  margin: 0;
+  overflow: hidden;
+  overflow-y: auto;
+  min-height: 49px;
+  max-height: 246px;
+}
+.iconpicker .iconpicker-items:before,
+.iconpicker .iconpicker-items:after {
+  content: " ";
+  display: table;
+}
+.iconpicker .iconpicker-items:after {
+  clear: both;
+}
+.iconpicker .iconpicker-item {
+  float: left;
+  width: 14px;
+  height: 14px;
+  padding: 12px;
+  margin: 0 12px 12px 0;
+  text-align: center;
+  cursor: pointer;
+  border-radius: 3px;
+  font-size: 14px;
+  box-shadow: 0 0 0 1px #dddddd;
+  color: inherit;
+  /*&:nth-child(4n+4) {
+            margin-right: 0;
+        }
+        &:nth-last-child(-n+4) {
+            margin-bottom: 0;
+        }*/
+}
+.iconpicker .iconpicker-item:hover:not(.iconpicker-selected) {
+  background-color: #eeeeee;
+}
+.iconpicker .iconpicker-item.iconpicker-selected {
+  box-shadow: none;
+  color: #fff;
+}
+.iconpicker-component {
+  cursor: pointer;
+}]]></template>
+  <template type="public" title="xfa_fontawesome_iconpicker_3.2.0.css" version_id="901050790" version_string="1.5.7"><![CDATA[/*!
+ * Font Awesome Icon Picker
+ * https://farbelous.github.io/fontawesome-iconpicker/
+ *
+ * @author Javi Aguilar, itsjavi.com
+ * @license MIT License
+ * @see https://github.com/farbelous/fontawesome-iconpicker/blob/master/LICENSE
+ */
+.iconpicker-popover.popover {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: none;
+  max-width: none;
+  padding: 1px;
+  text-align: left;
+  width: 234px;
+  background: #f7f7f7;
+  z-index: 9;
+}
+.iconpicker-popover.popover.top,
+.iconpicker-popover.popover.topLeftCorner,
+.iconpicker-popover.popover.topLeft,
+.iconpicker-popover.popover.topRight,
+.iconpicker-popover.popover.topRightCorner {
+  margin-top: -10px;
+}
+.iconpicker-popover.popover.right,
+.iconpicker-popover.popover.rightTop,
+.iconpicker-popover.popover.rightBottom {
+  margin-left: 10px;
+}
+.iconpicker-popover.popover.bottom,
+.iconpicker-popover.popover.bottomRightCorner,
+.iconpicker-popover.popover.bottomRight,
+.iconpicker-popover.popover.bottomLeft,
+.iconpicker-popover.popover.bottomLeftCorner {
+  margin-top: 10px;
+}
+.iconpicker-popover.popover.left,
+.iconpicker-popover.popover.leftBottom,
+.iconpicker-popover.popover.leftTop {
+  margin-left: -10px;
+}
+.iconpicker-popover.popover.inline {
+  margin: 0 0 12px 0;
+  position: relative;
+  display: inline-block;
+  opacity: 1;
+  top: auto;
+  left: auto;
+  bottom: auto;
+  right: auto;
+  max-width: 100%;
+  box-shadow: none;
+  z-index: auto;
+  vertical-align: top;
+}
+.iconpicker-popover.popover.inline > .arrow {
+  display: none;
+}
+.dropdown-menu .iconpicker-popover.inline {
+  margin: 0;
+  border: none;
+}
+.dropdown-menu.iconpicker-container {
+  padding: 0;
+}
+.iconpicker-popover.popover .popover-title {
+  padding: 12px;
+  font-size: 13px;
+  line-height: 15px;
+  border-bottom: 1px solid #ebebeb;
+  background-color: #f7f7f7;
+}
+.iconpicker-popover.popover .popover-title input[type=search].iconpicker-search {
+  margin: 0 0 2px 0;
+}
+.iconpicker-popover.popover .popover-title-text ~ input[type=search].iconpicker-search {
+  margin-top: 12px;
+}
+.iconpicker-popover.popover .popover-content {
+  padding: 0px;
+  text-align: center;
+}
+.iconpicker-popover .popover-footer {
+  float: none;
+  clear: both;
+  padding: 12px;
+  text-align: right;
+  margin: 0;
+  border-top: 1px solid #ebebeb;
+  background-color: #f7f7f7;
+}
+.iconpicker-popover .popover-footer:before,
+.iconpicker-popover .popover-footer:after {
+  content: " ";
+  display: table;
+}
+.iconpicker-popover .popover-footer:after {
+  clear: both;
+}
+.iconpicker-popover .popover-footer .iconpicker-btn {
+  margin-left: 10px;
+}
+.iconpicker-popover .popover-footer input[type=search].iconpicker-search {
+  /*width:auto;
+    float:left;*/
+  margin-bottom: 12px;
+}
+.iconpicker-popover.popover > .arrow,
+.iconpicker-popover.popover > .arrow:after {
+  position: absolute;
+  display: block;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+}
+.iconpicker-popover.popover > .arrow {
+  border-width: 11px;
+}
+.iconpicker-popover.popover > .arrow:after {
+  border-width: 10px;
+  content: "";
+}
+.iconpicker-popover.popover.top > .arrow,
+.iconpicker-popover.popover.topLeft > .arrow,
+.iconpicker-popover.popover.topRight > .arrow {
+  left: 50%;
+  margin-left: -11px;
+  border-bottom-width: 0;
+  border-top-color: #999999;
+  border-top-color: rgba(0, 0, 0, 0.25);
+  bottom: -11px;
+}
+.iconpicker-popover.popover.top > .arrow:after,
+.iconpicker-popover.popover.topLeft > .arrow:after,
+.iconpicker-popover.popover.topRight > .arrow:after {
+  content: " ";
+  bottom: 1px;
+  margin-left: -10px;
+  border-bottom-width: 0;
+  border-top-color: #fff;
+}
+.iconpicker-popover.popover.topLeft > .arrow {
+  left: 8px;
+  margin-left: 0;
+}
+.iconpicker-popover.popover.topRight > .arrow {
+  left: auto;
+  right: 8px;
+  margin-left: 0;
+}
+.iconpicker-popover.popover.right > .arrow,
+.iconpicker-popover.popover.rightTop > .arrow,
+.iconpicker-popover.popover.rightBottom > .arrow {
+  top: 50%;
+  left: -11px;
+  margin-top: -11px;
+  border-left-width: 0;
+  border-right-color: #999999;
+  border-right-color: rgba(0, 0, 0, 0.25);
+}
+.iconpicker-popover.popover.right > .arrow:after,
+.iconpicker-popover.popover.rightTop > .arrow:after,
+.iconpicker-popover.popover.rightBottom > .arrow:after {
+  content: " ";
+  left: 1px;
+  bottom: -10px;
+  border-left-width: 0;
+  border-right-color: #fff;
+}
+.iconpicker-popover.popover.rightTop > .arrow {
+  top: auto;
+  bottom: 8px;
+  margin-top: 0;
+}
+.iconpicker-popover.popover.rightBottom > .arrow {
+  top: 8px;
+  margin-top: 0;
+}
+.iconpicker-popover.popover.bottom > .arrow,
+.iconpicker-popover.popover.bottomRight > .arrow,
+.iconpicker-popover.popover.bottomLeft > .arrow {
+  left: 50%;
+  margin-left: -11px;
+  border-top-width: 0;
+  border-bottom-color: #999999;
+  border-bottom-color: rgba(0, 0, 0, 0.25);
+  top: -11px;
+}
+.iconpicker-popover.popover.bottom > .arrow:after,
+.iconpicker-popover.popover.bottomRight > .arrow:after,
+.iconpicker-popover.popover.bottomLeft > .arrow:after {
+  content: " ";
+  top: 1px;
+  margin-left: -10px;
+  border-top-width: 0;
+  border-bottom-color: #fff;
+}
+.iconpicker-popover.popover.bottomLeft > .arrow {
+  left: 8px;
+  margin-left: 0;
+}
+.iconpicker-popover.popover.bottomRight > .arrow {
+  left: auto;
+  right: 8px;
+  margin-left: 0;
+}
+.iconpicker-popover.popover.left > .arrow,
+.iconpicker-popover.popover.leftBottom > .arrow,
+.iconpicker-popover.popover.leftTop > .arrow {
+  top: 50%;
+  right: -11px;
+  margin-top: -11px;
+  border-right-width: 0;
+  border-left-color: #999999;
+  border-left-color: rgba(0, 0, 0, 0.25);
+}
+.iconpicker-popover.popover.left > .arrow:after,
+.iconpicker-popover.popover.leftBottom > .arrow:after,
+.iconpicker-popover.popover.leftTop > .arrow:after {
+  content: " ";
+  right: 1px;
+  border-right-width: 0;
+  border-left-color: #fff;
+  bottom: -10px;
+}
+.iconpicker-popover.popover.leftBottom > .arrow {
+  top: 8px;
+  margin-top: 0;
+}
+.iconpicker-popover.popover.leftTop > .arrow {
+  top: auto;
+  bottom: 8px;
+  margin-top: 0;
+}
+.iconpicker {
+  position: relative;
+  text-align: left;
+  text-shadow: none;
+  line-height: 0;
+  display: block;
+  margin: 0;
+  overflow: hidden;
+}
+.iconpicker * {
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+  position: relative;
+}
+.iconpicker:before,
+.iconpicker:after {
+  content: " ";
+  display: table;
+}
+.iconpicker:after {
+  clear: both;
+}
+.iconpicker .iconpicker-items {
+  position: relative;
+  clear: both;
+  float: none;
+  padding: 12px 0 0 12px;
+  background: #fff;
+  margin: 0;
+  overflow: hidden;
+  overflow-y: auto;
+  min-height: 49px;
+  max-height: 246px;
+}
+.iconpicker .iconpicker-items:before,
+.iconpicker .iconpicker-items:after {
+  content: " ";
+  display: table;
+}
+.iconpicker .iconpicker-items:after {
+  clear: both;
+}
+.iconpicker .iconpicker-item {
+  float: left;
+  width: 14px;
+  height: 14px;
+  padding: 12px;
+  margin: 0 12px 12px 0;
+  text-align: center;
+  cursor: pointer;
+  border-radius: 3px;
+  font-size: 14px;
+  box-shadow: 0 0 0 1px #ddd;
+  color: inherit;
+  /*&:nth-child(4n+4) {
+        margin-right: 0;
+    }
+    &:nth-last-child(-n+4) {
+        margin-bottom: 0;
+    }*/
+}
+.iconpicker .iconpicker-item:hover:not(.iconpicker-selected) {
+  background-color: #eee;
+}
+.iconpicker .iconpicker-item.iconpicker-selected {
+  box-shadow: none;
+  color: #fff;
+  background: #000;
+}
+.iconpicker-component {
+  cursor: pointer;
+}]]></template>
+  <template type="public" title="xfa_fontawesome_iconpicker_fa_5.10.1.css" version_id="901070190" version_string="1.7.1"><![CDATA[/*!
+ * Font Awesome Icon Picker
+ * https://farbelous.github.io/fontawesome-iconpicker/
+ *
+ * @author Javi Aguilar, itsjavi.com
+ * @license MIT License
+ * @see https://github.com/farbelous/fontawesome-iconpicker/blob/master/LICENSE
+ */
+.iconpicker-popover.popover {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: none;
+  max-width: none;
+  padding: 1px;
+  text-align: left;
+  width: 234px;
+  background: #f7f7f7;
+  z-index: 9;
+}
+.iconpicker-popover.popover.top,
+.iconpicker-popover.popover.topLeftCorner,
+.iconpicker-popover.popover.topLeft,
+.iconpicker-popover.popover.topRight,
+.iconpicker-popover.popover.topRightCorner {
+  margin-top: -10px;
+}
+.iconpicker-popover.popover.right,
+.iconpicker-popover.popover.rightTop,
+.iconpicker-popover.popover.rightBottom {
+  margin-left: 10px;
+}
+.iconpicker-popover.popover.bottom,
+.iconpicker-popover.popover.bottomRightCorner,
+.iconpicker-popover.popover.bottomRight,
+.iconpicker-popover.popover.bottomLeft,
+.iconpicker-popover.popover.bottomLeftCorner {
+  margin-top: 10px;
+}
+.iconpicker-popover.popover.left,
+.iconpicker-popover.popover.leftBottom,
+.iconpicker-popover.popover.leftTop {
+  margin-left: -10px;
+}
+.iconpicker-popover.popover.inline {
+  margin: 0 0 12px 0;
+  position: relative;
+  display: inline-block;
+  opacity: 1;
+  top: auto;
+  left: auto;
+  bottom: auto;
+  right: auto;
+  max-width: 100%;
+  box-shadow: none;
+  z-index: auto;
+  vertical-align: top;
+}
+.iconpicker-popover.popover.inline > .arrow {
+  display: none;
+}
+.dropdown-menu .iconpicker-popover.inline {
+  margin: 0;
+  border: none;
+}
+.dropdown-menu.iconpicker-container {
+  padding: 0;
+}
+.iconpicker-popover.popover .popover-title {
+  padding: 12px;
+  font-size: 13px;
+  line-height: 15px;
+  border-bottom: 1px solid #ebebeb;
+  background-color: #f7f7f7;
+}
+.iconpicker-popover.popover .popover-title input[type=search].iconpicker-search {
+  margin: 0 0 2px 0;
+}
+.iconpicker-popover.popover .popover-title-text ~ input[type=search].iconpicker-search {
+  margin-top: 12px;
+}
+.iconpicker-popover.popover .popover-content {
+  padding: 0px;
+  text-align: center;
+}
+.iconpicker-popover .popover-footer {
+  float: none;
+  clear: both;
+  padding: 12px;
+  text-align: right;
+  margin: 0;
+  border-top: 1px solid #ebebeb;
+  background-color: #f7f7f7;
+}
+.iconpicker-popover .popover-footer:before,
+.iconpicker-popover .popover-footer:after {
+  content: " ";
+  display: table;
+}
+.iconpicker-popover .popover-footer:after {
+  clear: both;
+}
+.iconpicker-popover .popover-footer .iconpicker-btn {
+  margin-left: 10px;
+}
+.iconpicker-popover .popover-footer input[type=search].iconpicker-search {
+  /*width:auto;
+    float:left;*/
+  margin-bottom: 12px;
+}
+.iconpicker-popover.popover > .arrow,
+.iconpicker-popover.popover > .arrow:after {
+  position: absolute;
+  display: block;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+}
+.iconpicker-popover.popover > .arrow {
+  border-width: 11px;
+}
+.iconpicker-popover.popover > .arrow:after {
+  border-width: 10px;
+  content: "";
+}
+.iconpicker-popover.popover.top > .arrow,
+.iconpicker-popover.popover.topLeft > .arrow,
+.iconpicker-popover.popover.topRight > .arrow {
+  left: 50%;
+  margin-left: -11px;
+  border-bottom-width: 0;
+  border-top-color: #999999;
+  border-top-color: rgba(0, 0, 0, 0.25);
+  bottom: -11px;
+}
+.iconpicker-popover.popover.top > .arrow:after,
+.iconpicker-popover.popover.topLeft > .arrow:after,
+.iconpicker-popover.popover.topRight > .arrow:after {
+  content: " ";
+  bottom: 1px;
+  margin-left: -10px;
+  border-bottom-width: 0;
+  border-top-color: #fff;
+}
+.iconpicker-popover.popover.topLeft > .arrow {
+  left: 8px;
+  margin-left: 0;
+}
+.iconpicker-popover.popover.topRight > .arrow {
+  left: auto;
+  right: 8px;
+  margin-left: 0;
+}
+.iconpicker-popover.popover.right > .arrow,
+.iconpicker-popover.popover.rightTop > .arrow,
+.iconpicker-popover.popover.rightBottom > .arrow {
+  top: 50%;
+  left: -11px;
+  margin-top: -11px;
+  border-left-width: 0;
+  border-right-color: #999999;
+  border-right-color: rgba(0, 0, 0, 0.25);
+}
+.iconpicker-popover.popover.right > .arrow:after,
+.iconpicker-popover.popover.rightTop > .arrow:after,
+.iconpicker-popover.popover.rightBottom > .arrow:after {
+  content: " ";
+  left: 1px;
+  bottom: -10px;
+  border-left-width: 0;
+  border-right-color: #fff;
+}
+.iconpicker-popover.popover.rightTop > .arrow {
+  top: auto;
+  bottom: 8px;
+  margin-top: 0;
+}
+.iconpicker-popover.popover.rightBottom > .arrow {
+  top: 8px;
+  margin-top: 0;
+}
+.iconpicker-popover.popover.bottom > .arrow,
+.iconpicker-popover.popover.bottomRight > .arrow,
+.iconpicker-popover.popover.bottomLeft > .arrow {
+  left: 50%;
+  margin-left: -11px;
+  border-top-width: 0;
+  border-bottom-color: #999999;
+  border-bottom-color: rgba(0, 0, 0, 0.25);
+  top: -11px;
+}
+.iconpicker-popover.popover.bottom > .arrow:after,
+.iconpicker-popover.popover.bottomRight > .arrow:after,
+.iconpicker-popover.popover.bottomLeft > .arrow:after {
+  content: " ";
+  top: 1px;
+  margin-left: -10px;
+  border-top-width: 0;
+  border-bottom-color: #fff;
+}
+.iconpicker-popover.popover.bottomLeft > .arrow {
+  left: 8px;
+  margin-left: 0;
+}
+.iconpicker-popover.popover.bottomRight > .arrow {
+  left: auto;
+  right: 8px;
+  margin-left: 0;
+}
+.iconpicker-popover.popover.left > .arrow,
+.iconpicker-popover.popover.leftBottom > .arrow,
+.iconpicker-popover.popover.leftTop > .arrow {
+  top: 50%;
+  right: -11px;
+  margin-top: -11px;
+  border-right-width: 0;
+  border-left-color: #999999;
+  border-left-color: rgba(0, 0, 0, 0.25);
+}
+.iconpicker-popover.popover.left > .arrow:after,
+.iconpicker-popover.popover.leftBottom > .arrow:after,
+.iconpicker-popover.popover.leftTop > .arrow:after {
+  content: " ";
+  right: 1px;
+  border-right-width: 0;
+  border-left-color: #fff;
+  bottom: -10px;
+}
+.iconpicker-popover.popover.leftBottom > .arrow {
+  top: 8px;
+  margin-top: 0;
+}
+.iconpicker-popover.popover.leftTop > .arrow {
+  top: auto;
+  bottom: 8px;
+  margin-top: 0;
+}
+.iconpicker {
+  position: relative;
+  text-align: left;
+  text-shadow: none;
+  line-height: 0;
+  display: block;
+  margin: 0;
+  overflow: hidden;
+}
+.iconpicker * {
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+  position: relative;
+}
+.iconpicker:before,
+.iconpicker:after {
+  content: " ";
+  display: table;
+}
+.iconpicker:after {
+  clear: both;
+}
+.iconpicker .iconpicker-items {
+  position: relative;
+  clear: both;
+  float: none;
+  padding: 12px 0 0 12px;
+  background: #fff;
+  margin: 0;
+  overflow: hidden;
+  overflow-y: auto;
+  min-height: 49px;
+  max-height: 246px;
+}
+.iconpicker .iconpicker-items:before,
+.iconpicker .iconpicker-items:after {
+  content: " ";
+  display: table;
+}
+.iconpicker .iconpicker-items:after {
+  clear: both;
+}
+.iconpicker .iconpicker-item {
+  float: left;
+  width: 14px;
+  height: 14px;
+  padding: 12px;
+  margin: 0 12px 12px 0;
+  text-align: center;
+  cursor: pointer;
+  border-radius: 3px;
+  font-size: 14px;
+  box-shadow: 0 0 0 1px #ddd;
+  color: inherit;
+  /*&:nth-child(4n+4) {
+        margin-right: 0;
+    }
+    &:nth-last-child(-n+4) {
+        margin-bottom: 0;
+    }*/
+}
+.iconpicker .iconpicker-item:hover:not(.iconpicker-selected) {
+  background-color: #eee;
+}
+.iconpicker .iconpicker-item.iconpicker-selected {
+  box-shadow: none;
+  color: #fff;
+  background: #000;
+}
+.iconpicker-component {
+  cursor: pointer;
+}]]></template>
+  <template type="public" title="xfa_form_macros" version_id="901000092" version_string="1.0.0 Beta 3"><![CDATA[<xf:macro name="datetimeinputrow" arg-name="!" arg-value="" arg-label="" arg-hint="" arg-required="">
+    <xf:formrow label="{$label}" rowtype="input" hint="{$hint}">
+        <div class="inputGroup">
+            <xf:if is="{$value}">
+                <xf:dateinput name="{$name}[date]" value="{{ $value.date ? date($value.date, 'Y-m-d') : '' }}"    />
+                <span class="inputGroup-splitter"></span>
+                <xf:textbox type="time" class="input--date" name="{$name}[time]" value="{{ $value.time ? $value.time : '' }}" required="{{ $required ? 'required' : '' }}" />
+            <xf:else />
+                <xf:dateinput name="{$name}[date]" value=""    />
+                <span class="inputGroup-splitter"></span>
+                <xf:textbox type="time" class="input--date" name="{$name}[time]" value="" required="{{ $required ? 'required' : '' }}" />
+            </xf:if>
+        </div>
+    </xf:formrow>
+</xf:macro>
+
+<xf:macro name="durationinputrow" arg-name="!" arg-value="" arg-label="" arg-hint="" arg-required=""
+    arg-withdays="{{ false }}" arg-withhours="{{ true }}" arg-withminutes="{{ true }}" arg-withseconds="{{ true }}">
+
+    <xf:if is="{$withdays}">
+        <xf:formrow label="{{ phrase('xfa_core_days') }}" rowtype="input" hint="{$hint}">
+            <xf:numberbox name="{$name}[days]" value="{{ $value ? $value.days : '' }}" min="0" required="{{ $required ? 'required' : '' }}" />
+        </xf:formrow>
+    </xf:if>
+
+    <xf:if is="{$withhours}">
+        <xf:formrow label="{{ phrase('xfa_core_hours') }}" rowtype="input" hint="{$hint}">
+            <xf:numberbox name="{$name}[hours]" value="{{ $value ? $value.hours : '' }}" min="0" max="23" required="{{ $required ? 'required' : '' }}" />
+        </xf:formrow>
+    </xf:if>
+
+    <xf:if is="{$withminutes}">
+        <xf:formrow label="{{ phrase('xfa_core_minutes') }}" rowtype="input" hint="{$hint}">
+            <xf:numberbox name="{$name}[minutes]" value="{{ $value ? $value.minutes : '' }}" min="0" max="59" required="{{ $required ? 'required' : '' }}" />
+        </xf:formrow>
+    </xf:if>
+
+    <xf:if is="{$withseconds}">
+        <xf:formrow label="{{ phrase('xfa_core_seconds') }}" rowtype="input" hint="{$hint}">
+            <xf:numberbox name="{$name}[seconds]" value="{{ $value ? $value.seconds : '' }}" min="0" max="59" required="{{ $required ? 'required' : '' }}" />
+        </xf:formrow>
+    </xf:if>
+</xf:macro>]]></template>
+</templates>

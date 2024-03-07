@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<phrases>
+  <phrase title="_cv6NodeIcon" version_id="1000170" version_string="1.0.1"><![CDATA[Node Icon Display]]></phrase>
+  <phrase title="cv6_default_icon" version_id="1010010" version_string="1.1.0 Alpha"><![CDATA[use the XenForo default Icon (NodeType based)]]></phrase>
+  <phrase title="cv6_fa_icon" version_id="1010010" version_string="1.1.0 Alpha"><![CDATA[use FontAwesome Icon]]></phrase>
+  <phrase title="cv6_faicon_hint" version_id="1010010" version_string="1.1.0 Alpha"><![CDATA[The FontAwesome Icon will perfectly fit into the layout. ]]></phrase>
+  <phrase title="cv6_icon_explain" version_id="1010010" version_string="1.1.0 Alpha"><![CDATA[Images are displayed for unread with a specified opacity to ensure there is a difference. They can be uploaded via Asset Upload (only supports JPG, GIF, PNG) or choose one which you preuploaded.]]></phrase>
+  <phrase title="cv6_icon_type" version_id="1010010" version_string="1.1.0 Alpha"><![CDATA[Icon type]]></phrase>
+  <phrase title="cv6_iconimage" version_id="1010010" version_string="1.1.0 Alpha"><![CDATA[use own uploaded image]]></phrase>
+  <phrase title="cv6_iconimage_hint" version_id="1010010" version_string="1.1.0 Alpha"><![CDATA[You can choose an uploaded icon or upload a new asset direct.]]></phrase>
+  <phrase title="cv6_iconsvg" version_id="1010010" version_string="1.1.0 Alpha"><![CDATA[use self uploaded SVG Image and transform it into inline SVG]]></phrase>
+  <phrase title="cv6_iconsvg_hint" version_id="1010010" version_string="1.1.0 Alpha"><![CDATA[The SVG will turn into an inline SVG which now can be formatted with style colors.]]></phrase>
+  <phrase title="cv6_including_fa" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[including fa-]]></phrase>
+  <phrase title="cv6_ni_filter_blur" version_id="1020070" version_string="1.2.0"><![CDATA[Add a blur effect to the image]]></phrase>
+  <phrase title="cv6_ni_filter_gray" version_id="1020070" version_string="1.2.0"><![CDATA[Add a grayscale effect to the image]]></phrase>
+  <phrase title="cv6_ni_filter_sepia" version_id="1020070" version_string="1.2.0"><![CDATA[Add a sepia effect to the image]]></phrase>
+  <phrase title="cv6_ni_no_filter" version_id="1020070" version_string="1.2.0"><![CDATA[No filter (show original)]]></phrase>
+  <phrase title="cv6_nodeicon" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[Font Awesome icon]]></phrase>
+  <phrase title="cv6_nodeicon_explain" version_id="1020170" version_string="1.2.1"><![CDATA[Optional Font Awesome icon name. See a list <a href="https://fontawesome.com/v5/search" target="_fa">here</a>.]]></phrase>
+  <phrase title="cv6_nodeicon_path" version_id="1010010" version_string="1.1.0 Alpha"><![CDATA[Nodeimage URL]]></phrase>
+  <phrase title="cv6_nodeimage_explain" version_id="1010010" version_string="1.1.0 Alpha"><![CDATA[Add the URL to the choosen image here. Best is SVG, but this must be uploaded manually.<br />
+<strong>Important:</strong> If you choose <em>transfer SVG to inline</em> be careful, this can take performance. This works best if the images are cached.]]></phrase>
+  <phrase title="cv6_user_can_collapse_category" version_id="1030070" version_string="1.3.0"><![CDATA[This category can be collapsed, if the style will not deny it.]]></phrase>
+  <phrase title="option.cv6NodeIconDoubleClickAction" version_id="1020070" version_string="1.2.0"><![CDATA[mark forum read on double click]]></phrase>
+  <phrase title="option.cv6NodeIconSvgInline" version_id="1010010" version_string="1.1.0 Alpha"><![CDATA[Activate SVG embedding]]></phrase>
+  <phrase title="option.cv6ShowNodeIconsinAdmin" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[Show node icons]]></phrase>
+  <phrase title="option_explain.cv6NodeIconDoubleClickAction" version_id="1020070" version_string="1.2.0"><![CDATA[If a user double clicks on a forum, its marked as read]]></phrase>
+  <phrase title="option_explain.cv6NodeIconSvgInline" version_id="1010010" version_string="1.1.0 Alpha"><![CDATA[This option will load the <a href="https://github.com/iconfu/svg-inject" target="svg">SVG-Inject</a> Library als gives you the ability to inject the SVG into the HTML source code, which gives you the possibility to modify the colors via CSS.]]></phrase>
+  <phrase title="option_explain.cv6ShowNodeIconsinAdmin" version_id="1000033" version_string="1.0.0 Beta 3"><![CDATA[Display the custom node icons inside the node list instead of the default icon.]]></phrase>
+  <phrase title="option_group.cv6NodeIcons" version_id="1020070" version_string="1.2.0"><![CDATA[[cv6] Node Icons]]></phrase>
+  <phrase title="option_group_description.cv6NodeIcons" version_id="1010050" version_string="1.1.0 Release Candidate"><![CDATA[Change the view of the node icons.]]></phrase>
+  <phrase title="style_prop.cv6CollapseActive" version_id="1020170" version_string="1.2.1"><![CDATA[Enable node collapse]]></phrase>
+  <phrase title="style_prop.cv6CollapseIcon" version_id="1020170" version_string="1.2.1"><![CDATA[Icon for collapse]]></phrase>
+  <phrase title="style_prop.cv6DisplayIconCategory" version_id="1000170" version_string="1.0.1"><![CDATA[Display Icon in Category]]></phrase>
+  <phrase title="style_prop.cv6DisplayIconHeading" version_id="1000100" version_string="1.0.0 RC1"><![CDATA[Displays the custon node Icon in the heading]]></phrase>
+  <phrase title="style_prop.cv6DisplayIconSize" version_id="1010050" version_string="1.1.0 Release Candidate"><![CDATA[Icon Size]]></phrase>
+  <phrase title="style_prop.cv6NodeImageHover" version_id="1020070" version_string="1.2.0"><![CDATA[Hover Nodeimage]]></phrase>
+  <phrase title="style_prop.cv6NodeImageRead" version_id="1020070" version_string="1.2.0"><![CDATA[Read Nodeimage]]></phrase>
+  <phrase title="style_prop.cv6NodeImageReadOpacity" version_id="1020070" version_string="1.2.0"><![CDATA[Nodeimage opacity]]></phrase>
+  <phrase title="style_prop.cv6NodeImageUnread" version_id="1020070" version_string="1.2.0"><![CDATA[Unread Nodeimage]]></phrase>
+  <phrase title="style_prop_desc.cv6CollapseActive" version_id="1020170" version_string="1.2.1"><![CDATA[]]></phrase>
+  <phrase title="style_prop_desc.cv6CollapseIcon" version_id="1020170" version_string="1.2.1"><![CDATA[]]></phrase>
+  <phrase title="style_prop_desc.cv6DisplayIconCategory" version_id="1000170" version_string="1.0.1"><![CDATA[If you want to display the custom Icon in the Overview before the Category, activate this option.]]></phrase>
+  <phrase title="style_prop_desc.cv6DisplayIconHeading" version_id="1000100" version_string="1.0.0 RC1"><![CDATA[If you added a custom FontAwesome Icon in the node settings, it can be displayed in front of the top heading.]]></phrase>
+  <phrase title="style_prop_desc.cv6DisplayIconSize" version_id="1010050" version_string="1.1.0 Release Candidate"><![CDATA[Enter the max size of the icon]]></phrase>
+  <phrase title="style_prop_desc.cv6NodeImageHover" version_id="1020070" version_string="1.2.0"><![CDATA[Apply filter for any nodeImage during hover]]></phrase>
+  <phrase title="style_prop_desc.cv6NodeImageRead" version_id="1020070" version_string="1.2.0"><![CDATA[Apply filter for nodeImage with no new posts]]></phrase>
+  <phrase title="style_prop_desc.cv6NodeImageReadOpacity" version_id="1020070" version_string="1.2.0"><![CDATA[set the opacity in percent of the node image for forums with no new posts.]]></phrase>
+  <phrase title="style_prop_desc.cv6NodeImageUnread" version_id="1020070" version_string="1.2.0"><![CDATA[Apply filter for nodeImage with new posts]]></phrase>
+  <phrase title="style_prop_vgroup.NodeIcons" version_id="1010050" version_string="1.1.0 Release Candidate"><![CDATA[[cv6] Node Icons]]></phrase>
+</phrases>

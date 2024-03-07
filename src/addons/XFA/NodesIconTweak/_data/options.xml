@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<options>
+  <option option_id="xfa_nit_defaultIconSize" edit_format="spinbox" data_type="positive_integer">
+    <default_value>32</default_value>
+    <relation group_id="xfa_nit" display_order="3"/>
+  </option>
+  <option option_id="xfa_nit_defaultSmallIconSize" edit_format="spinbox" data_type="positive_integer">
+    <default_value>14</default_value>
+    <relation group_id="xfa_nit" display_order="4"/>
+  </option>
+  <option option_id="xfa_nit_iconSizeACP" edit_format="spinbox" data_type="positive_integer">
+    <default_value>32</default_value>
+    <relation group_id="xfa_nit" display_order="11"/>
+  </option>
+  <option option_id="xfa_nit_separateSrvIcons" edit_format="onoff" data_type="boolean">
+    <default_value>0</default_value>
+    <relation group_id="xfa_nit" display_order="2"/>
+  </option>
+  <option option_id="xfa_nit_showIconsInACP" edit_format="onoff" data_type="boolean">
+    <default_value>1</default_value>
+    <relation group_id="xfa_nit" display_order="10"/>
+  </option>
+</options>

@@ -1,0 +1,579 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates>
+  <template type="admin" title="xs_uup_helper_criteria" version_id="2000410" version_string="2.0.4 Fix 1"><![CDATA[<xf:set var="$repo" value="{{ $xf.app.em.getRepository('XenSoluce\UserUpgradePro:ExpiringUserUpgrade') }}" />
+<xf:set var="$userUpgrades" value="{$repo.getUserUpgrade()}" />
+<xf:set var="$payments" value="{$repo.getPayments()}" />
+<xf:set var="$upgrades" value="{$repo.getUpgrades()}" />
+<xf:checkboxrow>
+	<xf:option name="user_criteria[xs_uup_hauu][rule]" value="xs_uup_hauu" selected="{$criteria.xs_uup_hauu}"
+					label="{{ phrase('xs_uup_has_active_user_upgrade') }}" />
+	<xf:option name="user_criteria[xs_uup_hnauu][rule]" value="xs_uup_hnauu" selected="{$criteria.xs_uup_hnauu}"
+			   label="{{ phrase('xs_uup_has_no_active_user_upgrade') }}" />
+	<xf:option name="user_criteria[xs_uup_huenxd][rule]" value="xs_uup_huenxd" selected="{$criteria.xs_uup_huenxd}"
+				label="{{ phrase('xs_uup_has_user_expiring_next_x_day') }}" >
+		<xf:dependent>	
+			<xf:numberbox name="user_criteria[xs_uup_huenxd][data][value_xs_uup_huenxd]" value="{$criteria.xs_uup_huenxd.value_xs_uup_huenxd}"/>
+		</xf:dependent>
+	</xf:option>
+	<xf:option name="user_criteria[xs_uup_hlxeuu][rule]" value="xs_uup_hlxeuu" selected="{$criteria.xs_uup_hlxeuu}"
+				label="{{ phrase('xs_uup_has_at_least_x_expired_user_upgrades') }}" >
+		<xf:dependent>	
+			<xf:numberbox name="user_criteria[xs_uup_hlxeuu][data][value_xs_uup_hlxeuu]" value="{$criteria.xs_uup_hlxeuu.value_xs_uup_hlxeuu}"/>
+		</xf:dependent>
+	</xf:option>
+	<xf:option name="user_criteria[xs_uup_hnmtxeuu][rule]" value="xs_uup_hnmtxeuu" selected="{$criteria.xs_uup_hnmtxeuu}"
+				label="{{ phrase('xs_uup_has_no_more_than_x_expired_user_upgrades') }}" >
+		<xf:dependent>	
+			<xf:numberbox name="user_criteria[xs_uup_hnmtxeuu][data][value_xs_uup_hnmtxeuu]" value="{$criteria.xs_uup_hnmtxeuu.value_xs_uup_hnmtxeuu}"/>
+		</xf:dependent>
+	</xf:option>
+	<xf:if is="$userUpgrades is not empty">
+		<xf:option name="user_criteria[xs_uup_halxauuisp][rule]" value="xs_uup_halxauuisp" selected="{$criteria.xs_uup_halxauuisp}"
+				label="{{ phrase('xs_uup_has_at_least_x_active_user_upgrades_in_all_selected_user_upgrades') }}" >
+			<xf:numberbox name="user_criteria[xs_uup_halxauuisp][data][value_xs_uup_halxauuisp]" value="{$criteria.xs_uup_halxauuisp.value_xs_uup_halxauuisp}"/>
+			<xf:select name="user_criteria[xs_uup_halxauuisp][data][user_upgrade_id_halxauuisp]" multiple="true" size="5" value="{$criteria.xs_uup_halxauuisp.user_upgrade_id_halxauuisp}">
+				<xf:foreach loop="$userUpgrades" value="$userUpgrade">
+					<xf:option value="{$userUpgrade.user_upgrade_id}" label="{$userUpgrade.title}" />
+				</xf:foreach>
+			</xf:select>
+		</xf:option>
+	</xf:if>
+	<xf:if is="$userUpgrades is not empty">
+		<xf:option name="user_criteria[xs_uup_halxuuiosp][rule]" value="xs_uup_halxuuiosp" selected="{$criteria.xs_uup_halxuuiosp}"
+					label="{{ phrase('xs_uup_has_at_least_x_expired_user_upgrades_in_all_selected_user_upgrades') }}" >
+			<xf:numberbox name="user_criteria[xs_uup_halxuuiosp][data][value_xs_uup_halxuuiosp]" value="{$criteria.xs_uup_halxuuiosp.value_xs_uup_halxuuiosp}"/>
+			<xf:select name="user_criteria[xs_uup_halxuuiosp][data][user_upgrade_id_halxuuiosp]" multiple="true" size="5" value="{$criteria.xs_uup_halxuuiosp.user_upgrade_id_halxuuiosp}">
+				<xf:foreach loop="$userUpgrades" value="$userUpgrade">
+					<xf:option value="{$userUpgrade.user_upgrade_id}" label="{$userUpgrade.title}" />
+				</xf:foreach>
+			</xf:select>
+		</xf:option>
+	</xf:if>
+	<xf:if is="$upgrades is not empty">
+		<xf:option name="user_criteria[xs_uup_hpaotsuu][rule]" value="xs_uup_hpaotsuu" selected="{$criteria.xs_uup_hpaotsuu}"
+					label="{{ phrase('xs_uup_has_purchased_at_least_x_user_upgrades_in_all_selected_user_upgrades') }}" >
+			<xf:numberbox name="user_criteria[xs_uup_hpaotsuu][data][value_xs_uup_hpaotsuu]" value="{$criteria.xs_uup_hpaotsuu.value_xs_uup_hpaotsuu}"/>
+			<xf:select name="user_criteria[xs_uup_hpaotsuu][data][upgrade_xs_uup_hpaotsuu]" multiple="true" size="5" value="{$criteria.xs_uup_hpaotsuu.upgrade_xs_uup_hpaotsuu}">
+				<xf:foreach loop="$upgrades" value="$upgrade">
+					<xf:option value="{$upgrade.user_upgrade_id}" label="{$upgrade.title}" />
+				</xf:foreach>
+			</xf:select>
+		</xf:option>
+	</xf:if>
+	<xf:if is="$payments is not empty">
+		<xf:option name="user_criteria[xs_uup_hpuaospp][rule]" value="xs_uup_hpuaospp" selected="{$criteria.xs_uup_hpuaospp}"
+					label="{{ phrase('xs_uup_has_purchased_through_any_of_the_selected_payment_profiles') }}" >
+			<xf:select name="user_criteria[xs_uup_hpuaospp][data][payment_xs_uup_hpuaospp]" multiple="true" size="5" value="{$criteria.xs_uup_hpuaospp.payment_xs_uup_hpuaospp}">
+				<xf:option value="0" label="{{ phrase('xs_uup_manual_upgrade') }}" />
+				<xf:foreach loop="$payments" value="$payment">
+					<xf:option value="{$payment.payment_profile_id}" label="{$payment.title}" />
+				</xf:foreach>
+			</xf:select>
+		</xf:option>
+	</xf:if>
+</xf:checkboxrow>]]></template>
+  <template type="admin" title="xs_uup_style_property_template_display_icon" version_id="2000100" version_string="2.0.1"><![CDATA[<xf:checkboxrow rowclass="{$rowClass}"
+	label="{$titleHtml}"
+	hint="{$hintHtml}"
+	explain="{$property.description}">
+
+	<xf:option name="{$formBaseKey}[active]" selected="{$property.property_value.active}">
+		{{ phrase('xs_uup_active_subscriptions') }}
+	</xf:option>
+	<xf:option name="{$formBaseKey}[expired]" selected="{$property.property_value.expired}">
+		{{ phrase('xs_uup_expired_subscriptions') }}
+	</xf:option>
+</xf:checkboxrow>]]></template>
+  <template type="email" title="xs_uup_active_email" version_id="2000000" version_string="2.0.0"><![CDATA[<mail:subject>
+	{{ phrase('xs_uup_active_email_expiring_user_upgrade_subject', {
+		'boardTitle': {$xf.options.boardTitle}
+	}) }}
+</mail:subject>
+
+{{ phrase('xs_uup_active_email_expiring_user_upgrade_body_html', {
+	'username': {$username},
+	'days': {$days},
+    'upgradeTitle': {$upgradeTitle},
+    'boardTitle': {$xf.options.boardTitle},
+    'boardUrl': {$xf.options.boardUrl},
+	'upgradeUrl': {$upgradeUrl}
+}) }}
+
+{{ phrase('xs_uup_active_user_upgrade_expiring_and_expired_email_html_footer', {
+        'board': $xf.options.boardTitle,
+        'disable_this_link': link('canonical:email-stop/content', $xf.toUser, {'id': $xf.toUser.user_id}),
+        'disable_all_link': link('canonical:email-stop/all', $xf.toUser)
+}) }}]]></template>
+  <template type="email" title="xs_uup_expired_email" version_id="2000000" version_string="2.0.0"><![CDATA[<mail:subject>
+	{{ phrase('xs_uup_expired_email_expiring_user_upgrade_subject', {
+		'boardTitle': {$xf.options.boardTitle}
+	}) }}
+</mail:subject>
+
+{{ phrase('xs_uup_expired_email_expiring_user_upgrade_body_html', {
+	'username': {$username},
+    'upgradeTitle': {$upgradeTitle},
+    'boardTitle': {$xf.options.boardTitle},
+    'boardUrl': {$xf.options.boardUrl},
+	'upgradeUrl': {$upgradeUrl}
+}) }}
+
+{{ phrase('xs_uup_active_user_upgrade_expiring_and_expired_email_html_footer', {
+        'board': $xf.options.boardTitle,
+        'disable_this_link': link('canonical:email-stop/content', $xf.toUser, {'id': $xf.toUser.user_id}),
+        'disable_all_link': link('canonical:email-stop/all', $xf.toUser)
+}) }}]]></template>
+  <template type="public" title="alert_user_xs_uup_alert_active" version_id="2000510" version_string="2.0.5 Fix 1"><![CDATA[{{ phrase('xs_uup_your_subscription_x_expires_in_y', {
+	'upgrade': '<a href="' . base_url($extra.upgradeUrl) . '" class="fauxBlockLink-blockLink">' . $extra.upgradeTitle . '</a>',
+	'days': $extra.days
+}) }}]]></template>
+  <template type="public" title="alert_user_xs_uup_alert_expired" version_id="2000510" version_string="2.0.5 Fix 1"><![CDATA[{{ phrase('xs_uup_your_subscription_x_has_expired', {
+	'upgrade': '<a href="' . base_url($extra.upgradeUrl) . '" class="fauxBlockLink-blockLink">' . $extra.upgradeTitle . '</a>'
+}) }}]]></template>
+  <template type="public" title="alert_xs_uup_active_admin_alert" version_id="2000400" version_string="2.0.4"><![CDATA[{{ phrase('xs_uup_the_user_x_has_his_subscription_y_which_is_about_to_expire', {
+	'link' : '<a href="' . base_url($extra.link) . '" class="fauxBlockLink-blockLink">' . $extra.user . '</a>',
+	'subscription' :  $extra.title
+}) }}]]></template>
+  <template type="public" title="alert_xs_uup_expired_admin_alert" version_id="2000300" version_string="2.0.3"><![CDATA[{{ phrase('xs_uup_the_user_x_has_his_subscription_y_which_has_expired', {
+	'link' : '<a href="' . base_url($extra.link) . '" class="fauxBlockLink-blockLink">' . $extra.user . '</a>',
+	'subscription' :  $extra.title
+
+}) }}]]></template>
+  <template type="public" title="xs_uup_active_popup" version_id="2000000" version_string="2.0.0"><![CDATA[<xf:if is="$activate is not empty">
+	<div class="menu-scroller">
+		<ol class="listPlain">
+			<xf:foreach loop="$activate" value="$active">
+				<xf:macro name="popup_item" arg-active="{$active}" />
+			</xf:foreach>
+		</ol>
+	</div>
+</xf:if>
+
+<xf:macro name="popup_item" arg-active="!">
+	<li class="menu-row menu-row--separated menu-row--clickable ">
+		<div class="fauxBlockLink">
+			<div class="contentRow">
+				<div class="contentRow-main contentRow-main--close">
+					{{ phrase('xs_uup_subscription_active', {
+						'link' : "{{ link('account/upgrades') }}",
+						'title' : "{$active.Upgrade.title}"
+					}) }}
+					<div class="contentRow-minor contentRow-minor--smaller contentRow-minor--hideLinks">
+						<xf:set var="$time">{{ ($active.Upgrade.length_amount == 0) ?  phrase('permanent')  : {$active.Upgrade.length_amount} }}</xf:set>
+						{{ phrase('xs_uup_subscription_expired_footer', {
+							'price' : {$active.Upgrade.cost_amount|currency($active.Upgrade.cost_currency)},
+							'time' : {$time},
+							'length' : {$active.Upgrade.length_unit}
+						}) }}
+					</div>
+				</div>
+			</div>
+		</div>
+	</li>
+</xf:macro>]]></template>
+  <template type="public" title="xs_uup_button_popup" version_id="2000100" version_string="2.0.1"><![CDATA[<xf:set var="$XsUupButton" value="{{ property('xs_uup_button_in_nav_bar_active') }}" />
+
+<xf:if is="$xf.visitor.canViewXsActiveExpiredUserUpgrade().expired && $XsUupButton.expired">
+	<a href="{{ link('account/upgrades') }}"
+	   class="p-navgroup-link p-navgroup-link--iconic p-navgroup-link--xs-uup-expired-upgrade js-badge--xs-uup-expired-upgrade badgeContainer"
+	   data-xf-click="menu"
+	   data-menu-pos-ref="< .p-navgroup"
+	   aria-label="{{ phrase('xs_uup_expired_subscriptions')|for_attr }}"
+	   aria-expanded="false"
+	   aria-haspopup="true">
+		<i aria-hidden="true"></i>
+		<span class="p-navgroup-linkText">{{ phrase('xs_uup_nav_expired_list_upgrade') }}</span>
+	</a>
+	<div class="menu menu--structural menu--medium" data-menu="menu" aria-hidden="true"
+		 data-href="{{ link('renew-sub/expired-popup') }}"
+		 data-nocache="true"
+		 data-load-target=".js-UpgradeMenuBody">
+		<div class="menu-content">
+			<h3 class="menu-header">{{ phrase('xs_uup_expired_subscriptions') }}</h3>
+			<div class="js-UpgradeMenuBody">
+				<div class="menu-row">{{ phrase('loading...') }}</div>
+			</div>
+			<div class="menu-footer menu-footer--split">
+				<span class="menu-footer-main">
+					<a href="{{ link('account/upgrades') }}">{{ phrase('show_all...') }}</a>
+				</span>
+			</div>
+		</div>
+	</div>
+</xf:if>
+<xf:if is="$xf.visitor.canViewXsActiveExpiredUserUpgrade().active && $XsUupButton.active">
+	<a href="{{ link('account/upgrades') }}"
+	   class="p-navgroup-link p-navgroup-link--iconic p-navgroup-link--xs-uup-active-upgrade js-badge--xs-uup-active-upgrade badgeContainer"
+	   data-xf-click="menu"
+	   data-menu-pos-ref="< .p-navgroup"
+	   aria-label="{{ phrase('xs_uup_active_subscriptions')|for_attr }}"
+	   aria-expanded="false"
+	   aria-haspopup="true">
+		<i aria-hidden="true"></i>
+		<span class="p-navgroup-linkText">{{ phrase('xs_uup_nav_active_list_upgrade') }}</span>
+	</a>
+	<div class="menu menu--structural menu--medium" data-menu="menu" aria-hidden="true"
+		 data-href="{{ link('renew-sub/active-popup') }}"
+		 data-nocache="true"
+		 data-load-target=".js-UpgradeMenuBody">
+		<div class="menu-content">
+			<h3 class="menu-header">{{ phrase('xs_uup_active_subscriptions') }}</h3>
+			<div class="js-UpgradeMenuBody">
+				<div class="menu-row">{{ phrase('loading...') }}</div>
+			</div>
+			<div class="menu-footer menu-footer--split">
+				<span class="menu-footer-main">
+					<a href="{{ link('account/upgrades') }}">{{ phrase('show_all...') }}</a>
+				</span>
+			</div>
+		</div>
+	</div>
+</xf:if>]]></template>
+  <template type="public" title="xs_uup_expired_popup" version_id="2000000" version_string="2.0.0"><![CDATA[<xf:if is="$expiring is not empty">
+	<div class="menu-scroller">
+		<ol class="listPlain">
+			<xf:foreach loop="$expiring" value="$expire">
+				<xf:macro name="popup_item" arg-expire="{$expire}" />
+			</xf:foreach>
+		</ol>
+	</div>
+</xf:if>
+
+<xf:macro name="popup_item" arg-expire="!">
+	<li class="menu-row menu-row--separated menu-row--clickable ">
+		<div class="fauxBlockLink">
+			<div class="contentRow">
+				<div class="contentRow-main contentRow-main--close">
+					{{ phrase('xs_uup_subscription_expired', {
+						'link' : "{{ link('account/upgrades') }}",
+						'title' : "{$expire.Upgrade.title}"
+					}) }}
+					<div class="contentRow-minor contentRow-minor--smaller contentRow-minor--hideLinks">
+						<xf:set var="$time">{{ ($expire.Upgrade.length_amount == 0) ?  phrase('permanent')  : {$expire.Upgrade.length_amount} }}</xf:set>
+						{{ phrase('xs_uup_subscription_expired_footer', {
+							'price' : {$expire.Upgrade.cost_amount|currency($expire.Upgrade.cost_currency)},
+							'time' : {$time},
+							'length' : {$expire.Upgrade.length_unit}
+						}) }}
+					</div>
+				</div>
+			</div>
+		</div>
+	</li>
+</xf:macro>]]></template>
+  <template type="public" title="xs_uup_invoice_index" version_id="2000000" version_string="2.0.0"><![CDATA[<xf:title>{{ phrase('xs_uup_invoice_list') }}</xf:title>
+
+<xf:if is="$active is not empty">
+	<div class="block">
+		<div class="block-container">
+			<h2 class="block-header">{{ phrase('purchased_upgrades') }}</h2>
+			<div class="block-body">
+				<xf:datalist data-xf-init="responsive-data-list">
+					<thead>
+						<xf:datarow rowtype="header">
+							<xf:cell>{{ phrase('title') }}</xf:cell>
+							<xf:cell>{{ phrase('cost') }}</xf:cell>
+							<xf:cell>{{ phrase('start_date') }}</xf:cell>
+							<xf:cell>{{ phrase('end_date') }}</xf:cell>
+							<xf:cell>{{ phrase('xs_uup_view_invoice') }}</xf:cell>
+							<xf:cell>{{ phrase('xs_uup_renew') }}</xf:cell>
+						</xf:datarow>
+					</thead>
+					<xf:foreach loop="$active" value="$upgrade">
+						<xf:datarow>
+							<xf:cell>{$upgrade.Upgrade.title}</xf:cell>
+							<xf:cell>{$upgrade.Upgrade.cost_amount} {$upgrade.Upgrade.cost_currency}</xf:cell>
+							<xf:cell><xf:date time="{$upgrade.start_date}" /></xf:cell>
+							<xf:cell>
+								<xf:if is="!$upgrade.end_date">
+									{{ phrase('permanent') }}
+									<xf:else/>
+									<xf:date time="{$upgrade.end_date}" />
+								</xf:if>
+							</xf:cell>
+							<xf:cell href="{{ link('user-upgrade-invoice/invoice-active', $upgrade) }}">
+								{{ phrase('xs_uup_view_invoice') }}
+							</xf:cell>
+							<xf:cell>
+								<xf:if is="$upgrade.Upgrade.canRenew()">
+									<a href="{{ link('renew-sub/renew', $upgrade.Upgrade) }}" data-xf-click="overlay">
+										<xf:fa icon="fas fa-sync"/>
+									</a>
+									<xf:else/>
+									<xf:fa icon="fas fa-times"/>
+								</xf:if>
+							</xf:cell>
+						</xf:datarow>
+					</xf:foreach>
+				</xf:datalist>
+			</div>
+		</div>
+	</div>
+</xf:if>
+
+<xf:if is="$expired is not empty">
+	<div class="block">
+		<div class="block-container">
+			<h2 class="block-header">{{ phrase('xs_uup_expired_upgrades') }}</h2>
+			<div class="block-body">
+				<xf:datalist data-xf-init="responsive-data-list">
+					<thead>
+						<xf:datarow rowtype="header">
+							<xf:cell>{{ phrase('title') }}</xf:cell>
+							<xf:cell>{{ phrase('cost') }}</xf:cell>
+							<xf:cell>{{ phrase('start_date') }}</xf:cell>
+							<xf:cell>{{ phrase('end_date') }}</xf:cell>
+							<xf:cell>{{ phrase('xs_uup_view_invoice') }}</xf:cell>
+							<xf:cell>{{ phrase('xs_uup_renew') }}</xf:cell>
+						</xf:datarow>
+					</thead>
+					<xf:foreach loop="$expired" value="$upgrade">
+						<xf:datarow>
+							<xf:cell>{$upgrade.Upgrade.title}</xf:cell>
+							<xf:cell>{$upgrade.Upgrade.cost_amount} {$upgrade.Upgrade.cost_currency}</xf:cell>
+							<xf:cell><xf:date time="{$upgrade.start_date}" /></xf:cell>
+							<xf:cell>
+								<xf:if is="!$upgrade.end_date">
+									{{ phrase('permanent') }}
+									<xf:else/>
+									<xf:date time="{$upgrade.end_date}" />
+								</xf:if>
+							</xf:cell>
+							<xf:cell href="{{ link('user-upgrade-invoice/invoice-expired', $upgrade) }}">
+								{{ phrase('xs_uup_view_invoice') }}
+							</xf:cell>
+							<xf:cell>
+								<xf:if is="$upgrade.Upgrade.canRenewExpired({$upgrade.user_upgrade_id})">
+									<a href="{{ link('renew-sub/renew-expired', $upgrade.Upgrade) }}" data-xf-click="overlay">
+										<xf:fa icon="fas fa-sync"/>
+									</a>
+									<xf:else/>
+									<xf:fa icon="fas fa-check"/>
+								</xf:if>
+							</xf:cell>
+						</xf:datarow>
+					</xf:foreach>
+				</xf:datalist>
+			</div>
+		</div>
+		<xf:pagenav page="{$expiredPage}" perpage="{$expiredPerPage}" total="{$expiredTotal}"
+				link="user-upgrade-invoice"
+				wrapperclass="block-outer block-outer--after" />
+	</div>
+</xf:if>]]></template>
+  <template type="public" title="xs_uup_invoice_invoice" version_id="2000300" version_string="2.0.3"><![CDATA[<xf:title>{{ phrase('xs_uup_invoice') }}</xf:title>
+
+<xf:breadcrumb href="{{ link('user-upgrade-invoice') }}">{{ phrase('xs_uup_invoice_list') }}</xf:breadcrumb>
+
+<xf:css src="xs_uup_invoice_invoice.less"/>
+
+<div class="block">
+	<div class="block-container xs-uup-invoice">
+		<div class="block-body">
+			<div class="xs-uup-invoice-header">
+				<div class="xs-uup-invoice-header-inner">
+					<xf:if is="!$xf.options.xs_uup_delete_the_invoice_number">
+						<span class="xs-uup-invoice-header-number-invoice">
+							{{ phrase('xs_uup_invoice_hashtag') }}{$upgrade.user_upgrade_record_id}
+						</span>
+					</xf:if>
+					
+					<img src="{$xf.options.xs_uup_invoice_logo}" class="xs-uup-invoice-header-logo">
+				</div>
+				<div class="xs-uup-invoice-header-inner xs-uup-invoice-header-end">
+					<span>
+						<b>{{ phrase('xs_uup_user:') }}</b> {$upgrade.User.username}
+						<xf:foreach loop="$fieldFinder" key="$fieldId" value="$field">
+							<xf:if is="{$userField.custom_fields.{$field.field_id}}">
+								<div class="xs-uup-invoice-field">
+									<b>{$field.title}:</b> {$userField.custom_fields.{$field.field_id}}
+								</div>
+							</xf:if>
+						</xf:foreach>
+					</span>
+					<div class="xs-uup-invoice-header-campany-detail">
+						<div class="xs-uup-invoice-header-campany-header">
+							{{ phrase('xs_uup_campany_details') }}
+						</div>
+						{$CompanyDetail|raw}
+					</div>
+				</div>
+			</div>
+			<xf:datalist data-xf-init="responsive-data-list">
+				<thead>
+					<xf:datarow rowtype="header">
+						<xf:cell>{{ phrase('title') }}</xf:cell>
+						<xf:cell>{{ phrase('description') }}</xf:cell>
+						<xf:cell>{{ phrase('start_date') }}</xf:cell>
+						<xf:cell>{{ phrase('end_date') }}</xf:cell>
+						<xf:cell>{{ phrase('cost') }}</xf:cell>
+					</xf:datarow>
+				</thead>
+				<xf:datarow>
+					<xf:cell>{$upgrade.Upgrade.title}</xf:cell>
+					<xf:cell>{$upgrade.Upgrade.description}</xf:cell>
+					<xf:cell><xf:date time="{$upgrade.start_date}" /></xf:cell>
+					<xf:cell>
+						<xf:if is="!$upgrade.end_date">
+							{{ phrase('permanent') }}
+							<xf:else/>
+							<xf:date time="{$upgrade.end_date}" />
+						</xf:if>
+					</xf:cell>
+					<xf:cell>{$upgrade.Upgrade.cost_amount} {$upgrade.Upgrade.cost_currency}</xf:cell>
+				</xf:datarow>
+			</xf:datalist>
+			<div class="xs-uup-invoice-footer">
+				<div class="xs-uup-invoice-footer-inner">
+					<span class="xs-uup-invoice-footer-total">
+						<b>{{ phrase('total:') }}</b> {$upgrade.Upgrade.cost_amount} {$upgrade.Upgrade.cost_currency}
+					</span>
+					<div class="xs-uup-invoice-footer-payment-method">
+						<div class="xs-uup-invoice-footer-payment-method-title">{{ phrase('xs_uup_payment_method') }}</div>
+						{{ $upgrade.PurchaseRequest.provider_id ? {$upgrade.PurchaseRequest.provider_id} :  phrase('n_a')  }}
+					</div>
+				</div>
+			</div>
+			<div class="xs-uup-invoice-footer-end">
+				{$FooterBlock|raw}
+			</div>
+		</div>
+	</div>
+</div>]]></template>
+  <template type="public" title="xs_uup_invoice_invoice.less" version_id="2000000" version_string="2.0.0"><![CDATA[.block-container.xs-uup-invoice{
+	padding: 10px;
+	.xs-uup-invoice-footer-inner
+	{
+		span.xs-uup-invoice-footer-total{
+			float: right; 
+			text-align: right;
+			float: right; 
+			text-align: right;
+			border: 1px solid #e7e7e7;
+			padding: 0 10px 0 10px;
+			border-top : none;
+		}
+	}
+	.xs-uup-invoice-header-logo{
+		width: 50%;
+	}
+	.xs-uup-invoice-header-campany-header{
+		display:none;
+	}
+	.dataList {
+		border-bottom: 1px solid #e7e7e7;
+	}
+	.dataList-row.dataList-row--header .dataList-cell
+	{
+		background: rgba(202, 202, 202, 0.65);
+		color: #434343;
+	}
+	.xs-uup-invoice-header-inner{
+		span{
+			float: right; 
+			text-align: right;
+			&.xs-uup-invoice-header-number-invoice{
+				color: @xf-paletteNeutral3;
+				font-weight: 600;
+				font-size: 20px;
+			}
+		}
+		.xs-uup-invoice-header-campany-detail{
+			width: 50%;
+		}
+	}
+	.xs-uup-invoice-footer-end{
+		padding-top:10px;
+	}
+	.xs-uup-invoice-header-end{
+		padding-bottom: 50px;
+	}
+	@media (max-width: @xf-responsiveMedium)
+	{
+		.xs-uup-invoice-header{
+			text-align: center;
+		}
+		.xs-uup-invoice-field{
+			text-align: center;
+		}
+		.xs-uup-invoice-header-campany-header{
+			display:block;
+			background: rgba(202, 202, 202, 0.65);
+    		color: #434343;
+			font-weight: 700;
+		}
+		.xs-uup-invoice-header-logo{
+			width: 100%;
+		}
+		.xs-uup-invoice-header-inner{
+			span{
+				float: none; 
+			}
+			.xs-uup-invoice-header-campany-detail{
+				width: 100%;
+				border: 2px solid rgba(202, 202, 202, 0.65);
+				margin-bottom: 10px;
+			}
+		}
+	}
+	@media (max-width: @xf-responsiveNarrow)
+	{
+		.xs-uup-invoice-header-end{
+			padding-bottom: 0;
+		}
+		.xs-uup-invoice-footer-inner{
+			text-align: center;
+			.xs-uup-invoice-footer-line-break{
+				display:none;
+			}
+			span.xs-uup-invoice-footer-total{
+				float: none; 
+			}
+			.xs-uup-invoice-footer-payment-method{
+				border: 2px solid rgba(202, 202, 202, 0.65);
+				margin: 10px 0 10px 0;
+			}
+			.xs-uup-invoice-footer-payment-method-title{
+				background: rgba(202, 202, 202, 0.65);
+    			color: #434343;
+				font-weight: 700;
+			}
+		}
+	}
+}]]></template>
+  <template type="public" title="xs_uup_renew" version_id="2000200" version_string="2.0.2"><![CDATA[<xf:title>{{ phrase('xs_uup_renew') }}</xf:title>
+
+<div class="block">
+	<div class="block-container">
+		<ul class="block-body">
+			<li>
+				<xf:form action="{{ link('purchase', $upgrade, {'user_upgrade_id': $upgrade.user_upgrade_id}) }}" ajax="true" data-xf-init="payment-provider-container">
+					<xf:hiddenval name="durations" id="duration">no</xf:hiddenval>
+					<xf:hiddenval name="renew">no</xf:hiddenval>
+					<xf:formrow rowtype="button"
+								label="{$upgrade.title}"
+								hint="{$upgrade.cost_phrase}"
+								explain="{$upgrade.description|raw}">
+						<div class="inputGroup">
+							<xf:if is="{{ count($upgrade.payment_profile_ids) > 1 }}">
+								<xf:select name="payment_profile_id">
+									<xf:option>{{ phrase('(choose_payment_method)') }}</xf:option>
+									<xf:foreach loop="$upgrade.payment_profile_ids" value="$profileId">
+										<xf:option value="{$profileId}">{$profiles.{$profileId}}</xf:option>
+									</xf:foreach>
+								</xf:select>
+								<span class="inputGroup-splitter"></span>
+								<xf:button type="submit" icon="purchase" />
+								<xf:else />
+								<xf:button type="submit" icon="purchase" />
+								<xf:hiddenval name="payment_profile_id">{$upgrade.payment_profile_ids|first}</xf:hiddenval>
+							</xf:if>
+						</div>
+					</xf:formrow>
+				</xf:form>
+				<div class="js-paymentProviderReply-user_upgrade{$upgrade.user_upgrade_id}"></div>
+			</li>
+		</ul>
+	</div>
+</div>]]></template>
+</templates>

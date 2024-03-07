@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<style_properties>
+  <style_property property_name="cv6CollapseActive" group_name="nodeList" title="Enable node collapse" property_type="value" value_type="boolean" value_group="NodeIcons" display_order="3800">
+    <value>1</value>
+  </style_property>
+  <style_property property_name="cv6CollapseIcon" group_name="nodeList" title="Icon for collapse" property_type="value" value_type="template" depends_on="cv6CollapseActive" value_group="NodeIcons" display_order="3810">
+    <value_parameters>template=cv6_style_template_icon
+type=scalar</value_parameters>
+    <value>"fa-chevron-circle-down"</value>
+  </style_property>
+  <style_property property_name="cv6DisplayIconCategory" group_name="nodeList" title="Display Icon in Category" description="If you want to display the custom Icon in the Overview before the Category, activate this option." property_type="value" value_type="boolean" value_group="NodeIcons" display_order="3610">
+    <value>0</value>
+  </style_property>
+  <style_property property_name="cv6DisplayIconHeading" group_name="nodeList" title="Displays the custon node Icon in the heading" description="If you added a custom FontAwesome Icon in the node settings, it can be displayed in front of the top heading." property_type="value" value_type="boolean" value_group="NodeIcons" display_order="3600">
+    <value>0</value>
+  </style_property>
+  <style_property property_name="cv6DisplayIconSize" group_name="nodeList" title="Icon Size" description="Enter the max size of the icon" property_type="value" value_type="unit" value_group="NodeIcons" display_order="3630">
+    <value>"34px"</value>
+  </style_property>
+  <style_property property_name="cv6NodeImageHover" group_name="nodeList" title="Hover Nodeimage" description="Apply filter for any nodeImage during hover" property_type="value" value_type="select" value_group="NodeIcons" display_order="3730">
+    <value_parameters>none={{ phrase('cv6_ni_no_filter') }}
+blur(2px)={{ phrase('cv6_ni_filter_blur') }}
+sepia(1)={{ phrase('cv6_ni_filter_sepia') }}
+grayscale(1)={{ phrase('cv6_ni_filter_gray') }}</value_parameters>
+    <value>"none"</value>
+  </style_property>
+  <style_property property_name="cv6NodeImageRead" group_name="nodeList" title="Read Nodeimage" description="Apply filter for nodeImage with no new posts" property_type="value" value_type="select" value_group="NodeIcons" display_order="3720">
+    <value_parameters>none={{ phrase('cv6_ni_no_filter') }}
+blur(2px)={{ phrase('cv6_ni_filter_blur') }}
+sepia(1)={{ phrase('cv6_ni_filter_sepia') }}
+grayscale(1)={{ phrase('cv6_ni_filter_gray') }}</value_parameters>
+    <value>"grayscale(1)"</value>
+  </style_property>
+  <style_property property_name="cv6NodeImageReadOpacity" group_name="nodeList" title="Nodeimage opacity" description="set the opacity in percent of the node image for forums with no new posts." property_type="value" value_type="number" value_group="NodeIcons" display_order="3650">
+    <value_parameters>min=0
+max=100</value_parameters>
+    <value>"60"</value>
+  </style_property>
+  <style_property property_name="cv6NodeImageUnread" group_name="nodeList" title="Unread Nodeimage" description="Apply filter for nodeImage with new posts" property_type="value" value_type="select" value_group="NodeIcons" display_order="3710">
+    <value_parameters>none={{ phrase('cv6_ni_no_filter') }}
+blur(2px)={{ phrase('cv6_ni_filter_blur') }}
+sepia(1)={{ phrase('cv6_ni_filter_sepia') }}
+grayscale(1)={{ phrase('cv6_ni_filter_gray') }}</value_parameters>
+    <value>"none"</value>
+  </style_property>
+</style_properties>

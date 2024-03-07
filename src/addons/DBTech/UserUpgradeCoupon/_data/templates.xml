@@ -1,0 +1,601 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates>
+  <template type="admin" title="dbtech_user_upgrade_coupon_edit" version_id="1010170" version_string="1.1.1"><![CDATA[<xf:if is="$coupon.isInsert()">
+	<xf:title>{{ phrase('dbtech_user_upgrade_add_coupon') }}</xf:title>
+<xf:else />
+	<xf:title>{{ phrase('dbtech_user_upgrade_edit_coupon:') }} {$coupon.title}</xf:title>
+</xf:if>
+
+<xf:pageaction if="$coupon.isUpdate()">
+	<xf:button href="{{ link('dbtech-upgrades/coupons/delete', $coupon) }}" icon="delete" overlay="true" />
+</xf:pageaction>
+
+<xf:form action="{{ link('dbtech-upgrades/coupons/save', $coupon) }}" ajax="true" class="block">
+	<div class="block-container">
+		<div class="block-body">
+			<xf:textboxrow name="title" value="{{ $coupon.exists() ? $coupon.MasterTitle.phrase_text : '' }}"
+				label="{{ phrase('title') }}" />
+
+			<hr class="formRowSep" />
+
+			<xf:textboxrow name="coupon_code" value="{$coupon.coupon_code}" maxlength="{{ max_length('DBTech\UserUpgradeCoupon:Coupon', 'coupon_code') }}"
+				label="{{ phrase('dbtech_user_upgrade_coupon_code') }}" />
+
+			<xf:radiorow name="coupon_type" value="{$coupon.coupon_type}"
+				label="{{ phrase('dbtech_user_upgrade_coupon_type') }}"
+				explain="{{ phrase('dbtech_user_upgrade_coupon_type_explain') }}">
+
+				<xf:option value="percent" label="{{ phrase('dbtech_user_upgrade_percent') }}">
+					<xf:dependent>
+						<div class="inputGroup">
+							<xf:numberbox name="coupon_percent" value="{$coupon.coupon_percent}" min="0" max="100"
+								step="any" />
+							<span class="inputGroup-text">%</span>
+						</div>
+					</xf:dependent>
+				</xf:option>
+				<xf:option value="value" label="{{ phrase('dbtech_user_upgrade_flat_value') }}">
+					<xf:dependent>
+						<div class="inputGroup">
+							<xf:numberbox name="coupon_value" value="{$coupon.coupon_value}" min="0"
+								step="any" />
+						</div>
+					</xf:dependent>
+				</xf:option>
+			</xf:radiorow>
+
+			<hr class="formRowSep" />
+
+			<xf:formrow label="{{ phrase('dbtech_user_upgrade_valid_from') }}" rowtype="input">
+				<div class="inputGroup">
+					<xf:dateinput name="start_date" value="{{ $coupon.start_date ? date($coupon.start_date, 'picker') : date($xf.time, 'picker') }}" />
+					<span class="inputGroup-splitter"></span>
+					<xf:textbox type="time" name="start_time" value="{{ $coupon.start_date ? date($coupon.start_date, 'H:i') : date($xf.time, 'H:i') }}" />
+				</div>
+			</xf:formrow>
+
+			<xf:if is="$coupon.isInsert()">
+				<xf:formrow rowtype="input"
+					label="{{ phrase('dbtech_user_upgrade_valid_for') }}">
+
+					<div class="inputGroup">
+						<xf:numberbox name="length_amount" value="7" min="1" max="255" />
+						<span class="inputGroup-splitter"></span>
+						<xf:select name="length_unit" value="day" class="input--inline">
+							<xf:option value="day">{{ phrase('days') }}</xf:option>
+							<xf:option value="month">{{ phrase('months') }}</xf:option>
+							<xf:option value="year">{{ phrase('years') }}</xf:option>
+						</xf:select>
+					</div>
+				</xf:formrow>
+			<xf:else />
+				<xf:formrow rowtype="input"
+					label="{{ phrase('dbtech_user_upgrade_valid_to') }}">
+
+					<div class="inputGroup">
+						<xf:dateinput name="expiry_date" value="{{ $coupon.expiry_date ? date($coupon.expiry_date, 'picker') : date($xf.time, 'picker') }}" />
+						<span class="inputGroup-splitter"></span>
+						<xf:textbox type="time" name="expiry_time" value="{{ $coupon.expiry_date ? date($coupon.expiry_date, 'H:i') : date($xf.time, 'H:i') }}" />
+					</div>
+				</xf:formrow>
+			</xf:if>
+
+			<xf:numberboxrow name="remaining_uses" value="{$coupon.remaining_uses}" min="-1" step="1"
+							 label="{{ phrase('dbtech_user_upgrade_coupon_remaining_uses') }}"
+							 explain="{{ phrase('dbtech_user_upgrade_coupon_remaining_uses_explain') }}" />
+
+			<xf:formrow rowtype="input"
+						label="{{ phrase('dbtech_user_upgrade_coupon_applicable_user_upgrades') }}"
+						explain="{{ phrase('dbtech_user_upgrade_coupon_applicable_user_upgrades_explain') }}">
+
+				<ul class="listPlain inputPair-container">
+					<xf:foreach loop="$coupon.user_upgrade_discounts" key="$counter" value="$discountInfo">
+						<li class="inputPair">
+							<div class="inputGroup">
+								<xf:select name="user_upgrade_discounts[{$counter}][user_upgrade_id]" value="{$discountInfo.user_upgrade_id}" class="filterBlock-input">
+									<xf:option>{{ phrase('(none)') }}</xf:option>
+
+									<xf:foreach loop="$userUpgrades" value="$userUpgrade">
+										<xf:option value="{$userUpgrade.user_upgrade_id}">{$userUpgrade.title}</xf:option>
+									</xf:foreach>
+								</xf:select>
+
+								<span class="inputGroup-splitter"></span>
+
+								<xf:numberbox name="user_upgrade_discounts[{$counter}][upgrade_value]" min="0" value="{$discountInfo.upgrade_value}"
+											  step="any" required="{{ false }}" />
+							</div>
+						</li>
+					</xf:foreach>
+					<li class="inputPair" data-xf-init="field-adder" data-increment-format="user_upgrade_discounts[{counter}]">
+						<div class="inputGroup">
+							<xf:select name="user_upgrade_discounts[{$nextCounter}][user_upgrade_id]" class="filterBlock-input">
+								<xf:option>{{ phrase('(none)') }}</xf:option>
+
+								<xf:foreach loop="$userUpgrades" value="$userUpgrade">
+									<xf:option value="{$userUpgrade.user_upgrade_id}">{$userUpgrade.title}</xf:option>
+								</xf:foreach>
+							</xf:select>
+
+							<span class="inputGroup-splitter"></span>
+
+							<xf:numberbox name="user_upgrade_discounts[{$nextCounter}][upgrade_value]" min="0"
+										  step="any" required="{{ false }}" />
+						</div>
+					</li>
+				</ul>
+			</xf:formrow>
+		</div>
+
+		<xf:submitrow sticky="true" icon="save" />
+	</div>
+</xf:form>]]></template>
+  <template type="admin" title="dbtech_user_upgrade_coupon_list" version_id="1000031" version_string="1.0.0 Beta 1"><![CDATA[<xf:title>{{ phrase('dbtech_user_upgrade_coupons') }}</xf:title>
+
+<xf:pageaction>
+	<xf:button href="{{ link('dbtech-upgrades/coupons/add') }}" icon="add">{{ phrase('dbtech_user_upgrade_add_coupon') }}</xf:button>
+</xf:pageaction>
+
+<xf:if is="$coupons is not empty">
+	<div class="block">
+		<div class="block-outer">
+			<xf:macro template="filter_macros" name="quick_filter" arg-key="dbtech-upgrades/coupons" arg-class="block-outer-opposite" />
+		</div>
+		<div class="block-container">
+			<div class="block-body">
+				<xf:datalist>
+					<xf:foreach loop="$coupons" value="$coupon">
+						<xf:datarow rowclass="{{ $coupon.coupon_state == 'deleted' ? 'dataList-row--deleted' : '' }}">
+							<xf:main hash="{$coupon.coupon_id}" href="{{ link('dbtech-upgrades/coupons/edit', $coupon) }}"
+								label="{$coupon.title}"
+								hint="{$coupon.coupon_code}">
+
+								<xf:explain>
+									<xf:if is="{$coupon.coupon_state} == 'visible'">
+										{{ phrase('dbtech_user_upgrade_valid_from_x_valid_to_y', {'validFrom': date_time($coupon.start_date), 'validTo': date_time($coupon.expiry_date)}) }}
+									<xf:elseif is="{$coupon.coupon_state} == 'deleted'" />
+										<xf:macro template="public:deletion_macros" name="notice" arg-log="{$coupon.DeletionLog}" />
+									</xf:if>				
+								</xf:explain>
+							</xf:main>
+							
+							<xf:action
+								class="{{ {$customPermissions.{$coupon.coupon_id}} ? 'dataList-cell--highlighted' : '' }}"
+								href="{{ link('dbtech-upgrades/coupons/permissions', $coupon) }}">
+								{{ phrase('permissions') }}
+							</xf:action>
+
+							<xf:action href="{{ link('dbtech-upgrades/coupons/add', null, {'source_coupon_id': $coupon.coupon_id}) }}">
+								{{ phrase('button.copy') }}
+							</xf:action>
+
+							<xf:action href="{{ link('dbtech-upgrades/logs/coupons', null, {'criteria': {'coupon_id': $coupon.coupon_id}}) }}" class="u-hideMedium">{{ phrase('dbtech_user_upgrade_view_usage') }}</xf:action>
+
+							<xf:delete href="{{ link('dbtech-upgrades/coupons/delete', $coupon) }}" />
+						</xf:datarow>
+					</xf:foreach>
+				</xf:datalist>
+			</div>
+			<div class="block-footer">
+				<span class="block-footer-counter">{{ display_totals($coupons) }}</span>
+			</div>
+		</div>
+	</div>
+<xf:else />
+	<div class="blockMessage">{{ phrase('no_items_have_been_created_yet') }}</div>
+</xf:if>]]></template>
+  <template type="admin" title="dbtech_user_upgrade_coupon_permission_edit" version_id="1000170" version_string="1.0.1"><![CDATA[<xf:if is="$userGroup">
+	<xf:title>{$userGroup.title}</xf:title>
+<xf:else />
+	<xf:title>{$user.username}</xf:title>
+</xf:if>
+
+<xf:breadcrumb href="{{ link('dbtech-upgrades/coupons/permissions', $record) }}">{{ phrase('permissions:') }} {$record.title}</xf:breadcrumb>
+
+<xf:macro template="dbtech_user_upgrade_permission_coupon_macros" name="edit"
+	arg-coupon="{$record}"
+	arg-permissionData="{$permissionData}"
+	arg-typeEntries="{$typeEntries}"
+	arg-routeBase="dbtech-upgrades/coupons/permissions"
+	arg-saveParams="{$saveParams}" />]]></template>
+  <template type="admin" title="dbtech_user_upgrade_coupon_permission_list" version_id="1000031" version_string="1.0.0 Beta 1"><![CDATA[<xf:title>{{ phrase('permissions:') }} {$record.title}</xf:title>
+
+<xf:macro template="dbtech_user_upgrade_permission_coupon_macros" name="list"
+	arg-coupon="{$record}"
+	arg-isPrivate="{$isPrivate}"
+	arg-userGroups="{$userGroups}"
+	arg-users="{$users}"
+	arg-entries="{$entries}"
+	arg-routeBase="dbtech-upgrades/coupons/permissions" />]]></template>
+  <template type="admin" title="dbtech_user_upgrade_log_coupon_list" version_id="1000031" version_string="1.0.0 Beta 1"><![CDATA[<xf:title>{{ phrase('dbtech_user_upgrade_coupon_log') }}</xf:title>
+
+<xf:pageaction>
+	<xf:button href="{{ link('dbtech-upgrades/logs/coupons/search') }}" icon="search">{{ phrase('search_logs') }}</xf:button>
+</xf:pageaction>
+
+<xf:if is="$entries is not empty">
+	<div class="block">
+		<div class="block-container">
+			<div class="block-body">
+				<xf:datalist>
+					<xf:foreach loop="$entries" value="$entry">
+						<xf:datarow>
+							<xf:main href="{{ link('dbtech-upgrades/logs/coupons', $entry) }}" overlay="true">
+								<xf:label>
+									{{ $entry.Coupon.title ?: phrase('dbtech_user_upgrade_unknown_coupon') }}
+								</xf:label>
+								<xf:hint>
+									{{ $entry.Upgrade.title ?: phrase('dbtech_user_upgrade_unknown_user_upgrade') }}
+								</xf:hint>
+								<xf:explain>
+									<ul class="listInline listInline--bullet">
+										<li><xf:date time="{$entry.log_date}" data-full-date="true" /></li>
+										<li>{{ $entry.User ? $entry.User.username : phrase('unknown_user') }}</li>
+										<li>{{ $entry.Ip ? {$entry.Ip.ip|ip} : phrase('dbtech_user_upgrade_unknown_ip_address') }}</li>
+									</ul>
+								</xf:explain>
+							</xf:main>
+						</xf:datarow>
+					</xf:foreach>
+				</xf:datalist>
+			</div>
+			<div class="block-footer">
+				<span class="block-footer-counter">{{ display_totals($entries, $total) }}</span>
+			</div>
+		</div>
+
+		<xf:pagenav page="{$page}" perpage="{$perPage}" total="{$total}"
+					link="dbtech-upgrades/logs/coupons" params="{{ {'criteria': $criteria, 'order': $order, 'direction': $direction} }}"
+					wrapperclass="block-outer block-outer--after" />
+
+	</div>
+<xf:else />
+	<div class="blockMessage">{{ phrase('dbtech_user_upgrade_there_no_coupon_logs_to_display') }}</div>
+</xf:if>]]></template>
+  <template type="admin" title="dbtech_user_upgrade_log_coupon_search" version_id="1000031" version_string="1.0.0 Beta 1"><![CDATA[<xf:title>{{ phrase('dbtech_user_upgrade_coupon_log_search') }}</xf:title>
+
+<xf:form action="{{ link('dbtech-upgrades/logs/coupons') }}" class="block">
+	<div class="block-container">
+		<div class="block-body">
+			<xf:textboxrow name="criteria[User][username]" ac="single" value="{$criteria.User.username}"
+				label="{{ phrase('user') }}" />
+
+			<xf:textboxrow name="criteria[ip]" value="{$criteria.ip}"
+						   label="{{ phrase('ip_address') }}"
+						   explain="{{ phrase('dbtech_user_upgrade_coupon_log_ip_search_explain') }}" />
+
+			<hr class="formRowSep" />
+
+			<xf:formrow rowtype="input"
+						label="{{ phrase('dbtech_user_upgrade_coupon_used_between') }}">
+				<div class="inputGroup">
+					<xf:dateinput name="criteria[log_date][start]" value="{$criteria.log_date.start}" size="15" />
+					<span class="inputGroup-text">-</span>
+					<xf:dateinput name="criteria[log_date][end]" value="{$criteria.log_date.end}" size="15" />
+				</div>
+			</xf:formrow>
+
+			<xf:formrow rowtype="input"
+						label="{{ phrase('dbtech_user_upgrade_coupon_discounts_between') }}"
+						explain="{{ phrase('use_negative_one_specify_no_max') }}">
+				<div class="inputGroup">
+					<xf:numberbox name="criteria[coupon_discounts][start]" value="{$criteria.coupon_discounts.start}" size="5" min="0" />
+					<span class="inputGroup-text">-</span>
+					<xf:numberbox name="criteria[coupon_discounts][end]" value="{$criteria.coupon_discounts.end}" size="5" min="-1" />
+				</div>
+			</xf:formrow>
+
+			<xf:selectrow name="criteria[coupon_id]" value="{$criteria.coupon_id}"
+				label="{{ phrase('dbtech_user_upgrade_coupon') }}">
+
+				<xf:option label="{{ phrase('(any)') }}" />
+				<xf:options source="$coupons" />
+			</xf:selectrow>
+
+			<xf:selectrow name="criteria[user_upgrade_id]" value="{$criteria.user_upgrade_id}"
+						  label="{{ phrase('dbtech_user_upgrade_user_upgrade') }}">
+
+				<xf:option label="{{ phrase('(any)') }}" />
+				<xf:options source="$userUpgrades" />
+			</xf:selectrow>
+
+			<hr class="formRowSep" />
+
+			<xf:formrow rowtype="input"
+				label="{{ phrase('sort') }}">
+
+				<div class="inputPair">
+					<xf:select name="order">
+						<xf:options source="{$sortOrders}" />
+					</xf:select>
+					<xf:select name="direction" value="desc">
+						<xf:option value="asc">{{ phrase('ascending') }}</xf:option>
+						<xf:option value="desc">{{ phrase('descending') }}</xf:option>
+					</xf:select>
+				</div>
+			</xf:formrow>
+		</div>
+		<xf:submitrow sticky="true" icon="search" />
+	</div>
+</xf:form>]]></template>
+  <template type="admin" title="dbtech_user_upgrade_log_coupon_view" version_id="1000031" version_string="1.0.0 Beta 1"><![CDATA[<xf:title>{{ phrase('dbtech_user_upgrade_coupon_log_entry') }}</xf:title>
+
+<div class="block">
+	<div class="block-container">
+		<div class="block-body">
+			<xf:formrow label="{{ phrase('user') }}">
+				<a href="{{ link('users/edit', $entry.User) }}">{$entry.User.username}</a>
+			</xf:formrow>
+			<xf:if is="$entry.Ip">
+				<xf:formrow label="{{ phrase('ip_address') }}">
+					<a href="{{ link_type('public', 'misc/ip-info', null, {'ip': $entry.Ip.ip|ip}) }}" target="_blank" class="u-ltr">{$entry.Ip.ip|ip}</a>
+				</xf:formrow>
+			</xf:if>
+			<xf:formrow label="{{ phrase('date') }}">
+				<xf:date time="{$entry.log_date}" data-full-date="true" />
+			</xf:formrow>
+
+			<hr class="formRowSep" />
+
+			<xf:formrow label="{{ phrase('dbtech_user_upgrade_coupon') }}">
+				<xf:if is="$entry.Coupon">
+					<a href="{{ link('dbtech-upgrades/coupons/edit', $entry.Coupon) }}">{$entry.Coupon.title}</a>
+				<xf:else />
+					{{ phrase('dbtech_user_upgrade_unknown_coupon') }}
+				</xf:if>
+			</xf:formrow>
+			<xf:formrow label="{{ phrase('dbtech_user_upgrade_discount') }}">
+				{$entry.coupon_discounts|currency($entry.currency)}
+			</xf:formrow>
+
+			<xf:formrow label="{{ phrase('dbtech_user_upgrade_user_upgrade') }}">
+				<xf:if is="$entry.Upgrade">
+					<a href="{{ link('user-upgrades/edit', $entry.Upgrade) }}">{$entry.Upgrade.title}</a>
+				<xf:else />
+					{{ phrase('dbtech_user_upgrade_unknown_user_upgrade') }}
+				</xf:if>
+			</xf:formrow>
+		</div>
+	</div>
+</div>]]></template>
+  <template type="admin" title="dbtech_user_upgrade_permission_coupon_edit" version_id="1000031" version_string="1.0.0 Beta 1"><![CDATA[<xf:if is="$userGroup">
+	<xf:title>{$userGroup.title}</xf:title>
+<xf:else />
+	<xf:title>{$user.username}</xf:title>
+</xf:if>
+
+<xf:breadcrumb href="{{ link('permissions/dbtech-upgrade-coupons', $record) }}">{$record.title}</xf:breadcrumb>
+
+<xf:macro template="dbtech_user_upgrade_permission_coupon_macros" name="edit"
+	arg-coupon="{$record}"
+	arg-permissionData="{$permissionData}"
+	arg-typeEntries="{$typeEntries}"
+	arg-routeBase="permissions/dbtech-upgrade-coupons"
+	arg-saveParams="{$saveParams}" />]]></template>
+  <template type="admin" title="dbtech_user_upgrade_permission_coupon_list" version_id="1000031" version_string="1.0.0 Beta 1"><![CDATA[<xf:title>{$record.title}</xf:title>
+
+<xf:macro template="dbtech_user_upgrade_permission_coupon_macros" name="list"
+	arg-coupon="{$record}"
+	arg-isPrivate="{$isPrivate}"
+	arg-userGroups="{$userGroups}"
+	arg-users="{$users}"
+	arg-entries="{$entries}"
+	arg-routeBase="permissions/dbtech-upgrade-coupons" />]]></template>
+  <template type="admin" title="dbtech_user_upgrade_permission_coupon_macros" version_id="1000031" version_string="1.0.0 Beta 1"><![CDATA[<xf:macro name="list"
+	arg-coupon="!"
+	arg-isPrivate="!"
+	arg-userGroups="!"
+	arg-users="!"
+	arg-entries="!"
+	arg-routeBase="!">
+
+	<xf:form action="{{ link($routeBase . '/save', $coupon) }}" ajax="true" class="block">
+		<div class="block-container">
+			<div class="block-body">
+				<xf:checkboxrow>
+					<xf:option name="private" selected="{$isPrivate}"
+						label="{{ phrase('dbtech_user_upgrade_private_coupon') }}"
+						hint="{{ phrase('dbtech_user_upgrade_if_selected_users_only_use_coupon_if_granted_permissions') }}" />
+				</xf:checkboxrow>
+			</div>
+			<xf:submitrow icon="save" />
+		</div>
+		<xf:hiddenval name="type">private</xf:hiddenval>
+	</xf:form>
+
+	<div class="block">
+		<div class="block-container">
+			<h3 class="block-header">{{ phrase('user_groups') }}</h3>
+			<div class="block-body">
+				<xf:datalist>
+					<xf:foreach loop="$userGroups" value="$userGroup">
+						<xf:datarow
+							label="{$userGroup.title}"
+							href="{{ link($routeBase . '/edit', $coupon, {'user_group_id': $userGroup.user_group_id}) }}"
+							rowclass="{{ {$entries.groups.{$userGroup.user_group_id}} ? 'dataList-row--custom' : '' }}" />
+					</xf:foreach>
+				</xf:datalist>
+			</div>
+		</div>
+	</div>
+
+	<xf:form action="{{ link($routeBase . '/edit', $coupon) }}" class="block">
+		<div class="block-container">
+			<h3 class="block-header">{{ phrase('users_with_permissions_set') }}</h3>
+			<div class="block-body">
+				<xf:if is="$users is not empty">
+					<xf:datalist>
+						<xf:foreach loop="$users" value="$user">
+							<xf:datarow
+								label="{$user.username}"
+								href="{{ link($routeBase . '/edit', $coupon, {'user_id': $user.user_id}) }}"
+								rowclass="dataList-row--custom" />
+						</xf:foreach>
+					</xf:datalist>
+					<hr class="block-separator" />
+				</xf:if>
+				<xf:textboxrow name="username" ac="single"
+					label="{{ phrase('set_permissions_for_user') }}" />
+			</div>
+			<xf:submitrow submit="{{ phrase('proceed...') }}" />
+		</div>
+		<xf:hiddenval name="type">user</xf:hiddenval>
+	</xf:form>
+</xf:macro>
+
+<xf:macro name="edit"
+	arg-coupon="!"
+	arg-permissionData="!"
+	arg-typeEntries="!"
+	arg-routeBase="!"
+	arg-saveParams="!">
+
+	<xf:form action="{{ link($routeBase . '/save', $coupon, $saveParams) }}" ajax="true" class="block">
+		<xf:macro template="permission_macros" name="edit_outer" arg-type="content" />
+
+		<div class="block-container">
+			<xf:macro template="permission_macros" name="content_edit_groups"
+				arg-permissionsGrouped="{$permissionData.permissionsGrouped}"
+				arg-interfaceGroups="{$permissionData.interfaceGroups}"
+				arg-values="{$typeEntries}" />
+			<xf:submitrow sticky="true" icon="save" />
+		</div>
+	</xf:form>
+</xf:macro>]]></template>
+  <template type="admin" title="dbtech_user_upgrade_permission_coupon_overview" version_id="1000031" version_string="1.0.0 Beta 1"><![CDATA[<xf:title>{{ phrase('dbtech_user_upgrade_coupon_permissions') }}</xf:title>
+
+<xf:if is="$coupons is not empty">
+	<div class="block">
+		<div class="block-outer">
+			<xf:macro template="filter_macros" name="quick_filter" arg-key="dbtech-upgrade-coupons" arg-class="block-outer-opposite" />
+		</div>
+		<div class="block-container">
+			<div class="block-body">
+				<xf:datalist>
+					<xf:foreach loop="$coupons" value="$coupon">
+						<xf:datarow rowclass="{{ {$customPermissions.{$coupon.coupon_id}} ? 'dataList-row--custom' : '' }}">
+							<xf:cell class="dataList-cell--link dataList-cell--main" hash="{$coupon.coupon_id}">
+								<a href="{{ link('permissions/dbtech-upgrade-coupons', $coupon) }}">
+									<div class="dataList-mainRow">{$coupon.title}</div>
+								</a>
+							</xf:cell>
+							<xf:action href="{{ link('dbtech-upgrades/coupons/edit', $coupon) }}">{{ phrase('edit') }}</xf:action>
+						</xf:datarow>
+					</xf:foreach>
+				</xf:datalist>
+			</div>
+		</div>
+	</div>
+<xf:else />
+	<div class="blockMessage">{{ phrase('no_items_have_been_created_yet') }}</div>
+</xf:if>]]></template>
+  <template type="admin" title="option_template_dbtechUserUpgradeCouponsUserGroupTrial" version_id="1000031" version_string="1.0.0 Beta 1"><![CDATA[<xf:formrow
+		hint="{$hintHtml}"
+		html="{$listedHtml}">
+
+	<xf:checkbox name="{$inputName}[enabled]" value="{$option.option_value.enabled}">
+		<xf:option value="1">
+			<xf:label>{$option.title}</xf:label>
+			
+			<xf:dependent>
+				<div class="u-inputSpacer">
+					<div class="inputGroup">
+						<xf:numberbox name="{$inputName}[trial_length_amount]" value="{$option.option_value.trial_length_amount}" min="1" max="255" />
+						<span class="inputGroup-splitter"></span>
+						<xf:select name="{$inputName}[trial_length_unit]" value="{$option.option_value.trial_length_unit}" class="input--inline">
+							<xf:option value="day">{{ phrase('days') }}</xf:option>
+							<xf:option value="month">{{ phrase('months') }}</xf:option>
+							<xf:option value="year">{{ phrase('years') }}</xf:option>
+						</xf:select>
+					</div>
+				</div>
+			</xf:dependent>
+			
+			<xf:dependent>
+				<div class="u-inputSpacer">
+					<div class="inputGroup">
+						<span class="inputGroup-text">{{ phrase('dbtech_user_upgrade_coupon_for_user_group...')}}</span>
+					</div>
+				</div>
+				<div class="u-inputSpacer">
+					<div class="inputGroup">
+						<xf:set var="$userGroupRepo" value="{$xf.app.em.getRepository('XF:UserGroup')}" />
+						<xf:set var="$userGroups" value="{$userGroupRepo.getUserGroupTitlePairs()}" />
+						
+						<xf:select name="{$inputName}[user_group_id]" value="{$option.option_value.user_group_id}">
+							<xf:options source="$userGroups" />
+						</xf:select>
+					</div>
+				</div>
+			</xf:dependent>
+			
+		</xf:option>
+	</xf:checkbox>
+	<div class="formRow-explain">{$explainHtml}</div>
+</xf:formrow>]]></template>
+  <template type="public" title="dbtech_user_upgrade_core_formrow.less" version_id="1000070" version_string="1.0.0"><![CDATA[.userUpgradeCoupon-oldPrice
+{
+	text-decoration: line-through;
+}]]></template>
+  <template type="public" title="dbtech_user_upgrade_coupon" version_id="1000032" version_string="1.0.0 Beta 2"><![CDATA[<xf:form action="{{ link('purchase/apply-coupon') }}" class="block" ajax="true">
+	<div class="block-container">
+		<h2 class="block-header">{{ phrase('dbtech_user_upgrade_coupon') }}</h2>
+
+		<div class="block-body">
+			<xf:set var="$coupon" value="{{ $xf.app.em.getRepository('DBTech\UserUpgradeCoupon:Coupon').getCouponFromCookie() }}" />
+			<xf:if is="$coupon">
+				<xf:formrow label="{{ phrase('dbtech_user_upgrade_coupon_applied_coupon') }}">
+					{$coupon.title}
+				</xf:formrow>
+			</xf:if>
+
+			<xf:textboxrow name="coupon_code" value="{{ $coupon ? $coupon.coupon_code : '' }}"
+						   label="{{ phrase('dbtech_user_upgrade_coupon_code') }}"
+						   placeholder="{{ phrase('dbtech_user_upgrade_coupon_code') }}" />
+
+			<xf:submitrow submit="{{ phrase('dbtech_user_upgrade_coupon_apply') }}" icon="save" />
+		</div>
+	</div>
+</xf:form>]]></template>
+  <template type="public" title="dbtech_user_upgrade_delete_state" version_id="1000031" version_string="1.0.0 Beta 1"><![CDATA[<xf:title>{{ phrase('confirm_action') }}</xf:title>
+
+<xf:breadcrumb href="{$editLink}">{$title}</xf:breadcrumb>
+
+<xf:form action="{$deleteLink}" class="block" ajax="true">
+	<div class="block-container">
+		<div class="block-body">
+			<xf:macro template="public:dbtech_user_upgrade_helper_action" name="delete_type" 
+					  arg-content="{$entity}"
+					  arg-stateKey="{$stateKey}"
+					  arg-canHardDelete="{$canHardDelete}" />
+			
+			<xf:if is="$includeAuthorAlert">
+				<xf:macro template="public:helper_action" name="author_alert" />
+			</xf:if>
+		</div>
+		<xf:submitrow rowtype="simple" icon="delete" />
+	</div>
+</xf:form>]]></template>
+  <template type="public" title="dbtech_user_upgrade_helper_action" version_id="1000031" version_string="1.0.0 Beta 1"><![CDATA[<xf:macro name="delete_type" arg-content="!" arg-stateKey="!" arg-canHardDelete="{{ false }}" arg-typeName="hard_delete" arg-reasonName="reason">
+	<xf:if is="{$content.{$stateKey}} == 'deleted'">
+		
+		<xf:radiorow name="{$typeName}" value="0"
+					 label="{{ phrase('deletion_type') }}">
+
+			<xf:option value="0"
+					   label="{{ phrase('dbtech_user_upgrade_keep_deleted') }}" />
+			
+			<xf:if is="$canHardDelete">
+				<xf:option value="1"
+						   label="{{ phrase('permanently_delete') }}"
+						   hint="{{ phrase('selecting_this_option_will_permanently_and_irreversibly_delete_item') }}" />
+			</xf:if>
+
+			<xf:option value="2"
+					   label="{{ phrase('undelete') }}" />
+		</xf:radiorow>
+	<xf:else />
+		<xf:macro template="public:helper_action" name="delete_type" arg-canHardDelete="{$canHardDelete}" />
+	</xf:if>
+</xf:macro>]]></template>
+</templates>

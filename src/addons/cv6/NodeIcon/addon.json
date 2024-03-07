@@ -1,0 +1,30 @@
+{
+    "legacy_addon_id": "",
+    "title": "[cv6] Node Icons & Tools",
+    "description": "Change the node icon to any font awesome icon or other images, adding more Node Helpers",
+    "version_id": 1030400,
+    "version_string": "1.3.4",
+    "dev": "JustinHawk",
+    "dev_url": "https://xenforo.com/community/members/justinhawk.108411/",
+    "faq_url": "https://xenforo.com/community/resources/cv6-nodeicons.5565/field?field=faq",
+    "support_url": "https://xenforo.com/community/threads/cv6-nodeicons.132185/",
+    "extra_urls": {
+        "Donate": "https://www.paypal.com/paypalme/Tdadwal/10",
+        "iconfu/svg-inject ": "https://github.com/iconfu/svg-inject"
+    },
+    "require": {
+        "XF": [
+            2020010,
+            "XenForo 2.2.0+"
+        ],
+        "php": [
+            "7.2.0",
+            "PHP 7.2.0+"
+        ],
+        "cv6/Core": [
+            1000070,
+            "cv6/Core AddOn 1.0+"
+        ]
+    },
+    "icon": "logo-cv6.png"
+}

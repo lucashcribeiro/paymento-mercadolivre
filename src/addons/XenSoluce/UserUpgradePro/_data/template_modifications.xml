@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template_modifications>
+  <modification type="public" template="PAGE_CONTAINER" modification_key="xs_uup_add_button_notif" execution_order="10" enabled="1" action="preg_replace">
+    <find><![CDATA[#(<a href="{{ link\('account/alerts'\) }}"\s+class="[\w\-\s]+p-navgroup-link--alerts.*</div>.+)(</xf:if>)#siU]]></find>
+    <replace><![CDATA[$1
+<xf:include template="xs_uup_button_popup"/>
+$2]]></replace>
+  </modification>
+  <modification type="public" template="account_upgrades" modification_key="xs_uup_add_button_account_upgrades" execution_order="10" enabled="1" action="preg_replace">
+    <find><![CDATA[/{{ phrase\('expires:'\) }}(.*<xf:date time=)(.*?)(.*\/>)/]]></find>
+    <replace><![CDATA[$0
+<xf:if is="$upgrade.canRenew()">
+	<xf:button href="{{ link('renew-sub/renew', $upgrade) }}" overlay="true">
+		<xf:fa icon="fas fa-sync"/> {{ phrase('xs_uup_renew') }}
+	</xf:button>
+</xf:if>]]></replace>
+  </modification>
+  <modification type="public" template="account_visitor_menu" modification_key="xs_uup_add_link_account_visitor_menu" execution_order="10" enabled="1" action="preg_replace">
+    <find><![CDATA[/<!--\[XF:account_links:bottom\]-->\s*<\/ul>/s]]></find>
+    <replace><![CDATA[<li><a href="{{ link('user-upgrade-invoice') }}" class="menu-linkRow">{{ phrase('xs_uup_invoice') }}</a></li>
+$0]]></replace>
+  </modification>
+  <modification type="public" template="core.less" modification_key="xs_uup_add_icon_in_core_less" execution_order="10" enabled="1" action="preg_replace">
+    <find><![CDATA[/$/]]></find>
+    <replace><![CDATA[.p-navgroup-link
+{
+	&--xs-uup-expired-upgrade i:after
+	{
+		.m-faContent(@fa-var-times, 1em);
+	}
+	&--xs-uup-active-upgrade i:after
+	{
+		.m-faContent(@fa-var-check, 1em);
+	}
+}]]></replace>
+  </modification>
+  <modification type="admin" template="helper_criteria" modification_key="xs_uup_add_criteria" execution_order="10" enabled="1" action="preg_replace">
+    <find><![CDATA[/<!--\[XF:user:status_bottom\]-->/s]]></find>
+    <replace><![CDATA[<xf:option name="user_criteria[XsUserUpgradeExpired][rule]" value="XsUserUpgradeExpired" selected="{$criteria.XsUserUpgradeExpired}"
+					label="{{ phrase('xs_uup_helper_criteria_upgrade_expired') }}" />
+$0]]></replace>
+  </modification>
+  <modification type="admin" template="helper_criteria" modification_key="xs_uup_add_criteria_user_upgrade" execution_order="10" enabled="1" action="preg_replace">
+    <find><![CDATA[/(<!--\[XF:user:status_bottom\]-->)(.*?)(<\/xf:checkboxrow>)/s]]></find>
+    <replace><![CDATA[$0
+<xf:include template="xs_uup_helper_criteria" />]]></replace>
+  </modification>
+  <modification type="public" template="member_macros" modification_key="xs_uup_add_number_upgrade" execution_order="10" enabled="1" action="preg_replace">
+    <find><![CDATA[/<!--\[XF:stat_pairs:below_trophies\]-->/s]]></find>
+    <replace><![CDATA[$0
+<xf:if is="$user.xs_uup_count_upgrade != 0">
+	<dl class="pairs pairs--rows pairs--rows--centered menu-fauxLinkRow">
+		<dt>{{ phrase('xs_uup_upgrade_number') }}</dt>
+		<dd>
+			{$user.xs_uup_count_upgrade}
+		</dd>
+	</dl>
+</xf:if>]]></replace>
+  </modification>
+  <modification type="admin" template="user_edit" modification_key="xs_uup_user_edit" execution_order="10" enabled="1" action="preg_replace">
+    <find><![CDATA[/(<xf:option name="option\[is_discouraged\]")(.*)(<\/xf:checkboxrow>)/Us]]></find>
+    <replace><![CDATA[$0
+<xf:checkboxrow>
+	<xf:option name="xs_uup_alert_expired" selected="$user.xs_uup_alert_expired"
+			   hint="{{ phrase('xs_uup_alert_explain') }}">{{ phrase('xs_uup_alert_administrator') }}</xf:option>
+</xf:checkboxrow>]]></replace>
+  </modification>
+  <modification type="admin" template="user_field_edit" modification_key="xs_uup_add_option_user_field_edit" description="Add Required to upgrade to user_field_edit" execution_order="10" enabled="1" action="preg_replace">
+    <find><![CDATA[/(<xf:option name="viewable_message")(.*\/>)/Us]]></find>
+    <replace><![CDATA[$0
+<xf:option name="xs_uup_enable_invoice" selected="$field.xs_uup_enable_invoice"
+				label="{{ phrase('xs_uup_enable_in_invoice') }}"
+				hint="{{ phrase('xs_uup_enable_in_invoice_hint') }}" />]]></replace>
+  </modification>
+  <modification type="admin" template="user_upgrade_edit" modification_key="xs_uup_add_input_user_upgrade_edit" execution_order="10" enabled="1" action="preg_replace">
+    <find><![CDATA[/(<xf:option name="can_purchase")(.*?)(.*<\/xf:checkboxrow>)/Us]]></find>
+    <replace><![CDATA[$0
+<hr class="formRowSep">
+<xf:numberboxrow name="xs_uup_renew_day" value="{$upgrade.xs_uup_renew_day}"  label="{{ phrase('xs_uup_renew_day') }}"
+				 explain="{{ phrase('xs_uup_renew_day_explain') }}"/>
+<xf:numberboxrow name="xs_uup_alert_time_active" value="{$upgrade.xs_uup_alert_time_active}" label="{{ phrase('xs_uup_alert_time_active') }}"
+				 explain="{{ phrase('xs_uup_alert_time_active_explain') }}"/>
+<xf:numberboxrow name="xs_uup_alert_time_expired" value="{$upgrade.xs_uup_alert_time_expired}" label="{{ phrase('xs_uup_alert_time_expired') }}" 
+				 explain="{{ phrase('xs_uup_alert_time_expired_explain') }}" />
+<xf:checkboxrow explain="{{ phrase('xs_uup_enable_invoice_for_this_upgrade_explain') }}">
+	<xf:option name="xs_uup_invoice_active" selected="{$upgrade.xs_uup_invoice_active}" label="{{ phrase('xs_uup_enable_invoice_for_this_upgrade') }}" />
+</xf:checkboxrow>
+<xf:checkboxrow explain="{{ phrase('xs_uup_alert_administrator_explain') }}">
+	<xf:option name="xs_uup_alert_admin" selected="{$upgrade.xs_uup_alert_admin}" label="{{ phrase('xs_uup_alert_administrator') }}" />
+</xf:checkboxrow>]]></replace>
+  </modification>
+</template_modifications>

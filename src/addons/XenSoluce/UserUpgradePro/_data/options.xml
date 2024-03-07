@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<options>
+  <option option_id="xs_uup_administrator_alert_after_expiration" edit_format="spinbox" data_type="integer">
+    <default_value>0</default_value>
+    <relation group_id="xs_uup_settings" display_order="220"/>
+  </option>
+  <option option_id="xs_uup_administrator_alert_before_expiration" edit_format="spinbox" data_type="integer">
+    <default_value>0</default_value>
+    <relation group_id="xs_uup_settings" display_order="210"/>
+  </option>
+  <option option_id="xs_uup_conversation_user" edit_format="textbox" data_type="string">
+    <default_value></default_value>
+    <relation group_id="xs_uup_settings" display_order="100"/>
+  </option>
+  <option option_id="xs_uup_count_manual_upgrades" edit_format="onoff" data_type="string">
+    <default_value></default_value>
+    <relation group_id="xs_uup_settings" display_order="200"/>
+  </option>
+  <option option_id="xs_uup_delete_the_invoice_number" edit_format="onoff" data_type="boolean">
+    <default_value>0</default_value>
+    <relation group_id="xs_uup_settings" display_order="40"/>
+  </option>
+  <option option_id="xs_uup_enable_send_alert" edit_format="onoff" data_type="boolean">
+    <default_value>0</default_value>
+    <relation group_id="xs_uup_settings" display_order="120"/>
+  </option>
+  <option option_id="xs_uup_enable_send_email" edit_format="onoff" data_type="boolean">
+    <default_value>0</default_value>
+    <relation group_id="xs_uup_settings" display_order="110"/>
+  </option>
+  <option option_id="xs_uup_footer_block" edit_format="textbox" data_type="string">
+    <default_value></default_value>
+    <edit_format_params>rows=5</edit_format_params>
+    <relation group_id="xs_uup_settings" display_order="30"/>
+  </option>
+  <option option_id="xs_uup_invoice_campany_details" edit_format="textbox" data_type="string">
+    <default_value></default_value>
+    <edit_format_params>rows=5</edit_format_params>
+    <relation group_id="xs_uup_settings" display_order="20"/>
+  </option>
+  <option option_id="xs_uup_invoice_logo" edit_format="textbox" data_type="string">
+    <default_value></default_value>
+    <relation group_id="xs_uup_settings" display_order="10"/>
+  </option>
+</options>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<options>
+  <option option_id="cv6NodeIconDoubleClickAction" edit_format="onoff" data_type="boolean" advanced="0">
+    <default_value>0</default_value>
+    <relation group_id="cv6NodeIcons" display_order="130"/>
+    <relation group_id="nodeList" display_order="1320"/>
+  </option>
+  <option option_id="cv6NodeIconSvgInline" edit_format="onoff" data_type="boolean" advanced="0">
+    <default_value>0</default_value>
+    <relation group_id="cv6NodeIcons" display_order="30"/>
+    <relation group_id="nodeList" display_order="1310"/>
+    <relation group_id="performance" display_order="1300"/>
+  </option>
+  <option option_id="cv6ShowNodeIconsinAdmin" edit_format="onoff" data_type="boolean" advanced="1">
+    <default_value>1</default_value>
+    <relation group_id="acp" display_order="400"/>
+  </option>
+</options>

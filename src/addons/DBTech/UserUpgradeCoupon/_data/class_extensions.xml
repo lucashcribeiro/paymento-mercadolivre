@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<class_extensions>
+  <extension from_class="XF\Entity\User" to_class="DBTech\UserUpgradeCoupon\XF\Entity\User" execute_order="10" active="1"/>
+  <extension from_class="XF\Entity\UserUpgrade" to_class="DBTech\UserUpgradeCoupon\XF\Entity\UserUpgrade" execute_order="10" active="1"/>
+  <extension from_class="XF\Entity\UserUpgradeActive" to_class="DBTech\UserUpgradeCoupon\XF\Entity\UserUpgradeActive" execute_order="10" active="1"/>
+  <extension from_class="XF\Pub\Controller\Purchase" to_class="DBTech\UserUpgradeCoupon\XF\Pub\Controller\Purchase" execute_order="10" active="1"/>
+  <extension from_class="XF\Purchasable\UserUpgrade" to_class="DBTech\UserUpgradeCoupon\XF\Purchasable\UserUpgrade" execute_order="10" active="1"/>
+</class_extensions>

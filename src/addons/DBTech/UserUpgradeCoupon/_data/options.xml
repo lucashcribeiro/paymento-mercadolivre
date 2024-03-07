@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<options>
+  <option option_id="dbtechUserUpgradeCouponsUserGroupTrial" edit_format="template" data_type="array">
+    <default_value>{"enabled":false,"user_group_id":"0","trial_length_amount":"7","trial_length_unit":"day"}</default_value>
+    <edit_format_params>option_template_dbtechUserUpgradeCouponsUserGroupTrial</edit_format_params>
+    <sub_options>enabled
+user_group_id
+trial_length_amount
+trial_length_unit</sub_options>
+    <relation group_id="usersAndRegistration" display_order="219"/>
+  </option>
+</options>

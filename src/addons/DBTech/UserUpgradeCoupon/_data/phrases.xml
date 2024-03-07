@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<phrases>
+  <phrase title="admin_navigation.dbtUpgrCouponPermissions" version_id="1000031" version_string="1.0.0 Beta 1"><![CDATA[User upgrade coupon permissions]]></phrase>
+  <phrase title="admin_navigation.dbtechUpgrCouponLog" version_id="1000031" version_string="1.0.0 Beta 1"><![CDATA[User upgrade coupon log]]></phrase>
+  <phrase title="admin_navigation.dbtechUpgrCoupons" version_id="1000031" version_string="1.0.0 Beta 1"><![CDATA[User upgrade coupons]]></phrase>
+  <phrase title="dbtech_user_upgrade_add_coupon" version_id="1000031" version_string="1.0.0 Beta 1"><![CDATA[Add coupon]]></phrase>
+  <phrase title="dbtech_user_upgrade_all_user_upgrades" version_id="1000031" version_string="1.0.0 Beta 1"><![CDATA[All user upgrades]]></phrase>
+  <phrase title="dbtech_user_upgrade_coupon" version_id="1000031" version_string="1.0.0 Beta 1"><![CDATA[Coupon]]></phrase>
+  <phrase title="dbtech_user_upgrade_coupon_applicable_user_upgrades" version_id="1000031" version_string="1.0.0 Beta 1"><![CDATA[Applicable user upgrades]]></phrase>
+  <phrase title="dbtech_user_upgrade_coupon_applicable_user_upgrades_explain" version_id="1000031" version_string="1.0.0 Beta 1"><![CDATA[Leaving the value field blank will use the "Coupon type" value chosen above.<br />
+Set user upgrade to "None" to remove a row upon saving.<br />
+If no user upgrades are chosen, this coupon applies to <b>all</b> user upgrades.]]></phrase>
+  <phrase title="dbtech_user_upgrade_coupon_applied_coupon" version_id="1000032" version_string="1.0.0 Beta 2"><![CDATA[Applied coupon]]></phrase>
+  <phrase title="dbtech_user_upgrade_coupon_apply" version_id="1000031" version_string="1.0.0 Beta 1"><![CDATA[Apply]]></phrase>
+  <phrase title="dbtech_user_upgrade_coupon_code" version_id="1000031" version_string="1.0.0 Beta 1"><![CDATA[Coupon code]]></phrase>
+  <phrase title="dbtech_user_upgrade_coupon_could_not_be_applied" version_id="1000031" version_string="1.0.0 Beta 1"><![CDATA[The chosen coupon could not be applied. Either this coupon does not apply to this user upgrade, or you do not have permission to use this coupon.]]></phrase>
+  <phrase title="dbtech_user_upgrade_coupon_could_not_be_found" version_id="1000031" version_string="1.0.0 Beta 1"><![CDATA[An active coupon with this coupon code could not be found.]]></phrase>
+  <phrase title="dbtech_user_upgrade_coupon_discounts_between" version_id="1000031" version_string="1.0.0 Beta 1"><![CDATA[Coupon discount is between]]></phrase>
+  <phrase title="dbtech_user_upgrade_coupon_for_user_group" version_id="1000031" version_string="1.0.0 Beta 1"><![CDATA[for user group]]></phrase>
+  <phrase title="dbtech_user_upgrade_coupon_log" version_id="1000031" version_string="1.0.0 Beta 1"><![CDATA[Coupon log]]></phrase>
+  <phrase title="dbtech_user_upgrade_coupon_log_entry" version_id="1000031" version_string="1.0.0 Beta 1"><![CDATA[Coupon log entry]]></phrase>
+  <phrase title="dbtech_user_upgrade_coupon_log_ip_search_explain" version_id="1000031" version_string="1.0.0 Beta 1"><![CDATA[Enter an IP address to see a list of all coupon usages logged as having originated from that IP. You may enter a partial IP address such as 192.168.*, 192.168.0.0/16, or 2001:db8::/32.]]></phrase>
+  <phrase title="dbtech_user_upgrade_coupon_log_search" version_id="1000031" version_string="1.0.0 Beta 1"><![CDATA[Search coupon logs]]></phrase>
+  <phrase title="dbtech_user_upgrade_coupon_long" version_id="1000031" version_string="1.0.0 Beta 1"><![CDATA[User upgrade coupon]]></phrase>
+  <phrase title="dbtech_user_upgrade_coupon_permissions" version_id="1000031" version_string="1.0.0 Beta 1"><![CDATA[User upgrade coupon permissions]]></phrase>
+  <phrase title="dbtech_user_upgrade_coupon_remaining_uses" version_id="1000031" version_string="1.0.0 Beta 1"><![CDATA[Remaining uses]]></phrase>
+  <phrase title="dbtech_user_upgrade_coupon_remaining_uses_explain" version_id="1000031" version_string="1.0.0 Beta 1"><![CDATA[This setting determines how many uses this coupon has remaining before it is no longer available for use.<br />
+-1 = Unlimited uses]]></phrase>
+  <phrase title="dbtech_user_upgrade_coupon_type" version_id="1000031" version_string="1.0.0 Beta 1"><![CDATA[Coupon type]]></phrase>
+  <phrase title="dbtech_user_upgrade_coupon_type_explain" version_id="1000031" version_string="1.0.0 Beta 1"><![CDATA[Determines what sort of discount is applied to the user upgrade; a percent off the cost, or a set discount.<br />
+For the "Flat value" type, the currency is determined by the user upgrade itself.]]></phrase>
+  <phrase title="dbtech_user_upgrade_coupon_used_between" version_id="1000031" version_string="1.0.0 Beta 1"><![CDATA[Coupon used between]]></phrase>
+  <phrase title="dbtech_user_upgrade_coupons" version_id="1000031" version_string="1.0.0 Beta 1"><![CDATA[Coupons]]></phrase>
+  <phrase title="dbtech_user_upgrade_coupons_long" version_id="1000031" version_string="1.0.0 Beta 1"><![CDATA[User upgrade coupons]]></phrase>
+  <phrase title="dbtech_user_upgrade_discount" version_id="1000031" version_string="1.0.0 Beta 1"><![CDATA[Discount]]></phrase>
+  <phrase title="dbtech_user_upgrade_edit_coupon" version_id="1000031" version_string="1.0.0 Beta 1"><![CDATA[Edit coupon]]></phrase>
+  <phrase title="dbtech_user_upgrade_flat_value" version_id="1000031" version_string="1.0.0 Beta 1"><![CDATA[Flat value]]></phrase>
+  <phrase title="dbtech_user_upgrade_get_free" version_id="1000270" version_string="1.0.2"><![CDATA[Get free]]></phrase>
+  <phrase title="dbtech_user_upgrade_if_selected_users_only_use_coupon_if_granted_permissions" version_id="1000031" version_string="1.0.0 Beta 1"><![CDATA[If selected, users will only be able to use this coupon if they are explicitly granted permissions.]]></phrase>
+  <phrase title="dbtech_user_upgrade_keep_deleted" version_id="1000031" version_string="1.0.0 Beta 1"><![CDATA[Keep deleted]]></phrase>
+  <phrase title="dbtech_user_upgrade_percent" version_id="1000031" version_string="1.0.0 Beta 1"><![CDATA[Percent]]></phrase>
+  <phrase title="dbtech_user_upgrade_please_create_at_least_one_upgrade_before_continuing" version_id="1000031" version_string="1.0.0 Beta 1"><![CDATA[Please create at least one user upgrade before continuing.]]></phrase>
+  <phrase title="dbtech_user_upgrade_private_coupon" version_id="1000031" version_string="1.0.0 Beta 1"><![CDATA[Private coupon]]></phrase>
+  <phrase title="dbtech_user_upgrade_there_no_coupon_logs_to_display" version_id="1000031" version_string="1.0.0 Beta 1"><![CDATA[There are no coupon usage logs to display.]]></phrase>
+  <phrase title="dbtech_user_upgrade_unknown_coupon" version_id="1000031" version_string="1.0.0 Beta 1"><![CDATA[Unknown coupon]]></phrase>
+  <phrase title="dbtech_user_upgrade_unknown_ip_address" version_id="1000031" version_string="1.0.0 Beta 1"><![CDATA[Unknown IP address]]></phrase>
+  <phrase title="dbtech_user_upgrade_unknown_user_upgrade" version_id="1000031" version_string="1.0.0 Beta 1"><![CDATA[Unknown user upgrade]]></phrase>
+  <phrase title="dbtech_user_upgrade_user_upgrade" version_id="1000031" version_string="1.0.0 Beta 1"><![CDATA[User upgrade]]></phrase>
+  <phrase title="dbtech_user_upgrade_valid_for" version_id="1000031" version_string="1.0.0 Beta 1"><![CDATA[Valid for]]></phrase>
+  <phrase title="dbtech_user_upgrade_valid_from" version_id="1000031" version_string="1.0.0 Beta 1"><![CDATA[Valid from]]></phrase>
+  <phrase title="dbtech_user_upgrade_valid_from_x_valid_to_y" version_id="1000031" version_string="1.0.0 Beta 1"><![CDATA[Valid from {validFrom} until {validTo}]]></phrase>
+  <phrase title="dbtech_user_upgrade_valid_to" version_id="1000031" version_string="1.0.0 Beta 1"><![CDATA[Valid to]]></phrase>
+  <phrase title="dbtech_user_upgrade_view_usage" version_id="1000031" version_string="1.0.0 Beta 1"><![CDATA[View usage]]></phrase>
+  <phrase title="option.dbtechUserUpgradeCouponsUserGroupTrial" version_id="1000031" version_string="1.0.0 Beta 1"><![CDATA[Add additional user group on registration that lasts...]]></phrase>
+  <phrase title="option_explain.dbtechUserUpgradeCouponsUserGroupTrial" version_id="1000031" version_string="1.0.0 Beta 1"><![CDATA[If enabled, you can choose to place users in an additional user group for a period of time upon registration.]]></phrase>
+  <phrase title="permission.dbtechUserUpgrade_useCoupons" version_id="1000031" version_string="1.0.0 Beta 1"><![CDATA[Use coupons]]></phrase>
+  <phrase title="permission_interface.dbtechUserUpgrade" version_id="1000031" version_string="1.0.0 Beta 1"><![CDATA[DragonByte User Upgrade Coupons permissions]]></phrase>
+</phrases>
